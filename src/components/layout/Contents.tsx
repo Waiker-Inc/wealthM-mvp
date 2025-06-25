@@ -3,7 +3,6 @@ import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
 import { CornerDownLeft } from 'lucide-react';
 import Typography from '../ui/typography';
-import ImageToText from '../contents/ImageToText';
 
 export default function Contents() {
   const [isFocused, setIsFocused] = useState(false);
