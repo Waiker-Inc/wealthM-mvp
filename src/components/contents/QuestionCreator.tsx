@@ -1,10 +1,42 @@
 import { useState } from 'react';
 import Typography from '../ui/typography';
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
+import { Check } from 'lucide-react';
 
 const tabList = [
   { value: 'my', label: '내 관심 심볼' },
   { value: 'popular', label: '질문이 많은 심볼' },
+];
+
+const keywords = [
+  { id: 'k1', label: 'PER(주가수익비율)' },
+  { id: 'k2', label: '배당수익률' },
+  { id: 'k3', label: '52주 신고가/신저가' },
+  { id: 'k4', label: '외국인 보유율' },
+];
+
+const symbols = [
+  {
+    id: 's1',
+    name: '테슬라',
+    code: 'TSLA',
+    logo: '/logos/tesla.png',
+    keywords: ['k1', 'k2'],
+  },
+  {
+    id: 's2',
+    name: '팔란티어',
+    code: 'PLTR',
+    logo: '/logos/palantir.png',
+    keywords: ['k2', 'k3'],
+  },
+  {
+    id: 's3',
+    name: '아마존',
+    code: 'AMZN',
+    logo: '/logos/amazon.png',
+    keywords: ['k1', 'k4'],
+  },
 ];
 
 export default function QuestionCreator() {
@@ -49,87 +81,115 @@ export default function QuestionCreator() {
 }
 
 function MySymbolTable() {
-  const [tab, setTab] = useState<'all' | 'stock' | 'ETF' | 'index'>('all');
+  const [activeSymbol, setActiveSymbol] = useState<string | null>(null);
+  const [activeKeyword, setActiveKeyword] = useState<string | null>(null);
+
+  // 심볼 클릭
+  const handleSymbolClick = (id: string) => {
+    setActiveSymbol(id === activeSymbol ? null : id);
+    setActiveKeyword(null);
+  };
+
+  // 키워드 클릭
+  const handleKeywordClick = (id: string) => {
+    setActiveKeyword(id === activeKeyword ? null : id);
+    setActiveSymbol(null);
+  };
+
+  // 필터링
+  const filteredSymbols = activeKeyword
+    ? symbols.filter((s) => s.keywords.includes(activeKeyword))
+    : symbols;
+  const filteredKeywords = activeSymbol
+    ? keywords.filter((k) =>
+        symbols.find((s) => s.id === activeSymbol)?.keywords.includes(k.id)
+      )
+    : keywords;
+
+  console.log(filteredSymbols, filteredKeywords);
+
   return (
-    <div>
-      <div className="flex items-center gap-[10px]">
-        <Typography
-          size="label-lg"
-          className={`rounded-full text-mono400 p-[6px_14px] ${
-            tab === 'all' ? 'bg-mono50 text-white' : ''
-          }`}
-          onClick={() => setTab('all')}
-        >
-          전체
-        </Typography>
-        <Typography
-          size="label-lg"
-          className={`rounded-full text-mono400 p-[6px_14px] ${
-            tab === 'stock' ? 'bg-mono50 text-white' : ''
-          }`}
-          onClick={() => setTab('stock')}
-        >
-          주식
-        </Typography>
-        <Typography
-          size="label-lg"
-          className={`rounded-full text-mono400 p-[6px_14px] ${
-            tab === 'ETF' ? 'bg-mono50 text-white' : ''
-          }`}
-          onClick={() => setTab('ETF')}
-        >
-          ETF
-        </Typography>
-        <Typography
-          size="label-lg"
-          className={`rounded-full text-mono400 p-[6px_14px] ${
-            tab === 'index' ? 'bg-mono50 text-white' : ''
-          }`}
-          onClick={() => setTab('index')}
-        >
-          경제지표
-        </Typography>
-      </div>
-      {tab === 'all' && (
-        <div className="mt-[20px] flex">
-          <div className="flex-1">
-            <Typography size="body-sm">심볼</Typography>
-            <div className="mt-[16px]">
-              {Array.from({ length: 10 }).map((_, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-[10px] py-[12px]"
-                >
-                  <Avatar className="w-[32px] h-[32px]">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <Typography size="body-sm">키워드</Typography>
-                    <Typography size="label-md" className="text-mono400">
-                      키워드
-                    </Typography>
+    <div className="mt-[20px] flex">
+      {/* 심볼 리스트 */}
+      <div className="flex-1">
+        <Typography size="body-sm">심볼</Typography>
+        <div className="mt-[16px]">
+          {symbols.map((symbol) => {
+            const isActive = activeSymbol === symbol.id;
+            const isDimmed =
+              activeKeyword && !symbol.keywords.includes(activeKeyword);
+            return (
+              <div
+                key={symbol.id}
+                tabIndex={0}
+                role="button"
+                aria-label={symbol.name}
+                onClick={() => handleSymbolClick(symbol.id)}
+                onKeyDown={(e) =>
+                  e.key === 'Enter' && handleSymbolClick(symbol.id)
+                }
+                className={`flex items-center gap-[10px] py-[12px] px-2 rounded-lg cursor-pointer transition
+                  ${
+                    isDimmed
+                      ? 'opacity-40 pointer-events-none'
+                      : 'hover:bg-mono800'
+                  }
+                `}
+              >
+                {isActive ? (
+                  <div className="w-[32px] h-[32px] bg-green700 rounded-full flex items-center justify-center">
+                    <Check className="text-white" size={16} />
                   </div>
+                ) : (
+                  <Avatar className="w-[32px] h-[32px]">
+                    <AvatarImage src={symbol.logo} />
+                    <AvatarFallback>{symbol.name[0]}</AvatarFallback>
+                  </Avatar>
+                )}
+
+                <div>
+                  <Typography size="body-sm">{symbol.name}</Typography>
+                  <Typography size="label-md" className="text-mono400">
+                    {symbol.code}
+                  </Typography>
                 </div>
-              ))}
-            </div>
-          </div>
-          <div className="flex-1">
-            <Typography size="body-sm">키워드</Typography>
-            <div className="mt-[16px] flex gap-[10px] flex-wrap">
-              {Array.from({ length: 10 }).map((_, index) => (
-                <Typography
-                  key={index}
-                  size="body-sm"
-                  className="rounded-[4px] bg-mono50 p-[6px_12px] max-w-fit text-mono450 min-w-fit"
-                >
-                  #키워드
-                </Typography>
-              ))}
-            </div>
-          </div>
+              </div>
+            );
+          })}
         </div>
-      )}
+      </div>
+      {/* 키워드 리스트 */}
+      <div className="flex-1">
+        <Typography size="body-sm">키워드</Typography>
+        <div className="mt-[16px] flex gap-[10px] flex-wrap">
+          {keywords.map((keyword) => {
+            const isActive = activeKeyword === keyword.id;
+            const isDimmed =
+              activeSymbol &&
+              !symbols
+                .find((s) => s.id === activeSymbol)
+                ?.keywords.includes(keyword.id);
+            return (
+              <button
+                key={keyword.id}
+                tabIndex={0}
+                aria-label={keyword.label}
+                onClick={() => handleKeywordClick(keyword.id)}
+                className={`rounded-[4px] p-[6px_12px] max-w-fit min-w-fit text-mono450 text-sm transition
+                  ${isActive ? 'bg-green700 text-white' : 'bg-mono50'}
+                  ${
+                    isDimmed
+                      ? 'opacity-40 pointer-events-none'
+                      : 'hover:bg-green700/10 hover:text-white'
+                  }
+                `}
+              >
+                #{keyword.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
