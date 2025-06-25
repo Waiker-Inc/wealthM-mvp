@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Typography from '../ui/typography';
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
+import { Star } from 'lucide-react';
 
 const tabList = [
   { value: 'amount', label: '거래대금' },
@@ -152,22 +153,20 @@ function AmountTable() {
         <tbody>
           {data.map((row) => (
             <tr key={row.rank} className=" last:border-0">
-              <td className="flex items-center gap-2 px-2 py-2">
-                <span
-                  className={`w-4 text-center text-xs ${
-                    row.favorite ? 'text-yellow-400' : 'text-muted-foreground'
-                  }`}
-                >
-                  {row.favorite ? '★' : '☆'}
-                </span>
-                <span className="text-xs text-muted-foreground w-4 text-center">
+              <td className="flex items-center gap-2 p-[12px_8px]">
+                <Star
+                  size={16}
+                  fill={row.favorite ? 'currentColor' : 'none'}
+                  className={`${row.favorite ? 'text-yellow-500' : ''}`}
+                />
+                <Typography size="label-md" className="text-mono500">
                   {row.rank}
-                </span>
+                </Typography>
                 <Avatar className="w-[24px] h-[24px] rounded-full overflow-hidden">
                   <AvatarImage src="https://github.com/shadcn.png" />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
-                <span className="ml-2">{row.name}</span>
+                <Typography size="body-sm">{row.name}</Typography>
               </td>
               <td className="text-red-500 font-semibold px-2 py-2">
                 {row.change}
