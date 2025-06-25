@@ -115,7 +115,12 @@ export default function MyFavoritSymbolDialog({
                 </Typography>
                 <div className="h-[1px] flex-1 bg-mono200" />
               </div>
-              <div className="w-[400px] mx-auto relative">
+              <div
+                className="w-[400px] mx-auto relative"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
                 <Input
                   placeholder="종목, ETF, 경제지표를 검색해보세요"
                   autoFocus
