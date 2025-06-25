@@ -1,10 +1,12 @@
+import { useCallback, useState } from 'react';
 import { Button } from '../ui/button';
 import { Dialog, DialogContent } from '../ui/dialog';
 import { Input } from '../ui/input';
 import { Progress } from '../ui/progress';
 import Typography from '../ui/typography';
 import MarketTabs from './MarketTabs';
-import { GripVertical, X } from 'lucide-react';
+import { GripVertical, Images, Search, X } from 'lucide-react';
+import { useDropzone } from 'react-dropzone';
 
 export default function MyFavoritSymbolDialog({
   isOpen,
@@ -13,6 +15,33 @@ export default function MyFavoritSymbolDialog({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const [imageBase64, setImageBase64] = useState<string | null>(null);
+  const [imageName, setImageName] = useState<string | null>(null);
+
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          setImageBase64(reader.result);
+          setImageName(file.name);
+        }
+      };
+      reader.readAsDataURL(file);
+    },
+    [setImageBase64]
+  );
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: { 'image/*': [] },
+    multiple: false,
+  });
+
+  console.log(imageBase64, imageName);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
@@ -24,11 +53,44 @@ export default function MyFavoritSymbolDialog({
             <Typography size="title-lg" weight="bold">
               내 관심 심볼 관리
             </Typography>
-            <Input
-              placeholder="종목, ETF, 경제지표를 검색해보세요"
-              className="mt-[16px]"
-              autoFocus
-            />
+            <div
+              {...getRootProps()}
+              className={`rounded-[8px] p-[16px] h-[274px] flex flex-col justify-center ${
+                isDragActive ? 'bg-mono50 opacity-50' : 'bg-ground2'
+              }`}
+              aria-label="이미지 드래그 앤 드롭 영역"
+            >
+              <div className="flex items-center gap-[24px] w-[400px] mx-auto">
+                <Images size={40} />
+                <div>
+                  <Typography size="body-sm" className="text-mono400">
+                    이미지를 드래그하거나 업로드하면,
+                  </Typography>
+                  <Typography size="body-sm">
+                    심볼을 자동으로 인식해 내 관심 심볼을 만들어 드립니다.
+                  </Typography>
+                  <Typography size="body-sm" className="text-green700">
+                    첨부된 파일: {imageName}
+                  </Typography>
+                </div>
+              </div>
+              <input {...getInputProps()} />
+              <div className="flex items-center gap-[10px] w-[400px] mx-auto my-[32px]">
+                <div className="h-[1px] flex-1 bg-mono200" />
+                <Typography size="label-md" className="text-mono400">
+                  또는
+                </Typography>
+                <div className="h-[1px] flex-1 bg-mono200" />
+              </div>
+              <div className="w-[400px] mx-auto relative">
+                <Input
+                  placeholder="종목, ETF, 경제지표를 검색해보세요"
+                  autoFocus
+                  className="p-[12px_24px] h-[48px] w-[400px] rounded-full"
+                />
+                <Search className="absolute right-[24px] top-[50%] translate-y-[-50%] text-mono200" />
+              </div>
+            </div>
             <MarketTabs />
           </div>
           {/* 사이드바 */}
