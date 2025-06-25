@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { CornerDownLeft } from 'lucide-react';
 import Typography from '../ui/typography';
 import FAQList from '../contents/FAQList';
+import QuestionCreator from '../contents/QuestionCreator';
 
 export default function Contents() {
   const [isFocused, setIsFocused] = useState(false);
@@ -59,6 +60,7 @@ export default function Contents() {
           </div>
         </form>
         <FAQList />
+        <QuestionCreator />
       </div>
     </div>
   );
