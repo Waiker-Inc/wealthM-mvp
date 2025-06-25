@@ -17,6 +17,13 @@ export default function MyFavoritSymbolDialog({
 }) {
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const [imageName, setImageName] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const maxSize = 2 * 1024 * 1024;
+  const accept = {
+    'image/jpeg': [],
+    'image/png': [],
+    'image/webp': [],
+  };
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -27,6 +34,7 @@ export default function MyFavoritSymbolDialog({
         if (typeof reader.result === 'string') {
           setImageBase64(reader.result);
           setImageName(file.name);
+          setError(null);
         }
       };
       reader.readAsDataURL(file);
@@ -34,13 +42,31 @@ export default function MyFavoritSymbolDialog({
     [setImageBase64]
   );
 
+  // 거부된 파일 처리
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onDropRejected = useCallback((fileRejections: any) => {
+    if (!fileRejections.length) return;
+    const { errors } = fileRejections[0];
+    if (errors.some((e: { code: string }) => e.code === 'file-too-large')) {
+      setError('2MB 이하의 이미지만 업로드할 수 있습니다.');
+    } else if (
+      errors.some((e: { code: string }) => e.code === 'file-invalid-type')
+    ) {
+      setError('jpg, png, webp 형식의 이미지만 업로드할 수 있습니다.');
+    } else {
+      setError('이미지 업로드에 실패했습니다.');
+    }
+  }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/*': [] },
+    onDropRejected,
+    accept,
+    maxSize,
     multiple: false,
   });
 
-  console.log(imageBase64, imageName);
+  console.log(imageBase64);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -55,7 +81,7 @@ export default function MyFavoritSymbolDialog({
             </Typography>
             <div
               {...getRootProps()}
-              className={`rounded-[8px] p-[16px] h-[274px] flex flex-col justify-center ${
+              className={`mt-[16px] rounded-[8px] p-[16px] h-[274px] flex flex-col justify-center ${
                 isDragActive ? 'bg-mono50 opacity-50' : 'bg-ground2'
               }`}
               aria-label="이미지 드래그 앤 드롭 영역"
@@ -69,12 +95,19 @@ export default function MyFavoritSymbolDialog({
                   <Typography size="body-sm">
                     심볼을 자동으로 인식해 내 관심 심볼을 만들어 드립니다.
                   </Typography>
-                  <Typography size="body-sm" className="text-green700">
-                    첨부된 파일: {imageName}
-                  </Typography>
+                  {imageName && (
+                    <Typography size="body-sm" className="text-green700">
+                      첨부된 파일: {imageName}
+                    </Typography>
+                  )}
+                  {error && (
+                    <Typography size="body-sm" className="text-red-500 mt-2">
+                      {error}
+                    </Typography>
+                  )}
                 </div>
               </div>
-              <input {...getInputProps()} />
+              <input {...getInputProps()} accept="image/*" />
               <div className="flex items-center gap-[10px] w-[400px] mx-auto my-[32px]">
                 <div className="h-[1px] flex-1 bg-mono200" />
                 <Typography size="label-md" className="text-mono400">
