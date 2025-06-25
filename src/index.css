@@ -40,6 +40,39 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-mono700: var(--mono700);
+  --color-mono600: var(--mono600);
+  --color-mono500: var(--mono500);
+  --color-mono450: var(--mono450);
+  --color-mono400: var(--mono400);
+  --color-mono300: var(--mono300);
+  --color-mono200: var(--mono200);
+  --color-mono100: var(--mono100);
+  --color-mono50: var(--mono50);
+  --color-celadon: var(--celadon);
+  --color-green700: var(--green700);
+  --color-green600: var(--green600);
+  --color-green300: var(--green300);
+  --color-green200: var(--green200);
+  --color-green100: var(--green100);
+  --color-red700: var(--red700);
+  --color-red600: var(--red600);
+  --color-red200: var(--red200);
+  --color-red100: var(--red100);
+  --color-red50: var(--red50);
+  --color-blue700: var(--blue700);
+  --color-blue600: var(--blue600);
+  --color-blue200: var(--blue200);
+  --color-blue100: var(--blue100);
+  --color-blue50: var(--blue50);
+  --color-space1: var(--space1);
+  --color-space2: var(--space2);
+  --color-ground1: var(--ground1);
+  --color-ground2: var(--ground2);
+  --color-layer: var(--layer);
+  --color-action: var(--action);
+  --color-cyan: var(--cyan);
+  --color-ruby: var(--ruby);
 }
 
 :root {

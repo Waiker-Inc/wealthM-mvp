@@ -14,15 +14,24 @@ export default function LeftPanel() {
             새로운 질문
           </Typography>
         </li>
-        <li className="flex items-center gap-[10px]">
-          <AlignLeft size={20} />
-          <Typography size="body-lg" weight="bold">
-            지난 질문들
-          </Typography>
-          <div>
-            <Typography>오늘</Typography>
+        <li>
+          <div className="flex items-center gap-[10px]">
+            <AlignLeft size={20} />
+            <Typography size="body-lg" weight="bold">
+              지난 질문들
+            </Typography>
+          </div>
+
+          <div className="mt-[16px] ml-[8px]">
+            <Typography size="label-lg">오늘</Typography>
             <ul>
-              <Typography as="li">팔란티어의 1년 수익률</Typography>
+              <Typography
+                as="li"
+                size="body-sm"
+                className="cursor-pointer text-mono450 p-[8px] rounded-[4px] hover:bg-mono50 hover:text-white"
+              >
+                팔란티어의 1년 수익률
+              </Typography>
             </ul>
           </div>
         </li>
