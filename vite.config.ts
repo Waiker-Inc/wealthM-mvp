@@ -11,4 +11,22 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    port: 5173,
+    host: true,
+    watch: {
+      usePolling: true,
+      interval: 1000,
+    },
+    hmr: {
+      port: 5173,
+      overlay: true,
+    },
+  },
+  css: {
+    devSourcemap: true,
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
+  },
 });

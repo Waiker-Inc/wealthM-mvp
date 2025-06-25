@@ -1,5 +1,6 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css');
+@import 'tw-animate-css';
 @import 'tailwindcss';
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -74,6 +75,39 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --mono700: #0a0a0b;
+  --mono600: #3b3b3c;
+  --mono500: #585859;
+  --mono450: #767676;
+  --mono400: #9d9d9d;
+  --mono300: #bfbfbf;
+  --mono200: #dcdcdc;
+  --mono100: #e5e5e5;
+  --mono50: #f7f7f7;
+  --celadon: #00cda8;
+  --green700: #00be4c;
+  --green600: #33cb70;
+  --green300: #17633e;
+  --green200: #ccf2db;
+  --green100: #e5f8ed;
+  --red700: #ef0000;
+  --red600: #f23333;
+  --red200: #fccccc;
+  --red100: #fde5e5;
+  --red50: #fef2f2;
+  --blue700: #006dff;
+  --blue600: #338aff;
+  --blue200: #cce2ff;
+  --blue100: #e5f0ff;
+  --blue50: #f2f8ff;
+  --space1: #f4f6f8;
+  --space2: #ffffff;
+  --ground1: #ffffff;
+  --ground2: #fbfcfd;
+  --layer: #ffffff;
+  --action: #ffffff;
+  --cyan: #00ccc9;
+  --ruby: #ff30d6; /* size */
 }
 
 .dark {
@@ -108,13 +142,55 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --mono700: #ffffff;
+  --mono600: #cfd0d0;
+  --mono500: #9fa0a1;
+  --mono450: #797979;
+  --mono400: #6e7173;
+  --mono300: #56595b;
+  --mono200: #3e4144;
+  --mono100: #24272a;
+  --mono50: #1e2124;
+  --celadon: #6cffb8;
+  --green700: #09d159;
+  --green600: #0aab4b;
+  --green300: #17633e;
+  --green200: #0d3823;
+  --green100: #0e251c;
+  --red700: #ff3737;
+  --red600: #cf3030;
+  --red200: #3e191c;
+  --red100: #261618;
+  --red50: #1a1417;
+  --blue700: #4192ff;
+  --blue600: #3778d0;
+  --blue200: #182c44;
+  --blue100: #131f2c;
+  --blue50: #111821;
+  --space1: #080a0b;
+  --space2: #080a0b;
+  --ground1: #14181c;
+  --ground2: #101317;
+  --layer: #303436;
+  --action: #3d4042;
+  --cyan: #00e8c9;
+  --ruby: #f500c0;
 }
 
 @layer base {
+  /* 특정 HTML 요소에 대한 기본 스타일 추가 */
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Pretendard', Arial, Helvetica, sans-serif;
+    height: 100vh;
+    background: #080a0b;
   }
+}
+
+@layer components {
+  /* 프로젝트에 추가하고 싶지만 유틸리티 클래스로 재정의 할 수 있는 복잡한 클래스가 있는 경우 해당 레이어 사용 */
+  /* 또는 다른 패키지(스와이퍼나, 바텀시트 등)의 스타일 수정을 위한 사용자 정의스타일을 처리할떄도 여기에 작성 */
 }
