@@ -2,8 +2,12 @@ import { AlignLeft, ArrowUpDown, Bolt, Pen } from 'lucide-react';
 import Typography from '../ui/typography';
 import { Button } from '../ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { useState } from 'react';
+import MyFavoritSymbolDialog from '../contents/MyFavoritSymbolDialog';
 
 export default function LeftPanel() {
+  const [isOpenFavorite, setIsOpenFavorite] = useState(false);
+
   return (
     <aside className="bg-ground2 h-[100vh] p-[40px_24px] text-white overflow-auto">
       <h1 className="flex items-center justify-center">
@@ -55,7 +59,12 @@ export default function LeftPanel() {
             <Typography size="body-lg" weight="bold">
               내 관심 심볼
             </Typography>
-            <Button className="ml-auto h-[27px] bg-mono50 text-mono600">
+            <Button
+              className="ml-auto h-[27px] bg-mono50 text-mono600"
+              onClick={() => {
+                setIsOpenFavorite(!isOpenFavorite);
+              }}
+            >
               편집
             </Button>
           </div>
@@ -88,6 +97,12 @@ export default function LeftPanel() {
           </ul>
         </li>
       </ul>
+      <MyFavoritSymbolDialog
+        isOpen={isOpenFavorite}
+        onClose={() => {
+          setIsOpenFavorite(false);
+        }}
+      />
     </aside>
   );
 }
