@@ -1,6 +1,7 @@
 import { Button } from '../ui/button';
 import { Dialog, DialogContent } from '../ui/dialog';
 import { Input } from '../ui/input';
+import { Progress } from '../ui/progress';
 import Typography from '../ui/typography';
 import MarketTabs from './MarketTabs';
 import { GripVertical, X } from 'lucide-react';
@@ -30,8 +31,18 @@ export default function MyFavoritSymbolDialog({
             />
             <MarketTabs />
           </div>
+          {/* 사이드바 */}
           <div className="bg-ground2 p-[40px_24px] w-[320px] h-full relative">
             <Typography size="body-lg">내 관심 심볼</Typography>
+            <Typography size="body-sm" className="text-mono400 mt-[12px]">
+              최대 20개까짐나 등록할 수 있습니다.
+            </Typography>
+            <div className="flex items-center gap-[10px] mt-[5px]">
+              <Progress max={100} value={50} />
+              <Typography size="label-md" className="text-mono400">
+                5/10
+              </Typography>
+            </div>
             <ul className="mt-[24px]">
               <li className="flex items-center gap-[12px] p-[8px] rounded-[8px] hover:bg-mono50 cursor-pointer">
                 <GripVertical className="text-mono200" size={16} />

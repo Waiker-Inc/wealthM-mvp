@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useState } from 'react';
 import MyFavoritSymbolDialog from '../contents/MyFavoritSymbolDialog';
+import { Progress } from '../ui/progress';
 
 export default function LeftPanel() {
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
@@ -14,11 +15,22 @@ export default function LeftPanel() {
         <img src="/logo.png" alt="logo" className="w-[54px] h-[36px]" />
       </h1>
       <ul className="mt-[48px] flex flex-col gap-[32px]">
-        <li className="flex items-center gap-[10px]">
-          <Pen size={20} />
-          <Typography size="body-lg" weight="bold">
-            새로운 질문
+        <li>
+          <div className="flex items-center gap-[10px]">
+            <Pen size={20} />
+            <Typography size="body-lg" weight="bold">
+              새로운 질문
+            </Typography>
+          </div>
+          <Typography size="body-sm" className="text-mono400 mt-[12px]">
+            하루에 최대 10개의 질문이 가능합니다.
           </Typography>
+          <div className="flex items-center gap-[10px] mt-[5px]">
+            <Progress max={100} value={50} />
+            <Typography size="label-md" className="text-mono400">
+              5/10
+            </Typography>
+          </div>
         </li>
         <li>
           <div className="flex items-center gap-[10px]">
