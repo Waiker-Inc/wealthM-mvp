@@ -227,3 +227,11 @@
   /* 프로젝트에 추가하고 싶지만 유틸리티 클래스로 재정의 할 수 있는 복잡한 클래스가 있는 경우 해당 레이어 사용 */
   /* 또는 다른 패키지(스와이퍼나, 바텀시트 등)의 스타일 수정을 위한 사용자 정의스타일을 처리할떄도 여기에 작성 */
 }
+
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
