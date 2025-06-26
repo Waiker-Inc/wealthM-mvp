@@ -93,8 +93,7 @@ const useWebSocket = ({
         callbacksRef.current.onOpen?.();
       };
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ws.onclose = (event) => {
+      ws.onclose = () => {
         setIsConnected(false);
         callbacksRef.current.onClose?.();
 
