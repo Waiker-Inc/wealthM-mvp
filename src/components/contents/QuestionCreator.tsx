@@ -97,16 +97,14 @@ function MySymbolTable() {
   };
 
   // 필터링
-  const filteredSymbols = activeKeyword
-    ? symbols.filter((s) => s.keywords.includes(activeKeyword))
-    : symbols;
-  const filteredKeywords = activeSymbol
-    ? keywords.filter((k) =>
-        symbols.find((s) => s.id === activeSymbol)?.keywords.includes(k.id)
-      )
-    : keywords;
-
-  console.log(filteredSymbols, filteredKeywords);
+  // const filteredSymbols = activeKeyword
+  //   ? symbols.filter((s) => s.keywords.includes(activeKeyword))
+  //   : symbols;
+  // const filteredKeywords = activeSymbol
+  //   ? keywords.filter((k) =>
+  //       symbols.find((s) => s.id === activeSymbol)?.keywords.includes(k.id)
+  //     )
+  //   : keywords;
 
   return (
     <div className="mt-[20px] flex">
