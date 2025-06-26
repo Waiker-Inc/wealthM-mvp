@@ -6,6 +6,15 @@ export type ChartTabEnum =
   | "RAPID_RISE"
   | "RAPID_FALL"
   | "ETF";
+
+export interface ResGetChartStock {
+  stockName: string;
+  stockImageUrl: string;
+  percentChange: number;
+  price: number;
+  type: "STOCK" | "ETF";
+}
+
 export const getChartStock = async ({
   chartTabEnum,
   count,
@@ -14,14 +23,7 @@ export const getChartStock = async ({
   count: number;
 }) => {
   const response = await axios.get<{
-    data: {
-      stockName: string;
-      stockImageUrl: string;
-      percentChange: number;
-      price: number;
-      type: "STOCK" | "ETF";
-      tradeVolume: number;
-    }[];
+    data: ResGetChartStock[];
   }>(`/v1/wealthm/chart/stock`, {
     params: {
       chartTabEnum,

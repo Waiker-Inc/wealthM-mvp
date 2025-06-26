@@ -7,6 +7,7 @@ import LeftPanel from "./components/layout/LeftPanel";
 import Contents from "./components/layout/Contents";
 import RightPanel from "./components/layout/RightPanel";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Modal from "./components/modal/Modal";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +34,7 @@ function App() {
           <RightPanel />
         </ResizablePanel>
       </ResizablePanelGroup>
+      <Modal />
     </QueryClientProvider>
   );
 }
