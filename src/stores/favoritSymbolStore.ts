@@ -1,15 +1,12 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import type {
   FavoriteSymbol,
   FavoriteSymbolStore,
-} from '@/types/favoritSymbol';
+} from "@/types/favoritSymbol";
 
-const STORAGE_KEY = 'favorite-symbols';
+const STORAGE_KEY = "favorite-symbols";
 const MAX_SYMBOLS = 20;
-
-const generateId = () =>
-  `symbol_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
 export const useFavoriteSymbolStore = create<FavoriteSymbolStore>()(
   persist(
@@ -27,24 +24,22 @@ export const useFavoriteSymbolStore = create<FavoriteSymbolStore>()(
           return;
         }
 
-        // 중복 체크 (ticker, ric, name으로 체크)
+        // 중복 체크 (ric, ric, name으로 체크)
         const isDuplicate = symbols.some(
           (existing) =>
-            existing.ticker === symbolData.ticker ||
+            existing.ric === symbolData.ric ||
             existing.ric === symbolData.ric ||
             existing.name === symbolData.name
         );
 
         if (isDuplicate) {
-          set({ error: '이미 등록된 심볼입니다.' });
+          set({ error: "이미 등록된 심볼입니다." });
           return;
         }
 
         const newSymbol: FavoriteSymbol = {
           ...symbolData,
-          id: generateId(),
           order: symbols.length,
-          createdAt: Date.now(),
         };
 
         set({
@@ -53,18 +48,18 @@ export const useFavoriteSymbolStore = create<FavoriteSymbolStore>()(
         });
       },
 
-      removeSymbol: (id) => {
+      removeSymbol: (ric) => {
         const { symbols } = get();
         const updatedSymbols = symbols
-          .filter((symbol) => symbol.id !== id)
+          .filter((symbol) => symbol.ric !== ric)
           .map((symbol, index) => ({ ...symbol, order: index }));
 
         set({ symbols: updatedSymbols, error: null });
       },
 
-      updateSymbolOrder: (id, newOrder) => {
+      updateSymbolOrder: (ric, newOrder) => {
         const { symbols } = get();
-        const symbolIndex = symbols.findIndex((s) => s.id === id);
+        const symbolIndex = symbols.findIndex((s) => s.ric === ric);
 
         if (symbolIndex === -1) return;
 
@@ -74,7 +69,7 @@ export const useFavoriteSymbolStore = create<FavoriteSymbolStore>()(
 
         // 다른 심볼들의 순서도 업데이트
         updatedSymbols.forEach((symbol, index) => {
-          if (symbol.id !== id) {
+          if (symbol.ric !== ric) {
             symbol.order = index >= newOrder ? index + 1 : index;
           }
         });
@@ -111,10 +106,10 @@ export const useFavoriteSymbolStore = create<FavoriteSymbolStore>()(
           }
         } catch (error) {
           console.error(
-            '로컬스토리지에서 데이터를 불러오는데 실패했습니다:',
+            "로컬스토리지에서 데이터를 불러오는데 실패했습니다:",
             error
           );
-          set({ error: '데이터를 불러오는데 실패했습니다.' });
+          set({ error: "데이터를 불러오는데 실패했습니다." });
         }
       },
 
@@ -124,10 +119,10 @@ export const useFavoriteSymbolStore = create<FavoriteSymbolStore>()(
           localStorage.setItem(STORAGE_KEY, JSON.stringify({ symbols }));
         } catch (error) {
           console.error(
-            '로컬스토리지에 데이터를 저장하는데 실패했습니다:',
+            "로컬스토리지에 데이터를 저장하는데 실패했습니다:",
             error
           );
-          set({ error: '데이터를 저장하는데 실패했습니다.' });
+          set({ error: "데이터를 저장하는데 실패했습니다." });
         }
       },
     }),

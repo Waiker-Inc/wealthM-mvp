@@ -1,10 +1,7 @@
 export interface FavoriteSymbol {
-  id: string;
-  name: string;
-  ticker: string;
-  ric: string;
   order: number;
-  createdAt: number;
+  ric: string;
+  name: string;
 }
 
 export interface FavoriteSymbolStore {
@@ -13,9 +10,7 @@ export interface FavoriteSymbolStore {
   error: string | null;
 
   // 액션들
-  addSymbol: (
-    symbol: Omit<FavoriteSymbol, 'id' | 'order' | 'createdAt'>
-  ) => void;
+  addSymbol: (symbol: FavoriteSymbol) => void;
   removeSymbol: (id: string) => void;
   updateSymbolOrder: (id: string, newOrder: number) => void;
   reorderSymbols: (fromIndex: number, toIndex: number) => void;

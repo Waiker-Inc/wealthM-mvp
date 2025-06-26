@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { Input } from '../ui/input';
-import { cn } from '@/lib/utils';
-import { CornerDownLeft } from 'lucide-react';
-import Typography from '../ui/typography';
+import { useState } from "react";
+import { Input } from "../ui/input";
+import { cn } from "@/lib/utils";
+import { CornerDownLeft } from "lucide-react";
+import Typography from "../ui/typography";
 
 interface ChatInputProps {
   onSubmit: (value: string) => void;
@@ -11,14 +11,14 @@ interface ChatInputProps {
 
 export const ChatInput = ({ onSubmit, isSearch }: ChatInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!value) return;
 
     onSubmit(value);
-    setValue('');
+    setValue("");
   };
 
   return (
@@ -26,12 +26,12 @@ export const ChatInput = ({ onSubmit, isSearch }: ChatInputProps) => {
       className={cn(
         `fixed left-1/2 z-20 w-[776px] max-w-full transition-all duration-700 ease-in-out
         rounded-[16px] p-[16px_24px] bg-ground2 border-2 border-solid border-transparent
-        ${isFocused && 'border-white'}
-        ${value && 'border-green700'}
+        ${isFocused && "border-white"}
+        ${value && "border-green700"}
         ${
           isSearch
-            ? 'bottom-[40px] top-auto -translate-x-1/2 shadow-2xl'
-            : 'top-[40px] bottom-auto -translate-x-1/2'
+            ? "bottom-[40px] top-auto -translate-x-1/2 shadow-2xl"
+            : "top-[40px] bottom-auto -translate-x-1/2"
         }
         `
       )}
@@ -40,8 +40,8 @@ export const ChatInput = ({ onSubmit, isSearch }: ChatInputProps) => {
       <Input
         placeholder="물어봐"
         autoFocus
-        className={`!border-none !outline-none placeholder:text-mono500 !focus:outline-none !focus:ring-0 !focus:border-none !bg-transparent p-0 h-[29px] !text-[18px] ${
-          value ? 'text-green700' : ''
+        className={`!border-none !outline-none !ring-0 !focus:outline-none !focus:border-none !focus:ring-0 !focus:ring-transparent !focus:shadow-none placeholder:text-mono500 !bg-transparent p-0 h-[29px] !text-[18px] ${
+          value ? "text-green700" : ""
         }`}
         value={value}
         onChange={(e) => setValue(e.target.value)}
@@ -56,7 +56,7 @@ export const ChatInput = ({ onSubmit, isSearch }: ChatInputProps) => {
         >
           <CornerDownLeft
             size={20}
-            className={`${value ? 'text-green700' : ''}`}
+            className={`${value ? "text-green700" : ""}`}
           />
         </button>
       </div>

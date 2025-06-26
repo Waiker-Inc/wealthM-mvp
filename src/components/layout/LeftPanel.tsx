@@ -1,10 +1,10 @@
-import { AlignLeft, ArrowUpDown, Bolt, Pen } from 'lucide-react';
-import Typography from '../ui/typography';
-import { Button } from '../ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { useState } from 'react';
-import MyFavoritSymbolDialog from '../contents/MyFavoritSymbolDialog';
-import { Progress } from '../ui/progress';
+import { AlignLeft, ArrowUpDown, Bolt, Pen } from "lucide-react";
+import Typography from "../ui/typography";
+import { Button } from "../ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useState } from "react";
+import MyFavoriteSymbolDialog from "@/components/contents/MyFavoriteSymbolDialog";
+import { Progress } from "../ui/progress";
 
 export default function LeftPanel() {
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
@@ -72,7 +72,7 @@ export default function LeftPanel() {
               내 관심 심볼
             </Typography>
             <Button
-              className="ml-auto h-[27px] bg-mono50 text-mono600"
+              className="ml-auto h-[27px] bg-mono50 text-mono600 cursor-pointer"
               onClick={() => {
                 setIsOpenFavorite(!isOpenFavorite);
               }}
@@ -109,7 +109,7 @@ export default function LeftPanel() {
           </ul>
         </li>
       </ul>
-      <MyFavoritSymbolDialog
+      <MyFavoriteSymbolDialog
         isOpen={isOpenFavorite}
         onClose={() => {
           setIsOpenFavorite(false);

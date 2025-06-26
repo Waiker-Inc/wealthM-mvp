@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
-import { useFavoriteSymbolStore } from '@/stores/favoritSymbolStore';
-import type { FavoriteSymbol } from '@/types/favoritSymbol';
+import { useCallback } from "react";
+import { useFavoriteSymbolStore } from "@/stores/favoritSymbolStore";
+import type { FavoriteSymbol } from "@/types/favoritSymbol";
 
 export const useFavoriteSymbols = () => {
   const {
@@ -15,29 +15,29 @@ export const useFavoriteSymbols = () => {
   } = useFavoriteSymbolStore();
 
   const addFavoriteSymbol = useCallback(
-    (name: string, ticker: string, ric: string) => {
-      addSymbol({ name, ticker, ric });
+    (symbol: FavoriteSymbol) => {
+      addSymbol({ ...symbol, order: 0 });
     },
     [addSymbol]
   );
 
   const removeFavoriteSymbol = useCallback(
-    (id: string) => {
-      removeSymbol(id);
+    (ric: string) => {
+      removeSymbol(ric);
     },
     [removeSymbol]
   );
 
   const isSymbolFavorite = useCallback(
-    (ticker: string) => {
-      return symbols.some((symbol) => symbol.ticker === ticker);
+    (ric: string) => {
+      return symbols.some((symbol) => symbol.ric === ric);
     },
     [symbols]
   );
 
   const getSymbolById = useCallback(
-    (id: string): FavoriteSymbol | undefined => {
-      return symbols.find((symbol) => symbol.id === id);
+    (ric: string): FavoriteSymbol | undefined => {
+      return symbols.find((symbol) => symbol.ric === ric);
     },
     [symbols]
   );

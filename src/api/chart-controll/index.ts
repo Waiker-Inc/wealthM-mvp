@@ -12,6 +12,9 @@ export interface ResGetChartStock {
   stockImageUrl: string;
   percentChange: number;
   price: number;
+  ric: string;
+  ticker: string;
+  tradeVolume: number;
   type: "STOCK" | "ETF";
 }
 
