@@ -7,6 +7,7 @@ import Typography from '../ui/typography';
 import MarketTabs from './MarketTabs';
 import { GripVertical, Images, Search, X } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
+import { useFavoriteSymbols } from '../../hooks/useFavoriteSymbols';
 
 export default function MyFavoritSymbolDialog({
   isOpen,
@@ -18,6 +19,19 @@ export default function MyFavoritSymbolDialog({
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const [imageName, setImageName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  console.info(imageBase64);
+
+  const {
+    symbols,
+    error: storeError,
+    addFavoriteSymbol,
+    removeFavoriteSymbol,
+    totalCount,
+    maxCount,
+  } = useFavoriteSymbols();
+
   const maxSize = 2 * 1024 * 1024;
   const accept = {
     'image/jpeg': [],
@@ -25,24 +39,20 @@ export default function MyFavoritSymbolDialog({
     'image/webp': [],
   };
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === 'string') {
-          setImageBase64(reader.result);
-          setImageName(file.name);
-          setError(null);
-        }
-      };
-      reader.readAsDataURL(file);
-    },
-    [setImageBase64]
-  );
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        setImageBase64(reader.result);
+        setImageName(file.name);
+        setError(null);
+      }
+    };
+    reader.readAsDataURL(file);
+  }, []);
 
-  // 거부된 파일 처리
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onDropRejected = useCallback((fileRejections: any) => {
     if (!fileRejections.length) return;
@@ -66,7 +76,26 @@ export default function MyFavoritSymbolDialog({
     multiple: false,
   });
 
-  console.log(imageBase64);
+  const handleSearchSubmit = useCallback(() => {
+    if (!searchQuery.trim()) return;
+
+    // 임시로 더미 데이터 추가 (실제로는 API 호출)
+    addFavoriteSymbol(
+      searchQuery,
+      searchQuery.toUpperCase(),
+      `${searchQuery.toUpperCase()}.O`
+    );
+    setSearchQuery('');
+  }, [searchQuery, addFavoriteSymbol]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        handleSearchSubmit();
+      }
+    },
+    [handleSearchSubmit]
+  );
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -100,9 +129,9 @@ export default function MyFavoritSymbolDialog({
                       첨부된 파일: {imageName}
                     </Typography>
                   )}
-                  {error && (
+                  {(error || storeError) && (
                     <Typography size="body-sm" className="text-red-500 mt-2">
-                      {error}
+                      {error || storeError}
                     </Typography>
                   )}
                 </div>
@@ -122,11 +151,17 @@ export default function MyFavoritSymbolDialog({
                 }}
               >
                 <Input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
                   placeholder="종목, ETF, 경제지표를 검색해보세요"
                   autoFocus
                   className="p-[12px_24px] h-[48px] w-[400px] rounded-full"
                 />
-                <Search className="absolute right-[24px] top-[50%] translate-y-[-50%] text-mono200" />
+                <Search
+                  className="absolute right-[24px] top-[50%] translate-y-[-50%] text-mono200 cursor-pointer"
+                  onClick={handleSearchSubmit}
+                />
               </div>
             </div>
             <MarketTabs />
@@ -135,30 +170,47 @@ export default function MyFavoritSymbolDialog({
           <div className="bg-ground2 p-[40px_24px] w-[320px] h-full relative">
             <Typography size="body-lg">내 관심 심볼</Typography>
             <Typography size="body-sm" className="text-mono400 mt-[12px]">
-              최대 20개까짐나 등록할 수 있습니다.
+              최대 {maxCount}개까지만 등록할 수 있습니다.
             </Typography>
             <div className="flex items-center gap-[10px] mt-[5px]">
-              <Progress max={100} value={50} />
+              <Progress max={maxCount} value={totalCount} />
               <Typography size="label-md" className="text-mono400">
-                5/10
+                {totalCount}/{maxCount}
               </Typography>
             </div>
-            <ul className="mt-[24px]">
-              <li className="flex items-center gap-[12px] p-[8px] rounded-[8px] hover:bg-mono50 cursor-pointer">
-                <GripVertical className="text-mono200" size={16} />
-                <Typography>팔란티어</Typography>
-                <X className="text-mono200 ml-auto" size={16} />
-              </li>
-              <li className="flex items-center gap-[12px] p-[8px] rounded-[8px] hover:bg-mono50 cursor-pointer">
-                <GripVertical className="text-mono200" size={16} />
-                <Typography>팔란티어</Typography>
-                <X className="text-mono200 ml-auto" size={16} />
-              </li>
-              <li className="flex items-center gap-[12px] p-[8px] rounded-[8px] hover:bg-mono50 cursor-pointer">
-                <GripVertical className="text-mono200" size={16} />
-                <Typography>팔란티어</Typography>
-                <X className="text-mono200 ml-auto" size={16} />
-              </li>
+            <ul className="mt-[24px] space-y-2">
+              {symbols.map((symbol) => (
+                <li
+                  key={symbol.id}
+                  className="flex items-center gap-[12px] p-[8px] rounded-[8px] hover:bg-mono50 cursor-pointer"
+                >
+                  <GripVertical className="text-mono200" size={16} />
+                  <div className="flex-1 min-w-0">
+                    <Typography className="truncate">{symbol.name}</Typography>
+                    <Typography
+                      size="body-sm"
+                      className="text-mono400 truncate"
+                    >
+                      {symbol.ticker}
+                    </Typography>
+                  </div>
+                  <X
+                    className="text-mono200 ml-auto"
+                    size={16}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeFavoriteSymbol(symbol.id);
+                    }}
+                  />
+                </li>
+              ))}
+              {symbols.length === 0 && (
+                <li className="text-center py-8">
+                  <Typography size="body-sm" className="text-mono400">
+                    등록된 관심 심볼이 없습니다.
+                  </Typography>
+                </li>
+              )}
             </ul>
             <div className="absolute bottom-[40px] left-0 right-0 px-[24px] flex items-end gap-[10px]">
               <Button

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import FAQList from '../contents/FAQList';
@@ -15,13 +14,13 @@ export default function Contents() {
   const { qaHistory, addQuestion, simulateAnswer } = useChat();
 
   const {
-    isConnected,
-    messages,
+    // isConnected,
+    // messages,
     sendMessage,
-    connect,
-    disconnect,
-    lastMessage,
-    error,
+    // connect,
+    // disconnect,
+    // lastMessage,
+    // error,
   } = useWebSocket({
     onOpen: () => {
       console.log('웹소켓 연결됨');
