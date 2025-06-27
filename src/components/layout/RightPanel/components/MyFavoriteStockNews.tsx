@@ -39,6 +39,7 @@ export default function MyFavoriteStockNews() {
           <PriceChangeRate ricList={ricList} />
         )}
         {activeTab === "ANNOUNCEMENT" && <Announcements ricList={ricList} />}
+        {activeTab === "PERFORMANCE" && <Earning />}
         {activeTab === "NEWS" && <News ricList={ricList} />}
       </div>
     </div>
@@ -193,6 +194,17 @@ const Announcements = ({ ricList }: { ricList: string[] }) => {
   );
 };
 
+// 실적
+const Earning = () => {
+  return (
+    <div className="flex justify-center items-center py-[60px]">
+      <Typography size="body-sm" className="text-mono400">
+        실적 소식이 없습니다.
+      </Typography>
+    </div>
+  );
+};
+
 // 뉴스
 const News = ({ ricList }: { ricList: string[] }) => {
   const { data } = useQuery({
@@ -202,11 +214,11 @@ const News = ({ ricList }: { ricList: string[] }) => {
         ricList,
         page: PAGE,
         size: SIZE,
-        startDate: dayjs()
+        fromTargetDate: dayjs()
           .subtract(7, "day")
           .format("YYYY-MM-DD[T]HH:mm:ss[Z]")
           .toString(),
-        endDate: dayjs().format("YYYY-MM-DD[T]HH:mm:ss[Z]").toString(),
+        toTargetDate: dayjs().format("YYYY-MM-DD[T]HH:mm:ss[Z]").toString(),
       }),
     enabled: ricList.length > 0,
   });
