@@ -25,13 +25,14 @@ export const getChartStock = async ({
   chartTabEnum: ChartTabEnum;
   count: number;
 }) => {
-  const response = await axios.get<{
-    data: ResGetChartStock[];
-  }>(`/v1/wealthm/chart/stock`, {
-    params: {
-      chartTabEnum,
-      count,
-    },
-  });
+  const response = await axios.get<ResGetChartStock[]>(
+    `/v1/wealthm/chart/stock`,
+    {
+      params: {
+        chartTabEnum,
+        count,
+      },
+    }
+  );
   return response.data;
 };

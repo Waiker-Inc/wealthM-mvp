@@ -6,7 +6,7 @@ import {
   getChartStock,
   type ChartTabEnum,
   type ResGetChartStock,
-} from "@/api/chart-controll";
+} from "@/api/chart";
 import StockModal from "@/components/modal/StockModal";
 import { useModalStore } from "@/store/modalStore";
 
@@ -27,7 +27,7 @@ export default function Sorting() {
   const { data } = useQuery({
     queryKey: ["sorting", activeTab],
     queryFn: () => getChartStock({ chartTabEnum: activeTab, count: 5 }),
-    select: (data) => data.data.filter((item) => item.type === "STOCK"),
+    select: (data) => data.filter((item) => item.type === "STOCK"),
   });
 
   const startScroll = (direction: "left" | "right") => {

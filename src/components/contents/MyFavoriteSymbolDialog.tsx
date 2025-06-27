@@ -8,10 +8,10 @@ import { GripVertical, Images, Search, X } from "lucide-react";
 import { useDropzone } from "react-dropzone";
 import { useFavoriteSymbols } from "../../hooks/useFavoriteSymbols";
 import { useQuery } from "@tanstack/react-query";
-import { getChartStock, type ChartTabEnum } from "@/api/chart-controll";
+import { getChartStock, type ChartTabEnum } from "@/api/chart";
 import { cn } from "@/lib/utils";
 import { useInView } from "react-intersection-observer";
-import { getSearchStock, type ResGetSearchStock } from "@/api/search-controll";
+import { getSearchStock, type ResGetSearchStock } from "@/api/search";
 import { useDebounce } from "use-debounce";
 import {
   DndContext,
@@ -92,6 +92,7 @@ function renderCell(
       return (
         <td className="px-2 py-3 flex items-center gap-x-2 ">
           <button
+            className="cursor-pointer"
             onClick={() => {
               if (isFavorite) {
                 removeFavoriteSymbol(item.ric);
@@ -166,7 +167,6 @@ function SearchInputWithDropdown() {
     queryKey: ["search", debouncedQuery],
     queryFn: () =>
       getSearchStock({ keyword: debouncedQuery, page: 0, size: 10 }),
-    select: (data) => data.data,
     enabled: !!debouncedQuery,
   });
 
@@ -490,7 +490,7 @@ export default function MyFavoriteSymbolDialog({
   const { data } = useQuery({
     queryKey: ["favorite", activeTab],
     queryFn: () => getChartStock({ chartTabEnum: activeTab, count }),
-    select: (data) => data.data.filter((item) => item.type === "STOCK"),
+    select: (data) => data.filter((item) => item.type === "STOCK"),
   });
 
   const maxSize = 2 * 1024 * 1024;

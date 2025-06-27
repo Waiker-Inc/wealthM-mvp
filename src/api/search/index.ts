@@ -26,7 +26,7 @@ export interface ResGetSearchStock {
 }
 
 export const getSearchStock = async (params: ReqGetSearchStock) => {
-  const response = await axios.get<{ data: ResGetSearchStock[] }>(
+  const response = await axios.get<ResGetSearchStock[]>(
     `/v1/wealthm/search/symbol`,
     {
       params: {
