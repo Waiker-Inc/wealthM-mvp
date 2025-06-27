@@ -9,6 +9,7 @@ import {
 } from "@/api/chart";
 import StockModal from "@/components/modal/StockModal";
 import { useModalStore } from "@/store/modalStore";
+import Typography from "@/components/ui/typography";
 
 const TABS: { value: ChartTabEnum; label: string; key: string }[] = [
   { value: "TURN_OVER", label: "거래대금", key: "tradeVolume" },
@@ -47,7 +48,10 @@ export default function Sorting() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-y-4">
+      <Typography size="title-lg" weight="bold">
+        실시간 차트
+      </Typography>
       <div className="w-full">
         {/* 탭 헤더 */}
         <div className="relative w-full flex flex-row">
@@ -81,7 +85,7 @@ export default function Sorting() {
                 className={`px-4 py-3 font-semibold text-base transition-all border-b-2 whitespace-nowrap
                   ${
                     activeTab === tab.value
-                      ? "text-white border-white"
+                      ? "text-700 border-white"
                       : "border-transparent hover:text-primary/80 text-mono400"
                   }
                 `}

@@ -10,7 +10,7 @@ export default function LeftPanel() {
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
 
   return (
-    <aside className="bg-ground2 h-[100vh] p-[40px_24px] text-white overflow-auto">
+    <aside className="bg-ground2 h-[100vh] p-[40px_24px] text-700 overflow-auto">
       <h1 className="flex items-center justify-center">
         <img src="/logo.png" alt="logo" className="w-[54px] h-[36px]" />
       </h1>
@@ -46,7 +46,7 @@ export default function LeftPanel() {
               <Typography
                 as="li"
                 size="body-sm"
-                className="cursor-pointer text-mono450 p-[8px] rounded-[4px] hover:bg-mono50 hover:text-white"
+                className="cursor-pointer text-mono450 p-[8px] rounded-[4px] hover:bg-mono50 hover:text-700"
               >
                 팔란티어의 1년 수익률
               </Typography>
@@ -58,7 +58,7 @@ export default function LeftPanel() {
               <Typography
                 as="li"
                 size="body-sm"
-                className="cursor-pointer text-mono450 p-[8px] rounded-[4px] hover:bg-mono50 hover:text-white"
+                className="cursor-pointer text-mono450 p-[8px] rounded-[4px] hover:bg-mono50 hover:text-700"
               >
                 최근 급등주 리스트
               </Typography>

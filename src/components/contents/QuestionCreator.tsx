@@ -1,46 +1,46 @@
-import { useState } from 'react';
-import Typography from '../ui/typography';
-import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
-import { Check } from 'lucide-react';
+import { useState } from "react";
+import Typography from "../ui/typography";
+import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
+import { Check } from "lucide-react";
 
 const tabList = [
-  { value: 'my', label: '내 관심 심볼' },
-  { value: 'popular', label: '질문이 많은 심볼' },
+  { value: "my", label: "내 관심 심볼" },
+  { value: "popular", label: "질문이 많은 심볼" },
 ];
 
 const keywords = [
-  { id: 'k1', label: 'PER(주가수익비율)' },
-  { id: 'k2', label: '배당수익률' },
-  { id: 'k3', label: '52주 신고가/신저가' },
-  { id: 'k4', label: '외국인 보유율' },
+  { id: "k1", label: "PER(주가수익비율)" },
+  { id: "k2", label: "배당수익률" },
+  { id: "k3", label: "52주 신고가/신저가" },
+  { id: "k4", label: "외국인 보유율" },
 ];
 
 const symbols = [
   {
-    id: 's1',
-    name: '테슬라',
-    code: 'TSLA',
-    logo: '/logos/tesla.png',
-    keywords: ['k1', 'k2'],
+    id: "s1",
+    name: "테슬라",
+    code: "TSLA",
+    logo: "/logos/tesla.png",
+    keywords: ["k1", "k2"],
   },
   {
-    id: 's2',
-    name: '팔란티어',
-    code: 'PLTR',
-    logo: '/logos/palantir.png',
-    keywords: ['k2', 'k3'],
+    id: "s2",
+    name: "팔란티어",
+    code: "PLTR",
+    logo: "/logos/palantir.png",
+    keywords: ["k2", "k3"],
   },
   {
-    id: 's3',
-    name: '아마존',
-    code: 'AMZN',
-    logo: '/logos/amazon.png',
-    keywords: ['k1', 'k4'],
+    id: "s3",
+    name: "아마존",
+    code: "AMZN",
+    logo: "/logos/amazon.png",
+    keywords: ["k1", "k4"],
   },
 ];
 
 export default function QuestionCreator() {
-  const [active, setActive] = useState('my');
+  const [active, setActive] = useState("my");
   return (
     <div className="mt-[58px]">
       <Typography size="body-lg" weight="bold">
@@ -59,8 +59,8 @@ export default function QuestionCreator() {
               border-b-2
               ${
                 active === tab.value
-                  ? 'text-white border-primary'
-                  : 'border-transparent hover:text-primary/80 text-mono400'
+                  ? "text-700 border-primary"
+                  : "border-transparent hover:text-primary/80 text-mono400"
               }`}
               onClick={() => setActive(tab.value)}
               aria-selected={active === tab.value}
@@ -74,7 +74,7 @@ export default function QuestionCreator() {
         </div>
 
         {/* 탭 컨텐츠 */}
-        <div className="py-4">{active === 'my' && <MySymbolTable />}</div>
+        <div className="py-4">{active === "my" && <MySymbolTable />}</div>
       </div>
     </div>
   );
@@ -124,19 +124,19 @@ function MySymbolTable() {
                 aria-label={symbol.name}
                 onClick={() => handleSymbolClick(symbol.id)}
                 onKeyDown={(e) =>
-                  e.key === 'Enter' && handleSymbolClick(symbol.id)
+                  e.key === "Enter" && handleSymbolClick(symbol.id)
                 }
                 className={`flex items-center gap-[10px] py-[12px] px-2 rounded-lg cursor-pointer transition
                   ${
                     isDimmed
-                      ? 'opacity-40 pointer-events-none'
-                      : 'hover:bg-mono800'
+                      ? "opacity-40 pointer-events-none"
+                      : "hover:bg-mono800"
                   }
                 `}
               >
                 {isActive ? (
                   <div className="w-[32px] h-[32px] bg-green700 rounded-full flex items-center justify-center">
-                    <Check className="text-white" size={16} />
+                    <Check className="text-700" size={16} />
                   </div>
                 ) : (
                   <Avatar className="w-[32px] h-[32px]">
@@ -174,11 +174,11 @@ function MySymbolTable() {
                 aria-label={keyword.label}
                 onClick={() => handleKeywordClick(keyword.id)}
                 className={`rounded-[4px] p-[6px_12px] max-w-fit min-w-fit text-mono450 text-sm transition
-                  ${isActive ? 'bg-green700 text-white' : 'bg-mono50'}
+                  ${isActive ? "bg-green700 text-700" : "bg-mono50"}
                   ${
                     isDimmed
-                      ? 'opacity-40 pointer-events-none'
-                      : 'hover:bg-green700/10 hover:text-white'
+                      ? "opacity-40 pointer-events-none"
+                      : "hover:bg-green700/10 hover:text-700"
                   }
                 `}
               >
