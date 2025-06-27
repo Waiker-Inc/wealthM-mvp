@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { type MostMentionedStock } from "@/api/news";
 
-const MostMentionedStock = () => {
+export default function MostMentionedStock() {
   const { data } = useQuery({
     queryKey: ["most-mentioned-stock"],
     queryFn: () =>
@@ -41,9 +41,7 @@ const MostMentionedStock = () => {
       </div>
     </div>
   );
-};
-
-export default MostMentionedStock;
+}
 
 const StockItem = ({
   item,

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent } from "../ui/dialog";
@@ -21,7 +22,6 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
@@ -154,19 +154,11 @@ function SearchInputWithDropdown() {
   const [debouncedQuery] = useDebounce(searchQuery, 300);
   const [highlightIndex, setHighlightIndex] = useState(0);
 
-  const {
-    symbols,
-    error: storeError,
-    addFavoriteSymbol,
-    removeFavoriteSymbol,
-    totalCount,
-    maxCount,
-  } = useFavoriteSymbols();
-
+  const { addFavoriteSymbol } = useFavoriteSymbols();
   const { data } = useQuery({
     queryKey: ["search", debouncedQuery],
     queryFn: () =>
-      getSearchStock({ keyword: debouncedQuery, page: 0, size: 10 }),
+      getSearchStock({ keyword: debouncedQuery, page: 0, size: 12 }),
     enabled: !!debouncedQuery,
   });
 
@@ -480,11 +472,11 @@ export default function MyFavoriteSymbolDialog({
   isOpen: boolean;
   onClose: () => void;
 }) {
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(40);
   const { ref, inView } = useInView();
-  const [imageBase64, setImageBase64] = useState<string | null>(null);
+  const [, setImageBase64] = useState<string | null>(null);
   const [imageName, setImageName] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<ChartTabEnum>("TURN_OVER");
 
   const { data } = useQuery({

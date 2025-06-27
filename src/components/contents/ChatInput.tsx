@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import { CornerDownLeft } from "lucide-react";
-import Typography from "../ui/typography";
 
 interface ChatInputProps {
   onSubmit: (value: string) => void;
@@ -37,22 +36,21 @@ export const ChatInput = ({ onSubmit, isSearch }: ChatInputProps) => {
       )}
       onSubmit={handleSubmit}
     >
-      <Input
-        placeholder="물어봐"
-        autoFocus
-        className={`!border-none !outline-none !ring-0 !focus:outline-none !focus:border-none !focus:ring-0 !focus:ring-transparent !focus:shadow-none placeholder:text-mono500 !bg-transparent p-0 h-[29px] !text-[18px] ${
-          value ? "text-green700" : ""
-        }`}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-      />
-      <div className="flex items-center justify-between mt-[16px]">
-        <Typography>웹검색</Typography>
+      <div className="flex items-center justify-between">
+        <Input
+          placeholder="막연한 투자 고민, 웰스엠에 질문하여 명쾌하게 풀어보세요"
+          autoFocus
+          className={`!border-none !outline-none !ring-0 !focus:outline-none !focus:border-none !focus:ring-0 !focus:ring-transparent !focus:shadow-none placeholder:text-mono500 !bg-transparent p-0 h-[29px] !text-[18px] ${
+            value ? "text-green700" : ""
+          }`}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+        />
         <button
           type="submit"
-          className="flex items-center justify-center rounded-full bg-mono100 p-[12px]"
+          className="flex items-center justify-center rounded-full bg-mono100 p-[12px] flex-grow "
         >
           <CornerDownLeft
             size={20}

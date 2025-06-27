@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useModalStore } from "@/store/modalStore";
 import CalendarModal from "./CalendarModal";
 
-interface StockModalProps {
-  ric: string;
-}
+// interface StockModalProps {
+//   ric: string;
+// }
 
-export default function StockModal({ ric }: StockModalProps) {
+export default function StockModal() {
   const { openModal } = useModalStore();
   return (
     <div>
