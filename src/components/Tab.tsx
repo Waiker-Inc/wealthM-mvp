@@ -1,7 +1,5 @@
-import { cn } from "@/lib/utils";
-import Typography from "./ui/typography";
-import { ChevronRight, ChevronLeft } from "lucide-react";
-import { useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef } from "react";
 import { useInView } from "react-intersection-observer";
 
 interface TabProps {
@@ -61,19 +59,20 @@ export default function Tab({ tabList, activeTab, setActive }: TabProps) {
         {tabList.map((tab) => (
           <button
             key={tab.value}
-            className={cn(
-              "px-4 py-3 cursor-pointer font-semibold text-base transition-all border-b-2 whitespace-nowrap border-transparent hover:text-primary/80 text-mono400",
-              {
-                "text-white border-primary": activeTab === tab.value,
-              }
-            )}
+            className={`px-4 py-3 font-semibold text-base transition-all border-b-2 whitespace-nowrap
+                    ${
+                      activeTab === tab.value
+                        ? "text-700 border-white"
+                        : "border-transparent hover:text-primary/80 text-mono400"
+                    }
+                  `}
             onClick={() => setActive(tab.value)}
             aria-selected={activeTab === tab.value}
             tabIndex={0}
             role="tab"
             type="button"
           >
-            <Typography size="body-sm">{tab.label}</Typography>
+            {tab.label}
           </button>
         ))}
         <div

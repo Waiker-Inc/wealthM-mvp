@@ -1,6 +1,6 @@
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css');
-@import 'tw-animate-css';
-@import 'tailwindcss';
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css");
+@import "tw-animate-css";
+@import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -217,9 +217,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Pretendard', Arial, Helvetica, sans-serif;
+    font-family: "Pretendard", Arial, Helvetica, sans-serif;
     height: 100vh;
-    background: #080a0b;
   }
 }
 

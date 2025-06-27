@@ -420,7 +420,7 @@ function StockTable({
               border-b-2
               ${
                 activeTab === item.value
-                  ? "text-white border-primary"
+                  ? "text-700 border-primary"
                   : "border-transparent hover:text-primary/80 text-mono400"
               }`}
             onClick={() => setActiveTab(item.value)}
