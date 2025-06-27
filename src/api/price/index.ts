@@ -10,6 +10,9 @@ export interface ResGetPriceChangeRate {
   price: number;
   priceChangeRange: number;
   priceChangeRate: number;
+  imgUrl: string;
+  ticker: string;
+  name: string;
 }
 
 export const getPriceChangeRate = async ({

@@ -2,6 +2,9 @@ import { useState } from "react";
 import Typography from "../ui/typography";
 import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
 import { Check } from "lucide-react";
+import { useFavoriteSymbols } from "@/hooks/useFavoriteSymbols";
+import { useQuery } from "@tanstack/react-query";
+import { getPriceChangeRate } from "@/api/price";
 
 const tabList = [
   { value: "my", label: "내 관심 심볼" },
@@ -9,34 +12,14 @@ const tabList = [
 ];
 
 const keywords = [
-  { id: "k1", label: "PER(주가수익비율)" },
-  { id: "k2", label: "배당수익률" },
-  { id: "k3", label: "52주 신고가/신저가" },
-  { id: "k4", label: "외국인 보유율" },
-];
-
-const symbols = [
-  {
-    id: "s1",
-    name: "테슬라",
-    code: "TSLA",
-    logo: "/logos/tesla.png",
-    keywords: ["k1", "k2"],
-  },
-  {
-    id: "s2",
-    name: "팔란티어",
-    code: "PLTR",
-    logo: "/logos/palantir.png",
-    keywords: ["k2", "k3"],
-  },
-  {
-    id: "s3",
-    name: "아마존",
-    code: "AMZN",
-    logo: "/logos/amazon.png",
-    keywords: ["k1", "k4"],
-  },
+  { id: "k1", label: "실적 발표" },
+  { id: "k2", label: "매출" },
+  { id: "k3", label: "주당 순이익" },
+  { id: "k4", label: "성장 가능성" },
+  { id: "k5", label: "내부자 거래" },
+  { id: "k6", label: "주주 거래" },
+  { id: "k7", label: "주가 변동" },
+  { id: "k8", label: "최근 소식" },
 ];
 
 export default function QuestionCreator() {
@@ -59,7 +42,7 @@ export default function QuestionCreator() {
               border-b-2
               ${
                 active === tab.value
-                  ? "text-700 border-primary"
+                  ? "text-white border-primary"
                   : "border-transparent hover:text-primary/80 text-mono400"
               }`}
               onClick={() => setActive(tab.value)}
@@ -81,8 +64,16 @@ export default function QuestionCreator() {
 }
 
 function MySymbolTable() {
+  const { symbols } = useFavoriteSymbols();
   const [activeSymbol, setActiveSymbol] = useState<string | null>(null);
   const [activeKeyword, setActiveKeyword] = useState<string | null>(null);
+  const ricList = symbols.map((symbol) => symbol.ric);
+
+  const { data } = useQuery({
+    queryKey: ["click-question", ricList],
+    queryFn: () => getPriceChangeRate({ ricList }),
+    enabled: ricList.length > 0,
+  });
 
   // 심볼 클릭
   const handleSymbolClick = (id: string) => {
@@ -112,27 +103,21 @@ function MySymbolTable() {
       <div className="flex-1">
         <Typography size="body-sm">심볼</Typography>
         <div className="mt-[16px]">
-          {symbols.map((symbol) => {
-            const isActive = activeSymbol === symbol.id;
-            const isDimmed =
-              activeKeyword && !symbol.keywords.includes(activeKeyword);
+          {data?.map((symbol) => {
+            const isActive = activeSymbol === symbol.ric;
+            // const isDimmed =
+            //   activeKeyword && !symbol.keywords.includes(activeKeyword);
             return (
               <div
-                key={symbol.id}
+                key={symbol.ric}
                 tabIndex={0}
                 role="button"
                 aria-label={symbol.name}
-                onClick={() => handleSymbolClick(symbol.id)}
+                onClick={() => handleSymbolClick(symbol.ric)}
                 onKeyDown={(e) =>
-                  e.key === "Enter" && handleSymbolClick(symbol.id)
+                  e.key === "Enter" && handleSymbolClick(symbol.ric)
                 }
-                className={`flex items-center gap-[10px] py-[12px] px-2 rounded-lg cursor-pointer transition
-                  ${
-                    isDimmed
-                      ? "opacity-40 pointer-events-none"
-                      : "hover:bg-mono800"
-                  }
-                `}
+                className={`flex items-center gap-[10px] py-[12px] px-2 rounded-lg cursor-pointer transition`}
               >
                 {isActive ? (
                   <div className="w-[32px] h-[32px] bg-green700 rounded-full flex items-center justify-center">
@@ -140,7 +125,7 @@ function MySymbolTable() {
                   </div>
                 ) : (
                   <Avatar className="w-[32px] h-[32px]">
-                    <AvatarImage src={symbol.logo} />
+                    <AvatarImage src={symbol.imgUrl} />
                     <AvatarFallback>{symbol.name[0]}</AvatarFallback>
                   </Avatar>
                 )}
@@ -148,7 +133,7 @@ function MySymbolTable() {
                 <div>
                   <Typography size="body-sm">{symbol.name}</Typography>
                   <Typography size="label-md" className="text-mono400">
-                    {symbol.code}
+                    {symbol.ticker}
                   </Typography>
                 </div>
               </div>
@@ -162,11 +147,11 @@ function MySymbolTable() {
         <div className="mt-[16px] flex gap-[10px] flex-wrap">
           {keywords.map((keyword) => {
             const isActive = activeKeyword === keyword.id;
-            const isDimmed =
-              activeSymbol &&
-              !symbols
-                .find((s) => s.id === activeSymbol)
-                ?.keywords.includes(keyword.id);
+            // const isDimmed =
+            //   activeSymbol &&
+            //   !data
+            //     ?.find((s) => s.ric === activeSymbol)
+            //     ?.keywords.includes(keyword.id);
             return (
               <button
                 key={keyword.id}
@@ -174,12 +159,7 @@ function MySymbolTable() {
                 aria-label={keyword.label}
                 onClick={() => handleKeywordClick(keyword.id)}
                 className={`rounded-[4px] p-[6px_12px] max-w-fit min-w-fit text-mono450 text-sm transition
-                  ${isActive ? "bg-green700 text-700" : "bg-mono50"}
-                  ${
-                    isDimmed
-                      ? "opacity-40 pointer-events-none"
-                      : "hover:bg-green700/10 hover:text-700"
-                  }
+                  ${isActive ? "bg-green700 text-white" : "bg-mono50"}
                 `}
               >
                 #{keyword.label}

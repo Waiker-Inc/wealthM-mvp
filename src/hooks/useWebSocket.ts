@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from "react";
 
 interface WebSocketMessage {
   type: string;
@@ -21,7 +21,7 @@ interface UseWebSocketReturn {
   isConnected: boolean;
   messages: WebSocketMessage[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  sendMessage: (message: any) => void;
+  sendMessage: (message: any, id?: string) => void;
   connect: () => void;
   disconnect: () => void;
   lastMessage: WebSocketMessage | null;
@@ -29,7 +29,7 @@ interface UseWebSocketReturn {
 }
 
 const randomId = Math.floor(Math.random() * 999) + 1;
-const USER_ID = `u${String(randomId).padStart(3, '0')}`;
+const USER_ID = `u${String(randomId).padStart(3, "0")}`;
 
 const useWebSocket = ({
   onOpen,
@@ -65,10 +65,10 @@ const useWebSocket = ({
   }, [onOpen, onClose, onError, onMessage]);
 
   const constructWsUrl = useCallback(() => {
-    const path = window.location.pathname.split('/');
+    const path = window.location.pathname.split("/");
     const sessionIdFromUrl = path.length > 1 && path[1] ? path[1] : null;
 
-    let url = `${import.meta.env.VITE_SOCKET_URL}/${USER_ID}`;
+    let url = `ws://192.168.20.101:3100/ws/${USER_ID}`;
     if (sessionIdFromUrl) {
       url += `/${sessionIdFromUrl}`;
     }
@@ -86,7 +86,7 @@ const useWebSocket = ({
       wsRef.current = ws;
 
       ws.onopen = () => {
-        console.log('WebSocket Connected');
+        console.log("WebSocket Connected");
         setIsConnected(true);
         setError(null);
         reconnectAttemptsRef.current = 0;
@@ -106,16 +106,14 @@ const useWebSocket = ({
       };
 
       ws.onerror = (event) => {
-        setError('웹소켓 연결 오류가 발생했습니다.');
+        setError("웹소켓 연결 오류가 발생했습니다.");
         callbacksRef.current.onError?.(event);
       };
 
       ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        console.log('Received data:', data);
         try {
           const parsedMessage: WebSocketMessage = {
-            type: 'message',
+            type: "message",
             data: JSON.parse(event.data),
             timestamp: Date.now(),
           };
@@ -124,12 +122,12 @@ const useWebSocket = ({
           setLastMessage(parsedMessage);
           callbacksRef.current.onMessage?.(parsedMessage);
         } catch (err) {
-          console.error('메시지 파싱 오류:', err);
+          console.error("메시지 파싱 오류:", err);
         }
       };
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      setError('웹소켓 연결을 초기화할 수 없습니다.');
+      setError("웹소켓 연결을 초기화할 수 없습니다.");
     }
   }, [constructWsUrl, reconnectInterval, maxReconnectAttempts]);
 
@@ -147,11 +145,11 @@ const useWebSocket = ({
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const sendMessage = useCallback((message: any) => {
+  const sendMessage = useCallback((message: any, id?: string) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ question: message }));
+      wsRef.current.send(JSON.stringify({ question: message, id }));
     } else {
-      setError('웹소켓이 연결되지 않았습니다.');
+      setError("웹소켓이 연결되지 않았습니다.");
     }
   }, []);
 
