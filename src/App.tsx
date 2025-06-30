@@ -30,9 +30,9 @@ function App() {
           <Contents />
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel defaultSize={20}>
+        {/* <ResizablePanel defaultSize={20}>
           <RightPanel />
-        </ResizablePanel>
+        </ResizablePanel> */}
       </ResizablePanelGroup>
       <Modal />
     </QueryClientProvider>
