@@ -51,7 +51,33 @@ export default function Contents() {
     const tempId = Date.now().toString();
     addQuestion(question, tempId);
     // 서버에 tempId도 같이 보냄
-    sendMessage({ question, tempId });
+    sendMessage({
+      question: {
+        data: [
+          {
+            question: "테슬라 정치인 거래",
+            language: "korean",
+            intent: "query",
+            confidence: 1,
+            widgets: [
+              "PoliticianTradingHistoryByStock",
+              "PoliticianHighReturnStocks",
+              "PoliticianTradingTrends",
+              "PoliticianCommitteeRelatedTrades",
+            ],
+            table_mapping: null,
+            has_augmentation: true,
+          },
+        ],
+        widget: [
+          "PoliticianTradingHistoryByStock",
+          "PoliticianHighReturnStocks",
+          "PoliticianTradingTrends",
+          "PoliticianCommitteeRelatedTrades",
+        ],
+      },
+      tempId,
+    });
     // pendingQuestionId.current = tempId; // 필요시
   };
 
@@ -77,20 +103,20 @@ export default function Contents() {
           className="w-[776px] mx-auto flex flex-col gap-4 items-start pt-[40px] pb-[120px] min-h-screen absolute top-0 left-[calc(50%-388px)] overflow-y-auto"
           style={{ minHeight: "calc(100vh - 120px)" }}
         >
-          {qaHistory.map((qa) => (
+          {/* {qaHistory.map((qa) => (
             <ChatMessage
               key={qa.id}
               question={qa.question}
               answer={getAnswer(qa.id)}
               isWaiting={qa.isWaiting}
             />
-          ))}
-          {/* <ChatMessage
+          ))} */}
+          <ChatMessage
             key="test"
             question="test"
             answer="test"
             isWaiting={false}
-          /> */}
+          />
         </div>
       )}
     </div>

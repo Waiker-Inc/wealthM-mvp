@@ -7,174 +7,1263 @@ interface ChatMessageProps {
   isWaiting?: boolean;
 }
 
-// const temp = `"# 애플(AAPL) 주가에 관한 종합 보고서
+const temp = `<!-- Iframe 임베딩 -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://hub.waiker.ai/management/widget/earnings/waiker-performance-widget.cdn.css"
+    />
+  </head>
+  <body>
+    <!-- Waiker Performance Widget BEGIN -->
+    <div class="waiker-performance-widget-container">
+      <div class="waiker-performance-widget-container__widget"></div>
+      <script type="application/json">
+        {"ric": "AAPL.O", "height": "610px", "width": "980px", "language": "en", "currency": "USD"}
+      </script>
+    </div>
+    <script src="https://hub.waiker.ai/management/widget/earnings/waiker-performance-widget.cdn.iife.js"></script>
+    <!-- Waiker Performance Widget END -->
+  </body>
+</html>
 
-// ---
 
-// ## 1. 서론
 
-// 애플(Apple Inc., NASDAQ: AAPL)은 세계에서 가장 가치 있는 기업 중 하나로, 기술 산업을 선도하는 글로벌 기업입니다. 애플의 주가는 투자자, 시장 분석가, 그리고 일반 대중에게 매우 중요한 지표로 작용하며, 기업의 재무 상태, 성장 가능성, 그리고 시장의 전반적인 분위기를 반영합니다. 본 보고서에서는 최신 애플 주가 차트, 최근 뉴스, 기관 투자자 및 내부자 거래 현황, 주요 일정, 그리고 배당 및 실적 정보를 종합적으로 분석하여 애플 주가의 현황과 전망을 심층적으로 다루겠습니다.
 
-// ---
+<iframe
+    id="5b967aa1-0282-41b0-836b-a68cc39ee88c" 
+    src="https://qa-embed.waiker.ai/preview?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiYmZjNjhjMTBiYzljNGQxODg3ZjA5OGY5MGJmNWFjOWUifQ.dFUBr-7fACm7Stvz1QH5ax7YbDtnT8Aeg-UuRwVdQQE&ric=TSLA.O"
+    class="h-full w-full"
+></iframe>  
 
-// ## 2. 애플 주가 현황 및 차트 분석
+<script>
+  const iframeDiv = document.getElementById('5b967aa1-0282-41b0-836b-a68cc39ee88c');
+  console.log("~~~~~~333333",iframeDiv);
+    
+  iframeDiv.onload = () => {
+    console.log("onload");
+    iframeDiv.contentWindow.postMessage(
+      {
+        type: 'update_config',
+        data: {
+            productKey: 'WAIKER-WIDGET-369',
+            configData: {
+                "theme": "system",
+                "lang": "en",
+                "currency": {"hide": false, "defaultCurrency": "USD", "exchangeCurrency": "USD"},
+                "data": [{"sort": 1, "typeDetail": "ITEM_MODULE", "componentName": "PoliticianStockTransaction"}]
+            }
+        },
+      },
+      '*'
+    );
+  };
+</script>
+{
+  "news_list": [
+    {
+      "newsId": 399348,
+      "title": "Why Tesla's robotaxi launch was the easy part",
+      "originPress": "Reuters",
+      "publishedDt": "2025-06-24T06:00:00Z",
+      "revisedDt": "2025-06-24T06:11:09Z",
+      "tickerList": [
+        {
+          "ric": "TSLA.DE",
+          "ticker": "TL0",
+          "companyName": "Tesla Inc",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.DE.png"
+        },
+        {
+          "ric": "ABEA.DE",
+          "ticker": "ABEA",
+          "companyName": "Alphabet Inc",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/ABEA.DE.png"
+        },
+        {
+          "ric": "ABECG.DE",
+          "ticker": "ABEC",
+          "companyName": "Alphabet Inc",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/ABECG.DE.png"
+        },
+        {
+          "ric": "W",
+          "ticker": "W",
+          "companyName": "Wayfair",
+          "exchangeCountry": "US",
+          "exchange": "NYSE",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/W.png"
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        },
+        {
+          "ric": "GOOGL.O",
+          "ticker": "GOOGL",
+          "companyName": "Alphabet Class A",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/GOOGL.O.png"
+        }
+      ]
+    },
+    {
+      "newsId": 385082,
+      "title": "Nissan launches new Leaf in push to revive its electric mojo ",
+      "originPress": "Reuters",
+      "publishedDt": "2025-06-17T12:00:00Z",
+      "revisedDt": "2025-06-17T12:03:20Z",
+      "tickerList": [
+        {
+          "ric": "TSLA.DE",
+          "ticker": "TL0",
+          "companyName": "Tesla Inc",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.DE.png"
+        },
+        {
+          "ric": "7201.T",
+          "ticker": "7201",
+          "companyName": "Nissan Motor Co Ltd",
+          "exchangeCountry": "JP",
+          "exchange": "TYO",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        },
+        {
+          "ric": "RENA.PA",
+          "ticker": "RNO",
+          "companyName": "Renault SA",
+          "exchangeCountry": "FR",
+          "exchange": "PAR",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        }
+      ]
+    },
+    {
+      "newsId": 367544,
+      "title": "[No Title]",
+      "originPress": "Reuters",
+      "publishedDt": "2025-06-09T13:12:02Z",
+      "revisedDt": "2025-06-09T13:13:11Z",
+      "tickerList": [
+        {
+          "ric": "QCOM.O",
+          "ticker": "QCOM",
+          "companyName": "Qualcomm",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/QCOM.O.png"
+        },
+        {
+          "ric": "HOOD.O",
+          "ticker": "HOOD",
+          "companyName": "Robinhood Markets",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/HOOD.O.png"
+        },
+        {
+          "ric": "PLCE.O",
+          "ticker": "PLCE",
+          "companyName": "Children's Place",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/PLCE.O.png"
+        },
+        {
+          "ric": "ISRG.O",
+          "ticker": "ISRG",
+          "companyName": "Intuitive Surgical",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/ISRG.O.png"
+        },
+        {
+          "ric": "BKNG.O",
+          "ticker": "BKNG",
+          "companyName": "Booking Holdings",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/BKNG.O.png"
+        },
+        {
+          "ric": "APP.O",
+          "ticker": "APP",
+          "companyName": "AppLovin",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/APP.O.png"
+        },
+        {
+          "ric": "AXSM.O",
+          "ticker": "AXSM",
+          "companyName": "Axsome Therapeutics",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/AXSM.O.png"
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        },
+        {
+          "ric": "PLUG.O",
+          "ticker": "PLUG",
+          "companyName": "Plug Power",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/PLUG.O.png"
+        },
+        {
+          "ric": "MTSR.O",
+          "ticker": "MTSR",
+          "companyName": "Metsera Inc",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "AWE.L",
+          "ticker": "AWE",
+          "companyName": "Alphawave IP Group PLC",
+          "exchangeCountry": "GB",
+          "exchange": "LSE",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        }
+      ]
+    },
+    {
+      "newsId": 364571,
+      "title": "MORNING BID AMERICAS-Trump-Musk bust-up smolders",
+      "originPress": "Reuters",
+      "publishedDt": "2025-06-06T11:11:45Z",
+      "revisedDt": "2025-06-06T11:13:37Z",
+      "tickerList": [
+        {
+          "ric": "TSLA.DE",
+          "ticker": "TL0",
+          "companyName": "Tesla Inc",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.DE.png"
+        },
+        {
+          "ric": "1YD.DE",
+          "ticker": "1YD",
+          "companyName": "Broadcom Inc",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "BRKb",
+          "ticker": "BRK.B",
+          "companyName": "Berkshire Hathaway Class B",
+          "exchangeCountry": "US",
+          "exchange": "NYSE",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/BRKb.png"
+        },
+        {
+          "ric": "BRKb.DE",
+          "ticker": "BRYN",
+          "companyName": "Berkshire Hathaway Inc",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/BRKb.DE.png"
+        },
+        {
+          "ric": "BAC",
+          "ticker": "BAC",
+          "companyName": "Bank of America",
+          "exchangeCountry": "US",
+          "exchange": "NYSE",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/BAC.png"
+        },
+        {
+          "ric": "BAC.DE",
+          "ticker": "NCB",
+          "companyName": "Bank of America Corp",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "AVGO.O",
+          "ticker": "AVGO",
+          "companyName": "Broadcom",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/AVGO.O.png"
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        }
+      ]
+    },
+    {
+      "newsId": 363190,
+      "title": "QUOTES -Trump, Musk public feud escalates; Nasdaq falls; Tesla, DJT tumble,",
+      "originPress": "Reuters",
+      "publishedDt": "2025-06-05T20:35:17Z",
+      "revisedDt": "2025-06-05T20:37:46Z",
+      "tickerList": [
+        {
+          "ric": "TSLA.DE",
+          "ticker": "TL0",
+          "companyName": "Tesla Inc",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.DE.png"
+        },
+        {
+          "ric": ".IXIC",
+          "ticker": "IXIC",
+          "companyName": "NASDAQ Composite Index",
+          "exchangeCountry": "US",
+          "exchange": "COM",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/.IXIC.png"
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        },
+        {
+          "ric": "DJT.O",
+          "ticker": "DJT",
+          "companyName": "Trump Media & Technology Group Corp",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "SIEB.O",
+          "ticker": "SIEB",
+          "companyName": "Siebert Financial",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/SIEB.O.png"
+        }
+      ]
+    },
+    {
+      "newsId": 246868,
+      "title": "UPDATE 1-Tesla not keen on local production in India, minister says",
+      "originPress": "Reuters",
+      "publishedDt": "2025-06-02T08:08:12Z",
+      "revisedDt": "2025-06-02T08:09:56Z",
+      "tickerList": [
+        {
+          "ric": "0R0X.L",
+          "ticker": "0R0X",
+          "companyName": "Tesla Inc",
+          "exchangeCountry": "GB",
+          "exchange": "LSE",
+          "score": 0.9,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/0R0X.L.png"
+        },
+        {
+          "ric": "TSLA.DE",
+          "ticker": "TL0",
+          "companyName": "Tesla Inc",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 0.9,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.DE.png"
+        },
+        {
+          "ric": "VOWG_p.DE",
+          "ticker": "VOW3",
+          "companyName": "Volkswagen AG",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "TAMO.BO",
+          "ticker": "500570",
+          "companyName": "Tata Motors Ltd",
+          "exchangeCountry": "IN",
+          "exchange": "BSE",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "TAMOt0.BO",
+          "ticker": "100570",
+          "companyName": "[No Name]",
+          "exchangeCountry": "IN",
+          "exchange": "BSE",
+          "score": 0.8,
+          "companyImageUrl": ""
+        },
+        {
+          "ric": "MAHM.BO",
+          "ticker": "500520",
+          "companyName": "Mahindra and Mahindra Ltd",
+          "exchangeCountry": "IN",
+          "exchange": "BSE",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "MAHMq.L",
+          "ticker": "MHID",
+          "companyName": "Mahindra and Mahindra Ltd",
+          "exchangeCountry": "GB",
+          "exchange": "LSE",
+          "score": 0.8,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "MAHMt0.BO",
+          "ticker": "100520",
+          "companyName": "[No Name]",
+          "exchangeCountry": "IN",
+          "exchange": "BSE",
+          "score": 0.8,
+          "companyImageUrl": ""
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        },
+        {
+          "ric": "MBGn.DE",
+          "ticker": "MBG",
+          "companyName": "Mercedes-Benz Group AG",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "VOWG.DE",
+          "ticker": "VOW",
+          "companyName": "Volkswagen AG",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "PSHG_p.DE",
+          "ticker": "PAH3",
+          "companyName": "Porsche Automobil Holding SE",
+          "exchangeCountry": "DE",
+          "exchange": "GER",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        }
+      ]
+    },
+    {
+      "newsId": 127350,
+      "title": "BREAKINGVIEWS-How Apple's China celebration became a conundrum: podcast",
+      "originPress": "Reuters",
+      "publishedDt": "2025-05-20T04:47:39Z",
+      "revisedDt": "2025-05-20T04:57:10Z",
+      "tickerList": [
+        {
+          "ric": "2317.TW",
+          "ticker": "2317",
+          "companyName": "Hon Hai Precision Industry Co Ltd",
+          "exchangeCountry": "TW",
+          "exchange": "TAI",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "AAPL.O",
+          "ticker": "AAPL",
+          "companyName": "Apple",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/AAPL.O.png"
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        }
+      ]
+    },
+    {
+      "newsId": 127343,
+      "title": "BREAKINGVIEWS-How Apple's China celebration became a conundrum: podcast",
+      "originPress": "Reuters",
+      "publishedDt": "2025-05-20T04:47:39Z",
+      "revisedDt": "2025-05-20T04:49:28Z",
+      "tickerList": [
+        {
+          "ric": "2317.TW",
+          "ticker": "2317",
+          "companyName": "Hon Hai Precision Industry Co Ltd",
+          "exchangeCountry": "TW",
+          "exchange": "TAI",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "AAPL.O",
+          "ticker": "AAPL",
+          "companyName": "Apple",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/AAPL.O.png"
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        }
+      ]
+    },
+    {
+      "newsId": 127160,
+      "title": "UPDATE 1-Alphabet's Waymo gets California nod for robotaxi expansion in San Francisco Bay Area",
+      "originPress": "Reuters",
+      "publishedDt": "2025-05-20T00:46:38Z",
+      "revisedDt": "2025-05-20T00:51:48Z",
+      "tickerList": [
+        {
+          "ric": "GOOGL.O",
+          "ticker": "GOOGL",
+          "companyName": "Alphabet Class A",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/GOOGL.O.png"
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        }
+      ]
+    },
+    {
+      "newsId": 126553,
+      "title": "US STOCKS-Wall Street stocks edge lower with sentiment weakened by Moody's downgrade",
+      "originPress": "Reuters",
+      "publishedDt": "2025-05-19T18:51:22Z",
+      "revisedDt": "2025-05-19T19:03:00Z",
+      "tickerList": [
+        {
+          "ric": "AAPL.O",
+          "ticker": "AAPL",
+          "companyName": "Apple",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/AAPL.O.png"
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        },
+        {
+          "ric": "GOOGL.O",
+          "ticker": "GOOGL",
+          "companyName": "Alphabet Class A",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/GOOGL.O.png"
+        },
+        {
+          "ric": "NVAX.O",
+          "ticker": "NVAX",
+          "companyName": "Novavax ADR",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/NVAX.O.png"
+        }
+      ]
+    },
+    {
+      "newsId": 126549,
+      "title": "US STOCKS-Wall Street stocks edge lower with sentiment weakened by Moody's downgrade",
+      "originPress": "Reuters",
+      "publishedDt": "2025-05-19T18:51:22Z",
+      "revisedDt": "2025-05-19T18:56:57Z",
+      "tickerList": [
+        {
+          "ric": "AAPL.O",
+          "ticker": "AAPL",
+          "companyName": "Apple",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/AAPL.O.png"
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        },
+        {
+          "ric": "GOOGL.O",
+          "ticker": "GOOGL",
+          "companyName": "Alphabet Class A",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/GOOGL.O.png"
+        },
+        {
+          "ric": "NVAX.O",
+          "ticker": "NVAX",
+          "companyName": "Novavax ADR",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/NVAX.O.png"
+        }
+      ]
+    },
+    {
+      "newsId": 126547,
+      "title": "US STOCKS-Wall Street stocks edge lower with sentiment weakened by Moody's downgrade",
+      "originPress": "Reuters",
+      "publishedDt": "2025-05-19T18:51:22Z",
+      "revisedDt": "2025-05-19T18:55:00Z",
+      "tickerList": [
+        {
+          "ric": "AAPL.O",
+          "ticker": "AAPL",
+          "companyName": "Apple",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/AAPL.O.png"
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        },
+        {
+          "ric": "GOOGL.O",
+          "ticker": "GOOGL",
+          "companyName": "Alphabet Class A",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/GOOGL.O.png"
+        },
+        {
+          "ric": "NVAX.O",
+          "ticker": "NVAX",
+          "companyName": "Novavax ADR",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/NVAX.O.png"
+        }
+      ]
+    },
+    {
+      "newsId": 126454,
+      "title": "[No Title]",
+      "originPress": "Reuters",
+      "publishedDt": "2025-05-19T17:46:58Z",
+      "revisedDt": "2025-05-19T17:47:07Z",
+      "tickerList": [
+        {
+          "ric": "NVAX.O",
+          "ticker": "NVAX",
+          "companyName": "Novavax ADR",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/NVAX.O.png"
+        },
+        {
+          "ric": "MAR.O",
+          "ticker": "MAR",
+          "companyName": "Marriott International",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/MAR.O.png"
+        },
+        {
+          "ric": "AMZN.O",
+          "ticker": "AMZN",
+          "companyName": "Amazon",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/AMZN.O.png"
+        },
+        {
+          "ric": "PLUG.O",
+          "ticker": "PLUG",
+          "companyName": "Plug Power",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/PLUG.O.png"
+        },
+        {
+          "ric": "RILY.O",
+          "ticker": "RILY",
+          "companyName": "B Riley Financial",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/RILY.O.png"
+        },
+        {
+          "ric": "NFLX.O",
+          "ticker": "NFLX",
+          "companyName": "Netflix",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/NFLX.O.png"
+        },
+        {
+          "ric": "MSFT.O",
+          "ticker": "MSFT",
+          "companyName": "Microsoft",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/MSFT.O.png"
+        },
+        {
+          "ric": "TLN.O",
+          "ticker": "TLN",
+          "companyName": "Talen Energy Corp",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "NEXT.O",
+          "ticker": "NEXT",
+          "companyName": "NextDecade",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/NEXT.O.png"
+        },
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        },
+        {
+          "ric": "AAfPL.O",
+          "ticker": "AAPL",
+          "companyName": "Apple",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/AAPL.O.png"
+        },
+        {
+          "ric": "APA.O",
+          "ticker": "APA",
+          "companyName": "APA",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/APA.O.png"
+        },
+        {
+          "ric": "RR.O",
+          "ticker": "RR",
+          "companyName": "Richtech Robotics",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/RR.O.png"
+        },
+        {
+          "ric": "REGN.O",
+          "ticker": "REGN",
+          "companyName": "Regeneron Pharmaceuticals",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/REGN.O.png"
+        },
+        {
+          "ric": "CRWV.O",
+          "ticker": "CRWV",
+          "companyName": "CoreWeave Inc",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/stock.png"
+        },
+        {
+          "ric": "BGC.O",
+          "ticker": "BGC",
+          "companyName": "BGC Group",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/BGC.O.png"
+        }
+      ]
+    },
+    {
+      "newsId": 126295,
+      "title": "US STOCKS-Wall St falls after Moody's surprise downgrade; yields rise",
+      "originPress": "Reuters",
+      "publishedDt": "2025-05-19T16:18:43Z",
+      "revisedDt": "2025-05-19T16:27:15Z",
+      "tickerList": [
+        {
+          "ric": "TSLA.O",
+          "ticker": "TSLA",
+          "companyName": "Tesla",
+          "exchangeCountry": "US",
+          "exchange": "NASDAQ",
+          "score": 1.0,
+          "companyImageUrl": "https://hub.waiker.ai/logo/square/TSLA.O.png"
+        }
+      ]
+    }
+  ]
+}
+<!-- Iframe 임베딩 -->
+<iframe
+    id="bb715740-b256-4d2b-8087-b55dd9613305" 
+    src="https://beta-embed.waiker.ai/preview?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiYmZjNjhjMTBiYzljNGQxODg3ZjA5OGY5MGJmNWFjOWUifQ.dFUBr-7fACm7Stvz1QH5ax7YbDtnT8Aeg-UuRwVdQQE&ric=TSLA.O"
+    class="h-full w-full"
+></iframe>  
 
-// 아래는 2025년 6월 기준 애플의 최신 주가 차트입니다. 차트는 TradingView의 고급 차트 위젯을 통해 제공되며, 일간(Daily) 간격으로 NASDAQ:AAPL의 주가 움직임을 보여줍니다. 비교 대상으로는 AMEX:SPY(미국 S&P 500 ETF)와 NASDAQ:QQQ(나스닥 100 ETF)가 포함되어 있어, 애플 주가의 상대적 움직임을 확인할 수 있습니다.
+<script>
+    const iframe = document.getElementById('bb715740-b256-4d2b-8087-b55dd9613305');
+    
+    iframe.onload = () => {
+    iframe.contentWindow.postMessage(
+        {
+        type: 'update_config',
+        data: {
+            productKey: 'WAIKER-WIDGET-748',
+            configData: {
+                "theme": "system",
+                "lang": "en",
+                "currency": {"hide": false, "defaultCurrency": "USD", "exchangeCurrency": "USD"},
+                "data": [{"sort": 1, "typeDetail": "ITEM_MODULE", "componentName": "ItemInsiderTransactions"}]
+            }
+        },
+        },
+        '*'
+    );
+    };
+</script>
 
-// <div class="tradingview-widget-container" style="width:100%">
-//     <div class="tradingview-widget-container__widget" style="height:600px;width:100%"></div>
-//     <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
-//     <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-//       {"allow_symbol_change": true, "calendar": false, "details": false, "hide_side_toolbar": true, "hide_top_toolbar": false, "hide_legend": false, "hide_volume": true, "hotlist": false, "interval": "D", "locale": "en", "save_image": true, "style": "2", "symbol": "NASDAQ:AAPL", "theme": "dark", "timezone": "Etc/UTC", "backgroundColor": "#ffffff", "gridColor": "rgba(46, 46, 46, 0.06)", "watchlist": [], "withdateranges": false, "compareSymbols": [{"symbol": "AMEX:SPY", "position": "SameScale"}, {"symbol": "NASDAQ:QQQ", "position": "SameScale"}], "studies": [], "height": 600}
-//     </script>
-// </div>
 
-// ### 2.1. 주가 동향
+<iframe
+    id="bb715740-b256-4d2b-8087-123124124" 
+    src="https://qa-embed.waiker.ai/34?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiYmZjNjhjMTBiYzljNGQxODg3ZjA5OGY5MGJmNWFjOWUifQ.dFUBr-7fACm7Stvz1QH5ax7YbDtnT8Aeg-UuRwVdQQE&ric=TSLA.O"
+    class="h-full w-full"
+></iframe>  
 
-// - **최근 1년간 주가 흐름**: 애플 주가는 전반적으로 상승세를 유지하고 있으며, 기술주 전반의 변동성에도 불구하고 견고한 성장세를 보이고 있습니다.
-// - **비교 지수 대비 성과**: S&P 500 및 나스닥 100 ETF 대비 애플 주가는 상대적으로 강한 상승 모멘텀을 유지하고 있어, 시장 내에서의 경쟁력과 투자 매력도를 반영합니다.
 
-// ---
+# Tesla, Inc. (TSLA)
+**Sector**: Consumer Cyclical
+**Industry**: Auto - Manufacturers
+**CEO**: Elon R. Musk
+**Description**: Tesla, Inc. designs, develops, manufactures, leases, and sells electric vehicles, and energy generation and storage systems in the United States, China, and internationally. It operates in two segments, Automotive, and Energy Generation and Storage. The Automotive segment offers electric vehicles, as well as sells automotive regulatory credits; and non-warranty after-sales vehicle, used vehicles, retail merchandise, and vehicle insurance services. This segment also provides sedans and sport utility vehicles through direct and used vehicle sales, a network of Tesla Superchargers, and in-app upgrades; purchase financing and leasing services; services for electric vehicles through its company-owned service locations and Tesla mobile service technicians; and vehicle limited warranties and extended service plans. The Energy Generation and Storage segment engages in the design, manufacture, installation, sale, and leasing of solar energy generation and energy storage products, and related services to residential, commercial, and industrial customers and utilities through its website, stores, and galleries, as well as through a network of channel partners; and provision of service and repairs to its energy product customers, including under warranty, as well as various financing options to its solar customers. The company was formerly known as Tesla Motors, Inc. and changed its name to Tesla, Inc. in February 2017. Tesla, Inc. was incorporated in 2003 and is headquartered in Austin, Texas.
 
-// ## 3. 애플 관련 최신 뉴스
+## Financial Overview
+**Market Cap**: $N/A
+**Price**: $317.66
+**Beta**: 2.461
+**Volume Average**: N/A
+**DCF**: $N/A
 
-// 아래는 애플과 관련된 최근 5건의 주요 뉴스 목록입니다. 뉴스는 시장 동향, 신제품 출시, 경영 전략, 규제 이슈 등 다양한 측면을 다루고 있어 투자 판단에 중요한 참고 자료가 됩니다.
+## Key Metrics
+**P/E Ratio**: N/A
+**EPS**: $N/A
+**ROE**: N/A
+**ROA**: N/A
+**Revenue Per Share**: $N/A
 
-// <!-- Waiker News Widget BEGIN -->
-// <div class="waiker-news-widget-container" style="height:600px; width:100%;">
-//   <div class="waiker-news-widget-container__widget"></div>
-//   <script type="application/json">
-//     {"mode": "list", "height": "600px", "width": "100%", "lang": "en", "symbolWcodeList": ["AAPL.NQ"], "page": 0, "size": 5}
-//   </script>
-// </div>
-// <!-- Waiker News Widget END -->
+## Additional Information
+**Website**: https://www.tesla.com
+**Exchange**: NASDAQ
+**Founded**: 2010-06-29
+<div class="tradingview-widget-container" style="width:100%">
+    <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+    <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+  {"allow_symbol_change": true, "calendar": false, "details": false, "hide_side_toolbar": true, "hide_top_toolbar": false, "hide_legend": false, "hide_volume": true, "hotlist": false, "interval": "D", "locale": "en", "save_image": true, "style": "2", "symbol": "NASDAQ:TSLA", "theme": "dark", "timezone": "Etc/UTC", "backgroundColor": "#ffffff", "gridColor": "rgba(46, 46, 46, 0.06)", "watchlist": [], "withdateranges": false, "compareSymbols": [{"symbol": "AMEX:SPY", "position": "SameScale"}, {"symbol": "NASDAQ:QQQ", "position": "SameScale"}], "studies": [], "height": 600}
+  </script>
+</div>
+<!-- TradingView Widget END -->
+# Income Statement for TSLA
 
-// ### 3.1. 뉴스 요약
+## Period: 2025-03-31
+**Report Type**: Q1
+**Currency**: USD
+**Fiscal Year**: 2025
+**Filing Date**: 2025-04-23
+**Accepted Date**: 2025-04-22 21:02:10
+**CIK**: 0001318605
 
-// - **신제품 출시 및 혁신**: 최근 애플은 차세대 아이폰 및 AR/VR 기기 출시 계획을 발표하며, 기술 혁신에 대한 기대감을 높이고 있습니다.
-// - **재무 실적 발표**: 2025년 2분기 실적 발표에서 매출과 순이익이 시장 예상치를 상회하며 주가 상승에 긍정적인 영향을 미쳤습니다.
-// - **규제 및 법적 이슈**: 일부 국가에서의 반독점 조사 및 개인정보 보호 관련 규제 강화 움직임이 있으나, 애플은 이에 적극 대응 중입니다.
-// - **시장 확장 전략**: 신흥 시장에서의 판매 확대 및 서비스 부문 강화 전략이 주목받고 있습니다.
-// - **주주 환원 정책**: 배당 확대 및 자사주 매입 계획이 투자자 신뢰를 높이고 있습니다.
+### Revenue Metrics
+**Revenue**: $19,335,000,000
+**Cost of Revenue**: $16,182,000,000
+**Gross Profit**: $3,153,000,000
 
-// ---
+### Expense Breakdown
+**Research and Development**: $1,409,000,000
+**Selling, General, and Administrative**: $1,251,000,000
+**General and Administrative**: $0
+**Selling and Marketing**: $0
+**Other Expenses**: $94,000,000
+**Operating Expenses**: $2,754,000,000
+**Cost and Expenses**: $18,936,000,000
+**Depreciation and Amortization**: $1,447,000,000
 
-// ## 4. 기관 투자자 보유 현황 및 주식 보유 거래 내역
+### Income and Profitability
+**Net Interest Income**: $309,000,000
+**Interest Income**: $400,000,000
+**Interest Expense**: $91,000,000
+**Non-Operating Income**: $-281,000,000
+**Other Income/Expenses Net**: $190,000,000
 
-// 기관 투자자들의 보유 현황과 거래 내역은 애플 주가의 안정성과 향후 방향성을 가늠하는 데 중요한 지표입니다.
+### Operating Metrics
+**Operating Income**: $399,000,000
+**EBITDA**: $2,127,000,000
+**EBIT**: $680,000,000
 
-// <!-- Iframe 임베딩: 기관 투자자 보유 현황 -->
-// <iframe
-//     id="f26c88ca-779f-43d3-a296-87014411dae5"
-//     src="https://beta-embed.waiker.ai/preview?jwt=$eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiM2ZkM2RhZTI2MzE4NDMwYTljOGQ2MDQ5NTZiZTk1NzQifQ._-HomwncHFAKualS6geMi_OfIDUWAmRaDkRCRae8uFs&ric=AAPL.O"
-//     class="h-full w-full"
-//     style="height:600px; width:100%; border:none;"
-// ></iframe>
+### Tax and Net Income
+**Income Before Tax**: $589,000,000
+**Income Tax Expense**: $169,000,000
+**Net Income from Continuing Operations**: $420,000,000
+**Net Income from Discontinued Operations**: $0
+**Other Adjustments to Net Income**: $0
+**Net Income Deductions**: $0
+**Net Income**: $409,000,000
+**Bottom Line Net Income**: $409,000,000
 
-// ### 4.1. 기관 투자자 동향
+### Per Share Data
+**EPS**: $0.13
+**EPS Diluted**: $0.12
+**Weighted Average Shares Outstanding**: 3,218,000,000
+**Weighted Average Shares Outstanding (Diluted)**: 3,521,000,000
 
-// - 주요 기관 투자자들은 애플 주식을 꾸준히 보유하고 있으며, 일부 기관은 최근 매수세를 강화하는 모습입니다.
-// - 대형 펀드 및 연기금의 비중이 높아 주가의 안정성에 긍정적 영향을 미치고 있습니다.
+## Period: 2024-12-31
+**Report Type**: Q4
+**Currency**: USD
+**Fiscal Year**: 2024
+**Filing Date**: 2025-01-30
+**Accepted Date**: 2025-01-29 20:42:33
+**CIK**: 0001318605
 
-// ### 4.2. 주식 보유 거래 내역
+### Revenue Metrics
+**Revenue**: $25,707,000,000
+**Cost of Revenue**: $21,528,000,000
+**Gross Profit**: $4,179,000,000
 
-// <!-- Iframe 임베딩: 주식 보유 거래 내역 -->
-// <iframe
-//     id="36354473-8454-4b0d-b067-ed455834a31d"
-//     src="https://beta-embed.waiker.ai/preview?jwt=$eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiM2ZkM2RhZTI2MzE4NDMwYTljOGQ2MDQ5NTZiZTk1NzQifQ._-HomwncHFAKualS6geMi_OfIDUWAmRaDkRCRae8uFs&ric=AAPL.O"
-//     class="h-full w-full"
-//     style="height:600px; width:100%; border:none;"
-// ></iframe>
+### Expense Breakdown
+**Research and Development**: $1,276,000,000
+**Selling, General, and Administrative**: $1,313,000,000
+**General and Administrative**: $0
+**Selling and Marketing**: $0
+**Other Expenses**: $7,000,000
+**Operating Expenses**: $2,596,000,000
+**Cost and Expenses**: $24,124,000,000
+**Depreciation and Amortization**: $1,496,000,000
 
-// - 최근 기관들의 매수 및 매도 거래 내역을 통해 시장의 관심도와 투자 심리를 파악할 수 있습니다.
-// - 거래량과 거래 빈도는 주가 변동성에 직접적인 영향을 미치며, 현재는 매수세가 다소 우세한 상황입니다.
+### Income and Profitability
+**Net Interest Income**: $346,000,000
+**Interest Income**: $442,000,000
+**Interest Expense**: $96,000,000
+**Non-Operating Income**: $-1,279,000,000
+**Other Income/Expenses Net**: $1,183,000,000
 
-// ---
+### Operating Metrics
+**Operating Income**: $1,583,000,000
+**EBITDA**: $4,358,000,000
+**EBIT**: $2,862,000,000
 
-// ## 5. 내부자 거래 현황
+### Tax and Net Income
+**Income Before Tax**: $2,766,000,000
+**Income Tax Expense**: $434,000,000
+**Net Income from Continuing Operations**: $2,332,000,000
+**Net Income from Discontinued Operations**: $0
+**Other Adjustments to Net Income**: $None
+**Net Income Deductions**: $42,000,000
+**Net Income**: $2,356,000,000
+**Bottom Line Net Income**: $2,314,000,000
 
-// 내부자 거래는 경영진 및 주요 임원들의 주식 매매 활동을 의미하며, 기업 내부자의 신뢰도와 미래 전망에 대한 신호로 해석됩니다.
+### Per Share Data
+**EPS**: $0.72
+**EPS Diluted**: $0.66
+**Weighted Average Shares Outstanding**: 3,213,000,000
+**Weighted Average Shares Outstanding (Diluted)**: 3,517,000,000
 
-// <!-- Iframe 임베딩: 내부자 거래 현황 -->
-// <iframe
-//     id="cd8b6bf5-c8a9-412d-b9b6-8d42e43b64eb"
-//     src="https://beta-embed.waiker.ai/preview?jwt=$eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiM2ZkM2RhZTI2MzE4NDMwYTljOGQ2MDQ5NTZiZTk1NzQifQ._-HomwncHFAKualS6geMi_OfIDUWAmRaDkRCRae8uFs&ric=AAPL.O"
-//     class="h-full w-full"
-//     style="height:600px; width:100%; border:none;"
-// ></iframe>
+## Period: 2024-09-30
+**Report Type**: Q3
+**Currency**: USD
+**Fiscal Year**: 2024
+**Filing Date**: 2024-10-24
+**Accepted Date**: 2024-10-23 20:42:47
+**CIK**: 0001318605
 
-// ### 5.1. 내부자 매매 동향
+### Revenue Metrics
+**Revenue**: $25,182,000,000
+**Cost of Revenue**: $20,185,000,000
+**Gross Profit**: $4,997,000,000
 
-// - 최근 내부자들의 주식 매수 활동이 증가하고 있어, 경영진이 회사의 미래 성장에 대해 긍정적으로 보고 있음을 시사합니다.
-// - 내부자 매도는 제한적이며, 이는 주가에 대한 신뢰를 반영하는 긍정적 신호로 해석됩니다.
+### Expense Breakdown
+**Research and Development**: $1,039,000,000
+**Selling, General, and Administrative**: $1,186,000,000
+**General and Administrative**: $0
+**Selling and Marketing**: $0
+**Other Expenses**: $55,000,000
+**Operating Expenses**: $2,280,000,000
+**Cost and Expenses**: $22,465,000,000
+**Depreciation and Amortization**: $1,348,000,000
 
-// ---
+### Income and Profitability
+**Net Interest Income**: $337,000,000
+**Interest Income**: $429,000,000
+**Interest Expense**: $92,000,000
+**Non-Operating Income**: $-159,000,000
+**Other Income/Expenses Net**: $67,000,000
 
-// ## 6. 주요 일정 및 캘린더 정보
+### Operating Metrics
+**Operating Income**: $2,717,000,000
+**EBITDA**: $4,224,000,000
+**EBIT**: $2,876,000,000
 
-// 애플의 향후 주요 일정은 투자자들이 주가 변동에 대비하는 데 중요한 역할을 합니다.
+### Tax and Net Income
+**Income Before Tax**: $2,784,000,000
+**Income Tax Expense**: $601,000,000
+**Net Income from Continuing Operations**: $2,183,000,000
+**Net Income from Discontinued Operations**: $0
+**Other Adjustments to Net Income**: $0
+**Net Income Deductions**: $0
+**Net Income**: $2,167,000,000
+**Bottom Line Net Income**: $2,167,000,000
 
-// <!-- Iframe 임베딩: 주요 일정 캘린더 -->
-// <iframe
-//     id="8b443464-7b98-4890-95ad-a52d418304ef"
-//     src="https://beta-embed.waiker.ai/preview?jwt=$eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiM2ZkM2RhZTI2MzE4NDMwYTljOGQ2MDQ5NTZiZTk1NzQifQ._-HomwncHFAKualS6geMi_OfIDUWAmRaDkRCRae8uFs&ric=AAPL.O"
-//     class="h-full w-full"
-//     style="height:600px; width:100%; border:none;"
-// ></iframe>
+### Per Share Data
+**EPS**: $0.68
+**EPS Diluted**: $0.62
+**Weighted Average Shares Outstanding**: 3,198,000,000
+**Weighted Average Shares Outstanding (Diluted)**: 3,497,000,000
 
-// ### 6.1. 예정된 이벤트
+## Period: 2024-06-30
+**Report Type**: Q2
+**Currency**: USD
+**Fiscal Year**: 2024
+**Filing Date**: 2024-07-24
+**Accepted Date**: 2024-07-23 19:41:09
+**CIK**: 0001318605
 
-// - 분기 실적 발표일
-// - 주주총회 및 배당 결정일
-// - 신제품 발표회 및 기술 컨퍼런스 일정
+### Revenue Metrics
+**Revenue**: $25,500,000,000
+**Cost of Revenue**: $20,922,000,000
+**Gross Profit**: $4,578,000,000
 
-// 이러한 일정들은 주가에 단기적 변동성을 유발할 수 있으므로 투자자들의 주의가 필요합니다.
+### Expense Breakdown
+**Research and Development**: $1,074,000,000
+**Selling, General, and Administrative**: $1,277,000,000
+**General and Administrative**: $0
+**Selling and Marketing**: $0
+**Other Expenses**: $622,000,000
+**Operating Expenses**: $2,973,000,000
+**Cost and Expenses**: $23,895,000,000
+**Depreciation and Amortization**: $1,278,000,000
 
-// ---
+### Income and Profitability
+**Net Interest Income**: $262,000,000
+**Interest Income**: $348,000,000
+**Interest Expense**: $86,000,000
+**Non-Operating Income**: $-368,000,000
+**Other Income/Expenses Net**: $282,000,000
 
-// ## 7. 배당 정보 및 실적 개요
+### Operating Metrics
+**Operating Income**: $1,605,000,000
+**EBITDA**: $3,251,000,000
+**EBIT**: $1,973,000,000
 
-// 애플은 안정적인 배당 정책과 견고한 실적을 바탕으로 투자자들에게 매력적인 수익 기회를 제공하고 있습니다.
+### Tax and Net Income
+**Income Before Tax**: $1,887,000,000
+**Income Tax Expense**: $393,000,000
+**Net Income from Continuing Operations**: $1,494,000,000
+**Net Income from Discontinued Operations**: $0
+**Other Adjustments to Net Income**: $0
+**Net Income Deductions**: $0
+**Net Income**: $1,478,000,000
+**Bottom Line Net Income**: $1,478,000,000
 
-// ### 7.1. 배당 정책
+### Per Share Data
+**EPS**: $0.46
+**EPS Diluted**: $0.42
+**Weighted Average Shares Outstanding**: 3,191,000,000
+**Weighted Average Shares Outstanding (Diluted)**: 3,481,000,000
+No company notes data found for symbol TSLA
+No dividend data found for symbol TSLA
+# Analyst Ratings for TSLA
+*Data as of 2025-07-01 03:16:18*
 
-// - 애플은 분기별 배당금을 지급하며, 최근 배당금은 주당 약 0.24달러 수준입니다.
-// - 배당 수익률은 약 0.6% 내외로, 기술주 중에서는 안정적인 편에 속합니다.
-// - 자사주 매입 프로그램도 활발히 진행 중이며, 이는 주가 부양에 긍정적 영향을 미칩니다.
+## Rating Summary
+**Rating**: B-
+**Overall Score**: 2/5
 
-// ### 7.2. 최근 실적
+## Component Scores
+**Discounted Cash Flow Score**: 2/5
+**Return on Equity Score**: 3/5
+**Return on Assets Score**: 4/5
+**Debt to Equity Score**: 3/5
+**Price to Earnings Score**: 1/5
+**Price to Book Score**: 1/5
 
-// - 2025년 2분기 매출은 약 1,200억 달러, 순이익은 약 350억 달러로 전년 동기 대비 각각 8%, 10% 증가하였습니다.
-// - 서비스 부문과 웨어러블 기기 매출이 크게 성장하며 전체 실적을 견인하고 있습니다.
-// - 글로벌 공급망 안정화와 비용 효율화 노력도 수익성 개선에 기여하고 있습니다.
+## Rating System Explanation
+The rating is based on a scale of A+ to F, where:
+- A+ to A-: Strong Buy/Buy (Score 5-4)
+- B+ to B-: Outperform (Score 4-3)
+- C+ to C-: Hold/Neutral (Score 3-2)
+- D+ to D-: Underperform (Score 2-1)
+- F: Sell (Score < 1)
 
-// ---
+Each component score is rated from 1 (worst) to 5 (best).
 
-// ## 8. 종합 평가 및 전망
-
-// 애플 주가는 현재 견고한 성장세와 안정적인 재무구조를 바탕으로 긍정적인 투자 매력을 유지하고 있습니다. 주요 기술 혁신과 신제품 출시, 강력한 브랜드 파워, 그리고 글로벌 시장에서의 확장 전략이 주가 상승을 견인하는 주요 요인입니다.
-
-// 기관 투자자와 내부자의 매수세가 지속되고 있으며, 배당과 자사주 매입을 통한 주주 환원 정책도 투자자 신뢰를 높이고 있습니다. 다만, 글로벌 경제 불확실성과 규제 리스크는 주가 변동성의 변수로 작용할 수 있으므로 주의가 필요합니다.
-
-// 향후 애플은 AR/VR, 인공지능, 헬스케어 등 신성장 동력 분야에서의 성과가 주가에 중요한 영향을 미칠 것으로 예상됩니다. 투자자들은 이러한 기술 트렌드와 기업의 전략적 대응을 면밀히 관찰할 필요가 있습니다.
-
-// ---
-
-// ## 9. 참고 문헌
-
-// [1] Apple Inc. (2025, June). Advanced Chart - NASDAQ:AAPL. TradingView. [https://www.tradingview.com/symbols/NASDAQ-AAPL/](https://www.tradingview.com/symbols/NASDAQ-AAPL/)
-
-// [2] Waiker News Widget. (2025). Apple Inc. Latest News. Waiker. [https://beta-embed.waiker.ai/preview?ric=AAPL.NQ](https://beta-embed.waiker.ai/preview?ric=AAPL.NQ)
-
-// [3] Waiker Institutional Holdings. (2025). Apple Institutional Investor Positions. Waiker. [https://beta-embed.waiker.ai/preview?ric=AAPL.O](https://beta-embed.waiker.ai/preview?ric=AAPL.O)
-
-// [4] Waiker Insider Transactions. (2025). Apple Insider Trading Activity. Waiker. [https://beta-embed.waiker.ai/preview?ric=AAPL.O](https://beta-embed.waiker.ai/preview?ric=AAPL.O)
-
-// [5] Waiker Calendar Meta. (2025). Apple Key Events Calendar. Waiker. [https://beta-embed.waiker.ai/preview?ric=AAPL.O](https://beta-embed.waiker.ai/preview?ric=AAPL.O)
-
-// ---
-
-// 본 보고서는 2025년 6월 27일 기준 최신 데이터를 바탕으로 작성되었으며, 투자 판단 시 참고용으로 활용하시기 바랍니다."`;
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://hub.waiker.ai/management/widget/earnings/waiker-performance-widget.cdn.css"
+    />
+  </head>
+  <body>
+    <!-- Waiker Performance Widget BEGIN -->
+    <div class="waiker-performance-widget-container">
+      <div class="waiker-performance-widget-container__widget"></div>
+      <script type="application/json">
+        {"ric": "TSLA.O", "height": "100px", "width": "600px", "language": "en", "currency": "USD"}
+      </script>
+    </div>
+    <script src="https://hub.waiker.ai/management/widget/earnings/waiker-performance-widget.cdn.iife.js" async>
+      console.log("~~~~~~wowowo");
+    </script>
+    <script>
+      console.log("~~~~~~222222");
+    </script>
+    <!-- Waiker Performance Widget END -->
+  </body>
+</html>`;
 
 // answer에서 ```html ... ```, ```iframe ... ``` 코드블록, <iframe ...>...</iframe> 태그, <div ...>...</div> 등 주요 HTML 태그를 추출하는 함수
 function parseAnswer(answer: string) {
@@ -228,6 +1317,24 @@ function parseAnswer(answer: string) {
     return "";
   });
 
+  // <html ...>...</html> 태그 추출 (여러 개 가능, 중첩은 단순 처리)
+  text = text.replace(/<html[\s\S]*?<\/html>/gi, (match) => {
+    htmlBlocks.push(match.trim());
+    return "";
+  });
+
+  // <head ...>...</head> 태그 추출 (여러 개 가능, 중첩은 단순 처리)
+  text = text.replace(/<head[\s\S]*?<\/head>/gi, (match) => {
+    htmlBlocks.push(match.trim());
+    return "";
+  });
+
+  // <body ...>...</body> 태그 추출 (여러 개 가능, 중첩은 단순 처리)
+  text = text.replace(/<body[\s\S]*?<\/body>/gi, (match) => {
+    htmlBlocks.push(match.trim());
+    return "";
+  });
+
   return {
     text: text.trim(),
     htmlBlocks,
@@ -237,93 +1344,174 @@ function parseAnswer(answer: string) {
 }
 
 export const ChatMessage = ({
-  question,
   answer,
   isWaiting,
-}: ChatMessageProps) => {
+}: Omit<ChatMessageProps, "question">) => {
   let parsed = {
     text: answer || "",
     htmlBlocks: [] as string[],
     iframeBlocks: [] as string[],
     scriptBlocks: [] as string[],
   };
-  if (answer) {
-    parsed = parseAnswer(answer);
-  }
-
-  // parsed = parseAnswer(answer);
+  // if (answer) {
+  //   parsed = parseAnswer(answer);
+  // }
+  parsed = parseAnswer(temp);
 
   const scriptContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // scriptBlocks를 실제 DOM에 삽입 및 실행
-    if (scriptContainerRef.current && parsed.scriptBlocks.length > 0) {
+    if (scriptContainerRef.current) {
+      scriptContainerRef.current.innerHTML = "";
       parsed.scriptBlocks.forEach((scriptStr) => {
         const tempDiv = document.createElement("div");
         tempDiv.innerHTML = scriptStr;
         const scriptTag = tempDiv.querySelector("script");
         if (scriptTag) {
           const newScript = document.createElement("script");
-          // src 속성 복사
           if (scriptTag.src) newScript.src = scriptTag.src;
-          // inline script 복사
-          if (scriptTag.innerHTML) newScript.innerHTML = scriptTag.innerHTML;
-          // type, async 등 속성 복사
+          if (scriptTag.textContent)
+            newScript.textContent = scriptTag.textContent;
           Array.from(scriptTag.attributes).forEach((attr) => {
             if (attr.name !== "src")
               newScript.setAttribute(attr.name, attr.value);
           });
-          scriptContainerRef.current?.appendChild(newScript);
+          scriptContainerRef?.current?.appendChild(newScript);
         }
       });
     }
-    // cleanup: script 제거
     return () => {
       if (scriptContainerRef.current) scriptContainerRef.current.innerHTML = "";
     };
-  }, [answer]);
+  }, [parsed.scriptBlocks]);
+
+  console.log(parsed);
 
   return (
     <div className="w-full flex flex-col gap-4">
       {/* 질문 */}
-      <div className="self-end bg-green700 text-white px-5 py-3 rounded-2xl rounded-br-sm shadow-lg max-w-[70%] text-base animate-fade-in">
+      {/* <div className="self-end bg-green700 text-white px-5 py-3 rounded-2xl rounded-br-sm shadow-lg max-w-[70%] text-base animate-fade-in">
         {question}
-      </div>
+      </div> */}
 
       {/* 대기 중인 경우 로딩 표시 */}
       {isWaiting && <LoadingIndicator />}
 
       {/* 답변 텍스트 */}
-      {parsed.text && (
+      {/* {parsed.text && (
         <div
           className="self-start bg-mono100 text-mono900 px-5 py-3 rounded-2xl rounded-bl-sm shadow max-w-[70%] text-base animate-fade-in"
           style={{ whiteSpace: "pre-line" }}
         >
           {parsed.text}
         </div>
-      )}
+      )} */}
 
       {/* HTML 코드블록 및 주요 태그 렌더링 */}
-      {parsed.htmlBlocks.map((code, idx) => (
-        <div
-          key={"html-" + idx}
-          className="self-start bg-mono100 text-mono900 px-5 py-3 rounded-2xl rounded-bl-sm shadow max-w-[70%] text-base animate-fade-in"
-        >
-          <span dangerouslySetInnerHTML={{ __html: code }} />
+      {/* {parsed.htmlBlocks.length > 0 && (
+        <div className="w-[375px] h-[800px] flex items-center justify-center">
+          <div
+            className="self-start bg-mono100 text-mono900 px-5 py-3 rounded-2xl rounded-bl-sm shadow max-w-[70%] text-base animate-fade-in w-full h-full"
+            dangerouslySetInnerHTML={{ __html: parsed.htmlBlocks.join("\n") }}
+          />
         </div>
-      ))}
+      )} */}
 
       {/* iframe 코드블록 및 태그 렌더링 */}
-      {parsed.iframeBlocks.map((code, idx) => (
+      {/* {parsed.iframeBlocks.map((code, idx) => (
         <div
           key={"iframe-" + idx}
-          className="self-start bg-mono100 text-mono900 px-5 py-3 rounded-2xl rounded-bl-sm shadow max-w-[70%] text-base animate-fade-in"
+          className="w-[500px] h-[800px] flex items-center justify-center"
         >
-          <span dangerouslySetInnerHTML={{ __html: code }} />
+          <div className="self-start bg-mono100 text-mono900 px-5 py-3 rounded-2xl rounded-bl-sm shadow max-w-[70%] text-base animate-fade-in w-full h-full">
+            <span dangerouslySetInnerHTML={{ __html: code }} />
+          </div>
         </div>
-      ))}
+      ))} */}
 
+      {/* <div
+        id="test2"
+        dangerouslySetInnerHTML={{
+          __html: `<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://hub.waiker.ai/management/widget/earnings/waiker-performance-widget.cdn.css"
+    />
+  </head>
+  <body>
+    <!-- Waiker Performance Widget BEGIN -->
+    <div class="waiker-performance-widget-container">
+      <div class="waiker-performance-widget-container__widget"></div>
+      <script type="application/json" async>
+        {"ric": "AAPL.O", "height": "610px", "width": "980px", "language": "en", "currency": "USD"}
+        console.log("~~~~~~wowowo");
+      </script>
+    </div>
+    <script src="https://hub.waiker.ai/management/widget/earnings/waiker-performance-widget.cdn.iife.js" async></script>
+    <!-- Waiker Performance Widget END -->
+  </body>
+</html>
+`,
+        }}
+      ></div> */}
+
+      <HtmlRenderer
+        htmlString={`
+<iframe
+    id="5b967aa1-0282-41b0-836b-a68cc39ee88c" 
+    src="https://qa-embed.waiker.ai/preview?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiYmZjNjhjMTBiYzljNGQxODg3ZjA5OGY5MGJmNWFjOWUifQ.dFUBr-7fACm7Stvz1QH5ax7YbDtnT8Aeg-UuRwVdQQE&ric=TSLA.O"
+    class="h-full w-full"
+></iframe>  
+
+<script>
+  const iframeDiv = document.getElementById('5b967aa1-0282-41b0-836b-a68cc39ee88c');
+    
+  iframeDiv.onload = () => {
+    iframeDiv.contentWindow.postMessage(
+      {
+        type: 'update_config',
+        data: {
+            productKey: 'WAIKER-WIDGET-369',
+            configData: {
+                "theme": "system",
+                "lang": "en",
+                "currency": {"hide": false, "defaultCurrency": "USD", "exchangeCurrency": "USD"},
+                "data": [{"sort": 1, "typeDetail": "ITEM_MODULE", "componentName": "PoliticianStockTransaction"}]
+            }
+        },
+      },
+      '*'
+    );
+  };
+</script>
+`}
+      />
       <div ref={scriptContainerRef} />
     </div>
   );
 };
+
+function HtmlRenderer({ htmlString }: { htmlString: string }) {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  useEffect(() => {
+    if (!iframeRef.current || !htmlString) return;
+    // HTML 문자열을 blob URL로 변환
+    const blob = new Blob([htmlString], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    // iframe에 HTML 로드
+    iframeRef.current.src = url;
+    // 정리 작업
+    return () => {
+      URL.revokeObjectURL(url);
+    };
+  }, [htmlString]);
+  return (
+    <iframe
+      sandbox="allow-scripts allow-same-origin allow-forms"
+      className="w-full min-h-[600px] border-0"
+      title="Dynamic HTML Content"
+      ref={iframeRef}
+    />
+  );
+}

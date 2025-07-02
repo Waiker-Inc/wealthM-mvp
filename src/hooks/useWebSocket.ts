@@ -68,7 +68,7 @@ const useWebSocket = ({
     const path = window.location.pathname.split("/");
     const sessionIdFromUrl = path.length > 1 && path[1] ? path[1] : null;
 
-    let url = `ws://192.168.20.101:3100/ws/${USER_ID}`;
+    let url = `ws://192.168.20.101:3200/ws/${USER_ID}`;
     if (sessionIdFromUrl) {
       url += `/${sessionIdFromUrl}`;
     }
