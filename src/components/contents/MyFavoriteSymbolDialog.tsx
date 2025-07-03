@@ -4,7 +4,7 @@ import { Dialog, DialogContent } from '../ui/dialog';
 import { Input } from '../ui/input';
 import { Progress } from '../ui/progress';
 import Typography from '../ui/typography';
-import { GripVertical, Images, Search, X } from 'lucide-react';
+import { GripVertical, Images, LoaderCircle, Search, X } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import { useFavoriteSymbols } from '../../hooks/useFavoriteSymbols';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -29,6 +29,7 @@ import { CSS } from '@dnd-kit/utilities';
 import type { FavoriteSymbol } from '@/types/favoritSymbol';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { Star } from 'lucide-react';
+import OCRSymbols, { type OCRResult } from './OCRSymbols';
 
 const TABS: { value: ChartTabEnum; label: string; key: string }[] = [
   { value: 'TURN_OVER', label: '거래대금', key: 'tradeVolume' },
@@ -478,17 +479,24 @@ export default function MyFavoriteSymbolDialog({
   const [, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [activeTab, setActiveTab] = useState<ChartTabEnum>('TURN_OVER');
+  const [ocrResult, setOcrResult] = useState<OCRResult[] | null>(null);
 
   const { mutate: ocr } = useMutation({
     mutationFn: (imageBase64: string) => {
-      return fetch('http://10.40.12.128:15014/p1/ai/ocr', {
+      return fetch('/p1/ai/ocr', {
         method: 'POST',
         body: JSON.stringify({ base64_image: imageBase64 }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
     },
     onSuccess: (data) => {
       setIsProcessing(false);
-      console.log('OCR result:', data);
+      data.json().then((res) => {
+        const result = res.data.ocr_output.workflow_result.result;
+        setOcrResult(result);
+      });
     },
     onError: (error) => {
       setIsProcessing(false);
@@ -569,10 +577,11 @@ export default function MyFavoriteSymbolDialog({
             </Typography>
             {isProcessing ? (
               <div
-                className={`mt-[16px] rounded-[8px] p-[16px] h-[274px] flex items-center justify-center bg-ground2`}
+                className={`mt-[16px] rounded-[8px] p-[16px] h-[274px] flex items-center justify-center bg-ground2 flex-col gap-[24px]`}
               >
-                <Typography size="body-sm" className="text-mono400 text-center">
-                  처리중...
+                <LoaderCircle className="animate-spin" size={24} />
+                <Typography size="body-sm" className="text-center">
+                  등록하신 이미지를 분석해 심볼을 가져오는 중입니다.
                 </Typography>
               </div>
             ) : (
@@ -615,18 +624,21 @@ export default function MyFavoriteSymbolDialog({
                 <SearchInputWithDropdown />
               </div>
             )}
-
-            <StockTable
-              TABS={TABS}
-              TAB_COLUMNS={TAB_COLUMNS}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              data={data || []}
-              ref={ref}
-              isSymbolFavorite={isSymbolFavorite}
-              removeFavoriteSymbol={removeFavoriteSymbol}
-              addFavoriteSymbol={addFavoriteSymbol}
-            />
+            {ocrResult ? (
+              <OCRSymbols isProcessing={isProcessing} ocrResult={ocrResult} />
+            ) : (
+              <StockTable
+                TABS={TABS}
+                TAB_COLUMNS={TAB_COLUMNS}
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                data={data || []}
+                ref={ref}
+                isSymbolFavorite={isSymbolFavorite}
+                removeFavoriteSymbol={removeFavoriteSymbol}
+                addFavoriteSymbol={addFavoriteSymbol}
+              />
+            )}
           </div>
           <FavoriteSidebar onClose={onClose} />
         </div>

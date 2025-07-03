@@ -1,14 +1,14 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import path from "path";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': path.resolve(__dirname, './src'),
     },
   },
   server: {
@@ -22,11 +22,17 @@ export default defineConfig({
       port: 5173,
       overlay: true,
     },
+    proxy: {
+      '/p1': {
+        target: 'http://10.40.12.128:15014',
+        changeOrigin: true,
+      },
+    },
   },
   css: {
     devSourcemap: true,
   },
   optimizeDeps: {
-    include: ["react", "react-dom"],
+    include: ['react', 'react-dom'],
   },
 });
