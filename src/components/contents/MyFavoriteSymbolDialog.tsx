@@ -1,72 +1,71 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useCallback, useEffect, useState } from "react";
-import { Button } from "../ui/button";
-import { Dialog, DialogContent } from "../ui/dialog";
-import { Input } from "../ui/input";
-import { Progress } from "../ui/progress";
-import Typography from "../ui/typography";
-import { GripVertical, Images, Search, X } from "lucide-react";
-import { useDropzone } from "react-dropzone";
-import { useFavoriteSymbols } from "../../hooks/useFavoriteSymbols";
-import { useQuery } from "@tanstack/react-query";
-import { getChartStock, type ChartTabEnum } from "@/api/chart";
-import { cn } from "@/lib/utils";
-import { useInView } from "react-intersection-observer";
-import { getSearchStock, type ResGetSearchStock } from "@/api/search";
-import { useDebounce } from "use-debounce";
+import { useCallback, useEffect, useState } from 'react';
+import { Button } from '../ui/button';
+import { Dialog, DialogContent } from '../ui/dialog';
+import { Input } from '../ui/input';
+import { Progress } from '../ui/progress';
+import Typography from '../ui/typography';
+import { GripVertical, Images, Search, X } from 'lucide-react';
+import { useDropzone } from 'react-dropzone';
+import { useFavoriteSymbols } from '../../hooks/useFavoriteSymbols';
+import { useQuery } from '@tanstack/react-query';
+import { getChartStock, type ChartTabEnum } from '@/api/chart';
+import { cn } from '@/lib/utils';
+import { useInView } from 'react-intersection-observer';
+import { getSearchStock, type ResGetSearchStock } from '@/api/search';
+import { useDebounce } from 'use-debounce';
 import {
   DndContext,
   closestCenter,
   PointerSensor,
   useSensor,
   useSensors,
-} from "@dnd-kit/core";
+} from '@dnd-kit/core';
 import {
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import type { FavoriteSymbol } from "@/types/favoritSymbol";
-import type { DragEndEvent } from "@dnd-kit/core";
-import { Star } from "lucide-react";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import type { FavoriteSymbol } from '@/types/favoritSymbol';
+import type { DragEndEvent } from '@dnd-kit/core';
+import { Star } from 'lucide-react';
 
 const TABS: { value: ChartTabEnum; label: string; key: string }[] = [
-  { value: "TURN_OVER", label: "거래대금", key: "tradeVolume" },
-  { value: "TRADE_VOLUME", label: "거래량", key: "tradeVolume" },
-  { value: "RAPID_RISE", label: "급상승", key: "percentChange" },
-  { value: "RAPID_FALL", label: "급하락", key: "percentChange" },
-  { value: "ETF", label: "ETF", key: "tradeVolume" },
+  { value: 'TURN_OVER', label: '거래대금', key: 'tradeVolume' },
+  { value: 'TRADE_VOLUME', label: '거래량', key: 'tradeVolume' },
+  { value: 'RAPID_RISE', label: '급상승', key: 'percentChange' },
+  { value: 'RAPID_FALL', label: '급하락', key: 'percentChange' },
+  { value: 'ETF', label: 'ETF', key: 'tradeVolume' },
 ];
 
 // 1. 탭별 컬럼 정의
 const TAB_COLUMNS: Record<string, { key: string; label: string }[]> = {
   TURN_OVER: [
-    { key: "stock", label: "종목" },
-    { key: "price", label: "현재가" },
-    { key: "percentChange", label: "등락률" },
-    { key: "tradeVolume", label: "거래대금" },
+    { key: 'stock', label: '종목' },
+    { key: 'price', label: '현재가' },
+    { key: 'percentChange', label: '등락률' },
+    { key: 'tradeVolume', label: '거래대금' },
   ],
   TRADE_VOLUME: [
-    { key: "stock", label: "종목" },
-    { key: "price", label: "현재가" },
-    { key: "percentChange", label: "등락률" },
-    { key: "tradeVolume", label: "거래량" },
+    { key: 'stock', label: '종목' },
+    { key: 'price', label: '현재가' },
+    { key: 'percentChange', label: '등락률' },
+    { key: 'tradeVolume', label: '거래량' },
   ],
   RAPID_RISE: [
-    { key: "stock", label: "종목" },
-    { key: "price", label: "현재가" },
-    { key: "percentChange", label: "등락률" },
+    { key: 'stock', label: '종목' },
+    { key: 'price', label: '현재가' },
+    { key: 'percentChange', label: '등락률' },
   ],
   RAPID_FALL: [
-    { key: "stock", label: "종목" },
-    { key: "price", label: "현재가" },
-    { key: "percentChange", label: "등락률" },
+    { key: 'stock', label: '종목' },
+    { key: 'price', label: '현재가' },
+    { key: 'percentChange', label: '등락률' },
   ],
   ETF: [
-    { key: "stock", label: "종목" },
-    { key: "tradeVolume", label: "시가총액" },
-    { key: "percentChange", label: "등락률" },
+    { key: 'stock', label: '종목' },
+    { key: 'tradeVolume', label: '시가총액' },
+    { key: 'percentChange', label: '등락률' },
   ],
 };
 
@@ -88,7 +87,7 @@ function renderCell(
 ) {
   const isFavorite = isSymbolFavorite(item.ric);
   switch (key) {
-    case "stock":
+    case 'stock':
       return (
         <td className="px-2 py-3 flex items-center gap-x-2 ">
           <button
@@ -107,8 +106,8 @@ function renderCell(
           >
             <Star
               size={16}
-              fill={isFavorite ? "#F5E500" : "#3E4144"}
-              stroke={isFavorite ? "#F5E500" : "#3E4144"}
+              fill={isFavorite ? '#F5E500' : '#3E4144'}
+              stroke={isFavorite ? '#F5E500' : '#3E4144'}
             />
           </button>
           <img
@@ -119,24 +118,24 @@ function renderCell(
           {item.stockName}
         </td>
       );
-    case "price":
+    case 'price':
       return (
         <td className="px-2 py-3 text-end">
           {item.price?.toLocaleString()}달러
         </td>
       );
-    case "percentChange":
+    case 'percentChange':
       return (
         <td
           className={cn(
-            "px-2 py-3 text-end",
-            item.percentChange > 0 ? "text-green700" : "text-red700"
+            'px-2 py-3 text-end',
+            item.percentChange > 0 ? 'text-green700' : 'text-red700'
           )}
         >
           {item.percentChange.toFixed(2)}%
         </td>
       );
-    case "tradeVolume":
+    case 'tradeVolume':
       return (
         <td className="px-2 py-3 text-end">
           {item.tradeVolume?.toLocaleString()}
@@ -150,13 +149,13 @@ function renderCell(
 // 검색 input + 드롭다운 컴포넌트
 function SearchInputWithDropdown() {
   const [showSearchResults, setShowSearchResults] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery] = useDebounce(searchQuery, 300);
   const [highlightIndex, setHighlightIndex] = useState(0);
 
   const { addFavoriteSymbol } = useFavoriteSymbols();
   const { data } = useQuery({
-    queryKey: ["search", debouncedQuery],
+    queryKey: ['search', debouncedQuery],
     queryFn: () =>
       getSearchStock({ keyword: debouncedQuery, page: 0, size: 12 }),
     enabled: !!debouncedQuery,
@@ -168,20 +167,20 @@ function SearchInputWithDropdown() {
     console.log(searchQuery);
     // 임시로 더미 데이터 추가 (실제로는 API 호출)
     // addFavoriteSymbol(data[0]);
-    setSearchQuery("");
+    setSearchQuery('');
   }, [searchQuery, addFavoriteSymbol]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (!data || data.length === 0) return;
 
-      if (e.key === "ArrowDown") {
+      if (e.key === 'ArrowDown') {
         e.preventDefault();
         setHighlightIndex((prev) => Math.min(prev + 1, data.length - 1));
-      } else if (e.key === "ArrowUp") {
+      } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         setHighlightIndex((prev) => Math.max(prev - 1, 0));
-      } else if (e.key === "Enter") {
+      } else if (e.key === 'Enter') {
         const selected = data[highlightIndex];
         if (selected) {
           console.log(selected);
@@ -190,7 +189,7 @@ function SearchInputWithDropdown() {
             name: selected.name,
             order: 0,
           });
-          setSearchQuery("");
+          setSearchQuery('');
           setShowSearchResults(false);
         }
       }
@@ -215,7 +214,7 @@ function SearchInputWithDropdown() {
       name: result.name,
       order: 0,
     });
-    setSearchQuery("");
+    setSearchQuery('');
     setShowSearchResults(false);
   };
 
@@ -249,8 +248,8 @@ function SearchInputWithDropdown() {
             <div
               key={result.ric}
               className={cn(
-                "w-full px-4 py-3 hover:bg-mono50 cursor-pointer",
-                idx === highlightIndex && "bg-mono100"
+                'w-full px-4 py-3 hover:bg-mono50 cursor-pointer',
+                idx === highlightIndex && 'bg-mono100'
               )}
               onClick={() => handleResultClick(result)}
             >
@@ -283,7 +282,7 @@ function SortableFavoriteItem({
     transform: CSS.Transform.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
-    background: isDragging ? "#f5f5f5" : undefined,
+    background: isDragging ? '#f5f5f5' : undefined,
   };
   return (
     <li
@@ -340,7 +339,7 @@ function FavoriteSidebar({ onClose }: { onClose: () => void }) {
         최대 {maxCount}개까지만 등록할 수 있습니다.
       </Typography>
       <div className="flex items-center gap-[10px] mt-[5px]">
-        <Progress max={maxCount} value={totalCount} />
+        <Progress value={(totalCount * 100) / 20} />
         <Typography size="label-md" className="text-mono400">
           {totalCount}/{maxCount}
         </Typography>
@@ -412,8 +411,8 @@ function StockTable({
               border-b-2
               ${
                 activeTab === item.value
-                  ? "text-700 border-primary"
-                  : "border-transparent hover:text-primary/80 text-mono400"
+                  ? 'text-700 border-primary'
+                  : 'border-transparent hover:text-primary/80 text-mono400'
               }`}
             onClick={() => setActiveTab(item.value)}
             aria-selected={activeTab === item.value}
@@ -434,8 +433,8 @@ function StockTable({
                 <th
                   key={col.key}
                   className={cn(
-                    "px-2 py-1 text-mono400 text-end",
-                    idx === 0 && "text-left"
+                    'px-2 py-1 text-mono400 text-end',
+                    idx === 0 && 'text-left'
                   )}
                 >
                   {col.label}
@@ -477,19 +476,19 @@ export default function MyFavoriteSymbolDialog({
   const [, setImageBase64] = useState<string | null>(null);
   const [imageName, setImageName] = useState<string | null>(null);
   const [, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<ChartTabEnum>("TURN_OVER");
+  const [activeTab, setActiveTab] = useState<ChartTabEnum>('TURN_OVER');
 
   const { data } = useQuery({
-    queryKey: ["favorite", activeTab],
+    queryKey: ['favorite', activeTab],
     queryFn: () => getChartStock({ chartTabEnum: activeTab, count }),
-    select: (data) => data.filter((item) => item.type === "STOCK"),
+    select: (data) => data.filter((item) => item.type === 'STOCK'),
   });
 
   const maxSize = 2 * 1024 * 1024;
   const accept = {
-    "image/jpeg": [],
-    "image/png": [],
-    "image/webp": [],
+    'image/jpeg': [],
+    'image/png': [],
+    'image/webp': [],
   };
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -497,7 +496,7 @@ export default function MyFavoriteSymbolDialog({
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-      if (typeof reader.result === "string") {
+      if (typeof reader.result === 'string') {
         setImageBase64(reader.result);
         setImageName(file.name);
         setError(null);
@@ -510,14 +509,14 @@ export default function MyFavoriteSymbolDialog({
   const onDropRejected = useCallback((fileRejections: any) => {
     if (!fileRejections.length) return;
     const { errors } = fileRejections[0];
-    if (errors.some((e: { code: string }) => e.code === "file-too-large")) {
-      setError("2MB 이하의 이미지만 업로드할 수 있습니다.");
+    if (errors.some((e: { code: string }) => e.code === 'file-too-large')) {
+      setError('2MB 이하의 이미지만 업로드할 수 있습니다.');
     } else if (
-      errors.some((e: { code: string }) => e.code === "file-invalid-type")
+      errors.some((e: { code: string }) => e.code === 'file-invalid-type')
     ) {
-      setError("jpg, png, webp 형식의 이미지만 업로드할 수 있습니다.");
+      setError('jpg, png, webp 형식의 이미지만 업로드할 수 있습니다.');
     } else {
-      setError("이미지 업로드에 실패했습니다.");
+      setError('이미지 업로드에 실패했습니다.');
     }
   }, []);
 
@@ -552,7 +551,7 @@ export default function MyFavoriteSymbolDialog({
             <div
               {...getRootProps()}
               className={`mt-[16px] rounded-[8px] p-[16px] h-[274px] flex flex-col justify-center ${
-                isDragActive ? "bg-mono50 opacity-50" : "bg-ground2"
+                isDragActive ? 'bg-mono50 opacity-50' : 'bg-ground2'
               }`}
               aria-label="이미지 드래그 앤 드롭 영역"
             >

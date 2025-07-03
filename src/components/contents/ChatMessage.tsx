@@ -1,5 +1,5 @@
-import { LoadingIndicator } from "./LoadingIndicator";
-import { useEffect, useRef } from "react";
+import { LoadingIndicator } from './LoadingIndicator';
+import { useEffect, useRef } from 'react';
 
 interface ChatMessageProps {
   question: string;
@@ -35,7 +35,7 @@ const temp = `<!-- Iframe 임베딩 -->
 <iframe
     id="5b967aa1-0282-41b0-836b-a68cc39ee88c" 
     src="https://qa-embed.waiker.ai/preview?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiYmZjNjhjMTBiYzljNGQxODg3ZjA5OGY5MGJmNWFjOWUifQ.dFUBr-7fACm7Stvz1QH5ax7YbDtnT8Aeg-UuRwVdQQE&ric=TSLA.O"
-    class="h-full w-full"
+    className="h-full w-full"
 ></iframe>  
 
 <script>
@@ -1273,66 +1273,66 @@ function parseAnswer(answer: string) {
   let text = answer;
 
   // HTML 주석 제거
-  text = text.replace(/<!--([\s\S]*?)-->/g, "");
+  text = text.replace(/<!--([\s\S]*?)-->/g, '');
 
   // <script>...</script> 태그 추출
   text = text.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, (match) => {
     scriptBlocks.push(match);
-    return "";
+    return '';
   });
 
   // ```iframe ... ``` 블록 추출
   text = text.replace(/```iframe\n([\s\S]*?)```/g, (_match, code) => {
     iframeBlocks.push(code.trim());
-    return "";
+    return '';
   });
 
   // ```html ... ``` 블록 추출
   text = text.replace(/```html\n([\s\S]*?)```/g, (_match, code) => {
     htmlBlocks.push(code.trim());
-    return "";
+    return '';
   });
 
   // <iframe ...>...</iframe> 태그 추출 (여러 개 가능)
   text = text.replace(/<iframe[\s\S]*?<\/iframe>/gi, (match) => {
     iframeBlocks.push(match.trim());
-    return "";
+    return '';
   });
 
   // <div ...>...</div> 태그 추출 (여러 개 가능, 중첩은 단순 처리)
   text = text.replace(/<div[\s\S]*?<\/div>/gi, (match) => {
     htmlBlocks.push(match.trim());
-    return "";
+    return '';
   });
 
   // <section ...>...</section> 태그 추출
   text = text.replace(/<section[\s\S]*?<\/section>/gi, (match) => {
     htmlBlocks.push(match.trim());
-    return "";
+    return '';
   });
 
   // <article ...>...</article> 태그 추출
   text = text.replace(/<article[\s\S]*?<\/article>/gi, (match) => {
     htmlBlocks.push(match.trim());
-    return "";
+    return '';
   });
 
   // <html ...>...</html> 태그 추출 (여러 개 가능, 중첩은 단순 처리)
   text = text.replace(/<html[\s\S]*?<\/html>/gi, (match) => {
     htmlBlocks.push(match.trim());
-    return "";
+    return '';
   });
 
   // <head ...>...</head> 태그 추출 (여러 개 가능, 중첩은 단순 처리)
   text = text.replace(/<head[\s\S]*?<\/head>/gi, (match) => {
     htmlBlocks.push(match.trim());
-    return "";
+    return '';
   });
 
   // <body ...>...</body> 태그 추출 (여러 개 가능, 중첩은 단순 처리)
   text = text.replace(/<body[\s\S]*?<\/body>/gi, (match) => {
     htmlBlocks.push(match.trim());
-    return "";
+    return '';
   });
 
   return {
@@ -1346,9 +1346,9 @@ function parseAnswer(answer: string) {
 export const ChatMessage = ({
   answer,
   isWaiting,
-}: Omit<ChatMessageProps, "question">) => {
+}: Omit<ChatMessageProps, 'question'>) => {
   let parsed = {
-    text: answer || "",
+    text: answer || '',
     htmlBlocks: [] as string[],
     iframeBlocks: [] as string[],
     scriptBlocks: [] as string[],
@@ -1362,18 +1362,18 @@ export const ChatMessage = ({
 
   useEffect(() => {
     if (scriptContainerRef.current) {
-      scriptContainerRef.current.innerHTML = "";
+      scriptContainerRef.current.innerHTML = '';
       parsed.scriptBlocks.forEach((scriptStr) => {
-        const tempDiv = document.createElement("div");
+        const tempDiv = document.createElement('div');
         tempDiv.innerHTML = scriptStr;
-        const scriptTag = tempDiv.querySelector("script");
+        const scriptTag = tempDiv.querySelector('script');
         if (scriptTag) {
-          const newScript = document.createElement("script");
+          const newScript = document.createElement('script');
           if (scriptTag.src) newScript.src = scriptTag.src;
           if (scriptTag.textContent)
             newScript.textContent = scriptTag.textContent;
           Array.from(scriptTag.attributes).forEach((attr) => {
-            if (attr.name !== "src")
+            if (attr.name !== 'src')
               newScript.setAttribute(attr.name, attr.value);
           });
           scriptContainerRef?.current?.appendChild(newScript);
@@ -1381,7 +1381,7 @@ export const ChatMessage = ({
       });
     }
     return () => {
-      if (scriptContainerRef.current) scriptContainerRef.current.innerHTML = "";
+      if (scriptContainerRef.current) scriptContainerRef.current.innerHTML = '';
     };
   }, [parsed.scriptBlocks]);
 
@@ -1461,7 +1461,7 @@ export const ChatMessage = ({
 <iframe
     id="5b967aa1-0282-41b0-836b-a68cc39ee88c" 
     src="https://qa-embed.waiker.ai/preview?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyS2V5IjoiYmZjNjhjMTBiYzljNGQxODg3ZjA5OGY5MGJmNWFjOWUifQ.dFUBr-7fACm7Stvz1QH5ax7YbDtnT8Aeg-UuRwVdQQE&ric=TSLA.O"
-    class="h-full w-full"
+    style="width: 320px; height: 100%;"
 ></iframe>  
 
 <script>
@@ -1497,7 +1497,7 @@ function HtmlRenderer({ htmlString }: { htmlString: string }) {
   useEffect(() => {
     if (!iframeRef.current || !htmlString) return;
     // HTML 문자열을 blob URL로 변환
-    const blob = new Blob([htmlString], { type: "text/html" });
+    const blob = new Blob([htmlString], { type: 'text/html' });
     const url = URL.createObjectURL(blob);
     // iframe에 HTML 로드
     iframeRef.current.src = url;
