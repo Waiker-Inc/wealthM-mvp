@@ -7,7 +7,7 @@ import Typography from '../ui/typography';
 import { GripVertical, Images, Search, X } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import { useFavoriteSymbols } from '../../hooks/useFavoriteSymbols';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { getChartStock, type ChartTabEnum } from '@/api/chart';
 import { cn } from '@/lib/utils';
 import { useInView } from 'react-intersection-observer';
@@ -473,10 +473,28 @@ export default function MyFavoriteSymbolDialog({
 }) {
   const [count, setCount] = useState(40);
   const { ref, inView } = useInView();
-  const [imageBase64, setImageBase64] = useState<string | null>(null);
+
   const [imageName, setImageName] = useState<string | null>(null);
   const [, setError] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [activeTab, setActiveTab] = useState<ChartTabEnum>('TURN_OVER');
+
+  const { mutate: ocr } = useMutation({
+    mutationFn: (imageBase64: string) => {
+      return fetch('http://10.40.12.128:15014/p1/ai/ocr', {
+        method: 'POST',
+        body: JSON.stringify({ base64_image: imageBase64 }),
+      });
+    },
+    onSuccess: (data) => {
+      setIsProcessing(false);
+      console.log('OCR result:', data);
+    },
+    onError: (error) => {
+      setIsProcessing(false);
+      console.error('OCR error:', error);
+    },
+  });
 
   const { data } = useQuery({
     queryKey: ['favorite', activeTab],
@@ -497,15 +515,14 @@ export default function MyFavoriteSymbolDialog({
     const reader = new FileReader();
     reader.onload = () => {
       if (typeof reader.result === 'string') {
-        setImageBase64(reader.result);
         setImageName(file.name);
+        ocr(reader.result.split(',')[1]);
+        setIsProcessing(true);
         setError(null);
       }
     };
     reader.readAsDataURL(file);
   }, []);
-
-  console.log(imageBase64?.split(',')[1]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onDropRejected = useCallback((fileRejections: any) => {
@@ -550,44 +567,55 @@ export default function MyFavoriteSymbolDialog({
             <Typography size="title-lg" weight="bold">
               내 관심 심볼 관리
             </Typography>
-            <div
-              {...getRootProps()}
-              className={`mt-[16px] rounded-[8px] p-[16px] h-[274px] flex flex-col justify-center ${
-                isDragActive ? 'bg-mono50 opacity-50' : 'bg-ground2'
-              }`}
-              aria-label="이미지 드래그 앤 드롭 영역"
-            >
-              <div className="flex items-center gap-[24px] w-[400px] mx-auto">
-                <Images size={40} />
-                <div>
-                  <Typography size="body-sm" className="text-mono400">
-                    이미지를 드래그하거나 업로드하면,
-                  </Typography>
-                  <Typography size="body-sm">
-                    심볼을 자동으로 인식해 내 관심 심볼을 만들어 드립니다.
-                  </Typography>
-                  {imageName && (
-                    <Typography size="body-sm" className="text-green700">
-                      첨부된 파일: {imageName}
-                    </Typography>
-                  )}
-                  {/* {(error || storeError) && (
-                    <Typography size="body-sm" className="text-red-500 mt-2">
-                      {error || storeError}
-                    </Typography>
-                  )} */}
-                </div>
-              </div>
-              <input {...getInputProps()} accept="image/*" />
-              <div className="flex items-center gap-[10px] w-[400px] mx-auto my-[32px]">
-                <div className="h-[1px] flex-1 bg-mono200" />
-                <Typography size="label-md" className="text-mono400">
-                  또는
+            {isProcessing ? (
+              <div
+                className={`mt-[16px] rounded-[8px] p-[16px] h-[274px] flex items-center justify-center bg-ground2`}
+              >
+                <Typography size="body-sm" className="text-mono400 text-center">
+                  처리중...
                 </Typography>
-                <div className="h-[1px] flex-1 bg-mono200" />
               </div>
-              <SearchInputWithDropdown />
-            </div>
+            ) : (
+              <div
+                {...getRootProps()}
+                className={`mt-[16px] rounded-[8px] p-[16px] h-[274px] flex flex-col justify-center ${
+                  isDragActive ? 'bg-mono50 opacity-50' : 'bg-ground2'
+                }`}
+                aria-label="이미지 드래그 앤 드롭 영역"
+              >
+                <div className="flex items-center gap-[24px] w-[400px] mx-auto">
+                  <Images size={40} />
+                  <div>
+                    <Typography size="body-sm" className="text-mono400">
+                      이미지를 드래그하거나 업로드하면,
+                    </Typography>
+                    <Typography size="body-sm">
+                      심볼을 자동으로 인식해 내 관심 심볼을 만들어 드립니다.
+                    </Typography>
+                    {imageName && (
+                      <Typography size="body-sm" className="text-green700">
+                        첨부된 파일: {imageName}
+                      </Typography>
+                    )}
+                    {/* {(error || storeError) && (
+                      <Typography size="body-sm" className="text-red-500 mt-2">
+                        {error || storeError}
+                      </Typography>
+                    )} */}
+                  </div>
+                </div>
+                <input {...getInputProps()} accept="image/*" />
+                <div className="flex items-center gap-[10px] w-[400px] mx-auto my-[32px]">
+                  <div className="h-[1px] flex-1 bg-mono200" />
+                  <Typography size="label-md" className="text-mono400">
+                    또는
+                  </Typography>
+                  <div className="h-[1px] flex-1 bg-mono200" />
+                </div>
+                <SearchInputWithDropdown />
+              </div>
+            )}
+
             <StockTable
               TABS={TABS}
               TAB_COLUMNS={TAB_COLUMNS}

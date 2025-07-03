@@ -3,14 +3,14 @@ import { cn } from '@/lib/utils';
 import FAQList from '../contents/FAQList';
 import QuestionCreator from '../contents/QuestionCreator';
 import { ChatInput } from '../contents/ChatInput';
-import { ChatMessage } from '../contents/ChatMessage';
+// import { ChatMessage } from '../contents/ChatMessage';
 import { useChat } from '@/hooks/useChat';
 import useWebSocket from '@/hooks/useWebSocket';
 
 export default function Contents() {
   const [isSearch, setIsSearch] = useState(false);
   const [hideContent, setHideContent] = useState(false);
-  const { qaHistory, addQuestion, updateAnswer, getAnswer } = useChat();
+  const { addQuestion, updateAnswer } = useChat();
   const pendingQuestionId = useRef<string | null>(null);
 
   const { sendMessage } = useWebSocket({
@@ -111,12 +111,12 @@ export default function Contents() {
               isWaiting={qa.isWaiting}
             />
           ))} */}
-          <ChatMessage
+          {/* <ChatMessage
             key="test"
             question="test"
             answer="test"
             isWaiting={false}
-          />
+          /> */}
         </div>
       )}
     </div>

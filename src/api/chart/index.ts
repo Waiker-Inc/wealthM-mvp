@@ -1,11 +1,11 @@
-import axios from "@/lib/axios";
+import axios from '@/lib/axios';
 
 export type ChartTabEnum =
-  | "TURN_OVER"
-  | "TRADE_VOLUME"
-  | "RAPID_RISE"
-  | "RAPID_FALL"
-  | "ETF";
+  | 'TURN_OVER'
+  | 'TRADE_VOLUME'
+  | 'RAPID_RISE'
+  | 'RAPID_FALL'
+  | 'ETF';
 
 export interface ResGetChartStock {
   stockName: string;
@@ -15,7 +15,7 @@ export interface ResGetChartStock {
   ric: string;
   ticker: string;
   tradeVolume: number;
-  type: "STOCK" | "ETF";
+  type: 'STOCK' | 'ETF';
 }
 
 export const getChartStock = async ({
