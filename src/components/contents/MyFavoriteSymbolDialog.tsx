@@ -473,7 +473,7 @@ export default function MyFavoriteSymbolDialog({
 }) {
   const [count, setCount] = useState(40);
   const { ref, inView } = useInView();
-  const [, setImageBase64] = useState<string | null>(null);
+  const [imageBase64, setImageBase64] = useState<string | null>(null);
   const [imageName, setImageName] = useState<string | null>(null);
   const [, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<ChartTabEnum>('TURN_OVER');
@@ -504,6 +504,8 @@ export default function MyFavoriteSymbolDialog({
     };
     reader.readAsDataURL(file);
   }, []);
+
+  console.log(imageBase64?.split(',')[1]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onDropRejected = useCallback((fileRejections: any) => {
