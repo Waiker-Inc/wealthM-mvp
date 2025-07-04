@@ -1,8 +1,62 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css");
-@import "tw-animate-css";
-@import "tailwindcss";
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css');
+@import 'tw-animate-css';
+@import 'tailwindcss';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *,.dark, .dark *));
+@custom-variant lang-en (&:where(html[lang='en'], html[lang='en'] *));
+@custom-variant lang-ko (&:where(html[lang='ko'], html[lang='ko'] *));
+
+@theme {
+  /* Primary Colors */
+  --color-primary-700: hsla(150, 100%, 32%, 1);
+  --color-primary-600: hsla(150, 94%, 35%, 1);
+  --color-primary-500: hsla(150, 64%, 53%, 1);
+  --color-primary-400: hsla(150, 60%, 67%, 1);
+  --color-primary-300: hsla(150, 59%, 78%, 1);
+  --color-primary-200: hsla(150, 59%, 87%, 1);
+  --color-primary-100: hsla(150, 58%, 94%, 1);
+  --color-primary-50: hsla(150, 50%, 96%, 1);
+
+  /* Text Colors */
+  --color-text-highest: hsla(214, 9%, 7%, 1);
+  --color-text-high: hsla(214, 10%, 20%, 1);
+  --color-text-default: hsla(214, 9%, 43%, 1);
+  --color-text-low: hsla(214, 9%, 63%, 1);
+  --color-text-lowest: hsla(214, 9%, 80%, 1);
+
+  /* Component Colors */
+  --color-surface-highest: hsla(214, 9%, 30%, 1);
+  --color-surface-high: hsla(214, 9%, 51%, 1);
+  --color-surface-default: hsla(214, 14%, 85%, 1);
+  --color-surface-low: hsla(214, 16%, 96%, 1);
+  --color-surface-opacity: hsla(214, 11%, 43%, 0.09);
+
+  /* Border Colors */
+  --color-border-high: hsla(214, 8%, 75%, 1);
+  --color-border-default: hsla(214, 3%, 90%, 1);
+  --color-border-low: hsla(214, 2%, 96%, 1);
+
+  /* Background Colors */
+  --color-bg-default: hsla(0, 0%, 100%, 1);
+  --color-bg-low: hsla(214, 32%, 98%, 1);
+  --color-bg-lowest: hsla(214, 32%, 95%, 1);
+
+  /* Inverse Colors */
+  --color-inverse-highest: hsla(214, 20%, 97%, 1);
+  --color-inverse-surface-low: hsla(214, 31%, 10%, 1);
+
+  /* Fuchsia Colors */
+  --color-fuchsia-600: hsla(294, 100%, 44%, 1);
+  --color-fuchsia-500: hsla(294, 100%, 58%, 1);
+  --color-fuchsia-300: hsla(294, 100%, 83%, 1);
+  --color-fuchsia-100: hsla(294, 100%, 95%, 1);
+
+  /* Slate Colors */
+  --color-slate-600: hsla(215, 22%, 35%, 1);
+  --color-slate-500: hsla(215, 18%, 47%, 1);
+  --color-slate-300: hsla(215, 30%, 84%, 1);
+  --color-slate-100: hsla(215, 41%, 96%, 1);
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -208,6 +262,132 @@
   --action: #3d4042;
   --cyan: #00e8c9;
   --ruby: #f500c0;
+  /* Primary Colors */
+  --color-primary-700: hsla(144, 88%, 47%, 1);
+  --color-primary-600: hsla(144, 92%, 43%, 1);
+  --color-primary-500: hsla(144, 88%, 36%, 1);
+  --color-primary-400: hsla(144, 89%, 21%, 1);
+  --color-primary-300: hsla(144, 82%, 17%, 1);
+  --color-primary-200: hsla(144, 62%, 14%, 1);
+  --color-primary-100: hsla(144, 45%, 10%, 1);
+  --color-primary-50: hsla(144, 46%, 8%, 1);
+  /* Text Colors */
+  --color-text-highest: hsla(214, 20%, 97%, 1);
+  --color-text-high: hsla(214, 14%, 90%, 1);
+  --color-text-default: hsla(214, 11%, 62%, 1);
+  --color-text-low: hsla(214, 10%, 50%, 1);
+  --color-text-lowest: hsla(214, 11%, 45%, 1);
+
+  /* Component Colors */
+  --color-surface-highest: hsla(214, 11%, 68%, 1);
+  --color-surface-high: hsla(214, 11%, 57%, 1);
+  --color-surface-default: hsla(214, 12%, 27%, 1);
+  --color-surface-low: hsla(214, 13%, 14%, 1);
+  --color-surface-opacity: hsla(214, 12%, 70%, 0.12);
+
+  /* Border Colors */
+  --color-border-high: hsla(214, 11%, 32%, 1);
+  --color-border-default: hsla(214, 2%, 21%, 1);
+  --color-border-low: hsla(214, 1%, 16%, 1);
+
+  /* Background Colors */
+  --color-bg-default: hsla(214, 1%, 3%, 1);
+  --color-bg-low: hsla(214, 15%, 8%, 1);
+  --color-bg-lowest: hsla(214, 15%, 12%, 1);
+
+  /* Inverse Colors */
+  --color-inverse-highest: hsla(214, 20%, 3%, 1);
+  --color-inverse-surface-low: hsla(214, 13%, 86%, 1);
+
+  /* Orange Colors */
+  --color-orange-600: var(--color-orange-400);
+  --color-orange-300: var(--color-orange-500);
+  --color-orange-100: var(--color-orange-950);
+
+  /* Violet Colors */
+  --color-violet-600: var(--color-violet-400);
+  --color-violet-300: var(--color-violet-500);
+  --color-violet-100: var(--color-violet-950);
+
+  /* Fuchsia Colors */
+  --color-fuchsia-600: hsla(293, 100%, 71%, 1);
+  --color-fuchsia-500: hsla(293, 100%, 58%, 1);
+  --color-fuchsia-300: hsla(293, 100%, 44%, 1);
+  --color-fuchsia-100: hsla(293, 100%, 16%, 1);
+
+  /* Slate Colors */
+  --color-slate-600: hsla(215, 23%, 65%, 1);
+  --color-slate-500: hsla(215, 23%, 47%, 1);
+  --color-slate-300: hsla(215, 23%, 35%, 1);
+  --color-slate-100: hsla(215, 23%, 5%, 1);
+}
+
+:root [lang='en'] {
+  /* Rise Colors - English Light */
+  --color-rise-700: hsla(150, 100%, 32%, 1); /* #00A251 */
+  --color-rise-600: hsla(150, 94%, 35%, 1); /* #05B05B */
+  --color-rise-500: hsla(150, 64%, 53%, 1); /* #39D486 */
+  --color-rise-400: hsla(150, 60%, 67%, 1); /* #78DDAB */
+  --color-rise-300: hsla(150, 59%, 78%, 1); /* #A6E8C7 */
+  --color-rise-200: hsla(150, 59%, 87%, 1); /* #CCF2DF */
+  --color-rise-100: hsla(150, 58%, 94%, 1); /* #E5F8EF */
+  --color-rise-50: hsla(150, 50%, 96%, 1); /* #F0FAF5 */
+
+  /* Drop Colors - English Light */
+  --color-drop-700: hsla(357, 87%, 55%, 1); /* #F02832 */
+  --color-drop-600: hsla(357, 88%, 58%, 1); /* #F2363F */
+  --color-drop-500: hsla(357, 91%, 64%, 1); /* #F74F57 */
+  --color-drop-400: hsla(357, 93%, 73%, 1); /* #FA787F */
+  --color-drop-300: hsla(357, 94%, 81%, 1); /* #FC9FA4 */
+  --color-drop-200: hsla(357, 89%, 89%, 1); /* #FCCCCE */
+  --color-drop-100: hsla(357, 86%, 95%, 1); /* #FDE5E6 */
+  --color-drop-50: hsla(357, 86%, 97%, 1); /* #FEF2F3 */
+}
+
+:root [lang='ko'] .dark,
+[lang='ko'][data-theme='dark'] {
+  /* Rise Colors - Korean Dark */
+  --color-rise-700: hsla(357, 100%, 64%, 1);
+  --color-rise-600: hsla(357, 97%, 61%, 1);
+  --color-rise-500: hsla(357, 64%, 49%, 1);
+  --color-rise-400: hsla(357, 65%, 30%, 1);
+  --color-rise-300: hsla(357, 61%, 23%, 1);
+  --color-rise-200: hsla(357, 43%, 17%, 1);
+  --color-rise-100: hsla(357, 27%, 12%, 1);
+  --color-rise-50: hsla(357, 13%, 9%, 1);
+
+  /* Drop Colors - Korean Dark */
+  --color-drop-700: hsla(214, 99%, 66%, 1);
+  --color-drop-600: hsla(214, 100%, 62%, 1);
+  --color-drop-500: hsla(214, 75%, 48%, 1);
+  --color-drop-400: hsla(213, 71%, 35%, 1);
+  --color-drop-300: hsla(213, 63%, 28%, 1);
+  --color-drop-200: hsla(213, 48%, 18%, 1);
+  --color-drop-100: hsla(211, 40%, 12%, 1);
+  --color-drop-50: hsla(214, 32%, 10%, 1);
+}
+
+:root [lang='en'] .dark,
+[lang='en'][data-theme='dark'] {
+  /* Rise Colors - English Dark */
+  --color-rise-700: hsla(144, 88%, 47%, 1);
+  --color-rise-600: hsla(144, 92%, 43%, 1);
+  --color-rise-500: hsla(144, 88%, 36%, 1);
+  --color-rise-400: hsla(144, 89%, 21%, 1);
+  --color-rise-300: hsla(144, 82%, 17%, 1);
+  --color-rise-200: hsla(144, 62%, 14%, 1);
+  --color-rise-100: hsla(144, 45%, 10%, 1);
+  --color-rise-50: hsla(144, 46%, 8%, 1);
+
+  /* Drop Colors - English Dark */
+  --color-drop-700: hsla(357, 100%, 64%, 1);
+  --color-drop-600: hsla(357, 97%, 61%, 1);
+  --color-drop-500: hsla(357, 64%, 49%, 1);
+  --color-drop-400: hsla(357, 65%, 30%, 1);
+  --color-drop-300: hsla(357, 61%, 23%, 1);
+  --color-drop-200: hsla(357, 43%, 17%, 1);
+  --color-drop-100: hsla(357, 27%, 12%, 1);
+  --color-drop-50: hsla(357, 13%, 9%, 1);
 }
 
 @layer base {
@@ -217,7 +397,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: "Pretendard", Arial, Helvetica, sans-serif;
+    font-family: 'Pretendard', Arial, Helvetica, sans-serif;
     height: 100vh;
   }
 }

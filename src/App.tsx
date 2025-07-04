@@ -19,23 +19,28 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  const theme = localStorage.getItem('theme') || 'dark';
+  const lang = localStorage.getItem('lang') || 'en';
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel defaultSize={20}>
-          <LeftPanel />
-        </ResizablePanel>
-        <ResizableHandle />
-        <ResizablePanel>
-          <Contents />
-        </ResizablePanel>
-        <ResizableHandle />
-        {/* <ResizablePanel defaultSize={20}>
+    <div data-theme={theme} lang={lang}>
+      <QueryClientProvider client={queryClient}>
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel defaultSize={20}>
+            <LeftPanel />
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel>
+            <Contents />
+          </ResizablePanel>
+          <ResizableHandle />
+          {/* <ResizablePanel defaultSize={20}>
           <RightPanel />
         </ResizablePanel> */}
-      </ResizablePanelGroup>
-      <Modal />
-    </QueryClientProvider>
+        </ResizablePanelGroup>
+        <Modal />
+      </QueryClientProvider>
+    </div>
   );
 }
 

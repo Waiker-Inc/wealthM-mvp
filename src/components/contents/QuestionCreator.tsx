@@ -1,29 +1,29 @@
-import { useState } from "react";
-import Typography from "../ui/typography";
-import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
-import { Check } from "lucide-react";
-import { useFavoriteSymbols } from "@/hooks/useFavoriteSymbols";
-import { useQuery } from "@tanstack/react-query";
-import { getPriceChangeRate } from "@/api/price";
+import { useState } from 'react';
+import Typography from '../ui/typography';
+import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
+import { Check } from 'lucide-react';
+import { useFavoriteSymbols } from '@/hooks/useFavoriteSymbols';
+import { useQuery } from '@tanstack/react-query';
+import { getPriceChangeRate } from '@/api/price';
 
 const tabList = [
-  { value: "my", label: "내 관심 심볼" },
-  { value: "popular", label: "질문이 많은 심볼" },
+  { value: 'my', label: '내 관심 심볼' },
+  { value: 'popular', label: '질문이 많은 심볼' },
 ];
 
 const keywords = [
-  { id: "k1", label: "실적 발표" },
-  { id: "k2", label: "매출" },
-  { id: "k3", label: "주당 순이익" },
-  { id: "k4", label: "성장 가능성" },
-  { id: "k5", label: "내부자 거래" },
-  { id: "k6", label: "주주 거래" },
-  { id: "k7", label: "주가 변동" },
-  { id: "k8", label: "최근 소식" },
+  { id: 'k1', label: '실적 발표' },
+  { id: 'k2', label: '매출' },
+  { id: 'k3', label: '주당 순이익' },
+  { id: 'k4', label: '성장 가능성' },
+  { id: 'k5', label: '내부자 거래' },
+  { id: 'k6', label: '주주 거래' },
+  { id: 'k7', label: '주가 변동' },
+  { id: 'k8', label: '최근 소식' },
 ];
 
 export default function QuestionCreator() {
-  const [active, setActive] = useState("my");
+  const [active, setActive] = useState('my');
   return (
     <div className="mt-[58px]">
       <Typography size="body-lg" weight="bold">
@@ -39,11 +39,11 @@ export default function QuestionCreator() {
             <button
               key={tab.value}
               className={`px-4 py-3 font-semibold text-base transition-all
-              border-b-2
+              border-b-2 cursor-pointer
               ${
                 active === tab.value
-                  ? "text-white border-primary"
-                  : "border-transparent hover:text-primary/80 text-mono400"
+                  ? 'text-white border-primary'
+                  : 'border-transparent hover:text-primary/80 text-mono400'
               }`}
               onClick={() => setActive(tab.value)}
               aria-selected={active === tab.value}
@@ -57,7 +57,7 @@ export default function QuestionCreator() {
         </div>
 
         {/* 탭 컨텐츠 */}
-        <div className="py-4">{active === "my" && <MySymbolTable />}</div>
+        <div className="py-4">{active === 'my' && <MySymbolTable />}</div>
       </div>
     </div>
   );
@@ -70,7 +70,7 @@ function MySymbolTable() {
   const ricList = symbols.map((symbol) => symbol.ric);
 
   const { data } = useQuery({
-    queryKey: ["click-question", ricList],
+    queryKey: ['click-question', ricList],
     queryFn: () => getPriceChangeRate({ ricList }),
     enabled: ricList.length > 0,
   });
@@ -115,7 +115,7 @@ function MySymbolTable() {
                 aria-label={symbol.name}
                 onClick={() => handleSymbolClick(symbol.ric)}
                 onKeyDown={(e) =>
-                  e.key === "Enter" && handleSymbolClick(symbol.ric)
+                  e.key === 'Enter' && handleSymbolClick(symbol.ric)
                 }
                 className={`flex items-center gap-[10px] py-[12px] px-2 rounded-lg cursor-pointer transition`}
               >
@@ -159,7 +159,7 @@ function MySymbolTable() {
                 aria-label={keyword.label}
                 onClick={() => handleKeywordClick(keyword.id)}
                 className={`rounded-[4px] p-[6px_12px] max-w-fit min-w-fit text-mono450 text-sm transition
-                  ${isActive ? "bg-green700 text-white" : "bg-mono50"}
+                  ${isActive ? 'bg-green700 text-white' : 'bg-mono50'}
                 `}
               >
                 #{keyword.label}

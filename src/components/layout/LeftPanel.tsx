@@ -1,14 +1,14 @@
-import { AlignLeft, ArrowUpDown, Bolt, Pen } from "lucide-react";
-import Typography from "../ui/typography";
-import { Button } from "../ui/button";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import { useState } from "react";
-import MyFavoriteSymbolDialog from "@/components/contents/MyFavoriteSymbolDialog";
-import { Progress } from "../ui/progress";
-import { useQuery } from "@tanstack/react-query";
-import { useFavoriteSymbols } from "@/hooks/useFavoriteSymbols";
-import { getPriceChangeRate } from "@/api/price";
-import { cn } from "@/lib/utils";
+import { AlignLeft, ArrowUpDown, Bolt, Pen } from 'lucide-react';
+import Typography from '../ui/typography';
+import { Button } from '../ui/button';
+import { Avatar, AvatarImage } from '../ui/avatar';
+import { useState } from 'react';
+import MyFavoriteSymbolDialog from '@/components/contents/MyFavoriteSymbolDialog';
+import { Progress } from '../ui/progress';
+import { useQuery } from '@tanstack/react-query';
+import { useFavoriteSymbols } from '@/hooks/useFavoriteSymbols';
+import { getPriceChangeRate } from '@/api/price';
+import { cn } from '@/lib/utils';
 
 export default function LeftPanel() {
   const { symbols } = useFavoriteSymbols();
@@ -16,7 +16,7 @@ export default function LeftPanel() {
   const ricList = symbols.map((symbol) => symbol.ric);
 
   const { data } = useQuery({
-    queryKey: ["left-price-change-rate", ricList],
+    queryKey: ['left-price-change-rate', ricList],
     queryFn: () => getPriceChangeRate({ ricList }),
     enabled: ricList.length > 0,
   });
@@ -24,7 +24,7 @@ export default function LeftPanel() {
   console.log(data);
 
   return (
-    <aside className="bg-ground2 h-[100vh] p-[40px_24px] text-700 overflow-auto">
+    <aside className="bg-bg-low h-[100vh] p-[40px_24px] text-700 overflow-auto">
       <h1 className="flex items-center justify-center">
         <svg
           width="46"
@@ -78,24 +78,28 @@ export default function LeftPanel() {
           </div>
 
           <div className="mt-[16px] ml-[8px]">
-            <Typography size="label-lg">오늘</Typography>
+            <Typography size="label-lg" className="text-text-highest">
+              오늘
+            </Typography>
             <ul>
               <Typography
                 as="li"
                 size="body-sm"
-                className="cursor-pointer text-mono450 p-[8px] rounded-[4px] hover:bg-mono50 hover:text-700"
+                className="cursor-pointer text-text-low p-[8px] rounded-[4px] hover:bg-surface-low hover:text-700"
               >
                 팔란티어의 1년 수익률
               </Typography>
             </ul>
           </div>
           <div className="mt-[16px] ml-[8px]">
-            <Typography size="label-lg">어제</Typography>
+            <Typography size="label-lg" className="text-text-highest">
+              어제
+            </Typography>
             <ul>
               <Typography
                 as="li"
                 size="body-sm"
-                className="cursor-pointer text-mono450 p-[8px] rounded-[4px] hover:bg-mono50 hover:text-700"
+                className="cursor-pointer text-text-low p-[8px] rounded-[4px] hover:bg-surface-low hover:text-700"
               >
                 최근 급등주 리스트
               </Typography>
@@ -134,7 +138,7 @@ export default function LeftPanel() {
                 </Avatar>
                 <div>
                   <Typography size="body-sm">{item.name}</Typography>
-                  <Typography size="label-md" className="text-mono400">
+                  <Typography size="label-md" className="text-text-low">
                     {item.ticker}
                   </Typography>
                 </div>
@@ -142,10 +146,12 @@ export default function LeftPanel() {
                   <Typography
                     size="body-sm"
                     className={cn(
-                      item.priceChangeRate > 0 ? "text-red700" : "text-green700"
+                      item.priceChangeRate > 0
+                        ? 'text-rise-500'
+                        : 'text-drop-500'
                     )}
                   >
-                    {item.priceChangeRate > 0 ? "+" : ""}
+                    {item.priceChangeRate > 0 ? '+' : ''}
                     {item.priceChangeRate.toFixed(1)}%
                   </Typography>
                 </div>

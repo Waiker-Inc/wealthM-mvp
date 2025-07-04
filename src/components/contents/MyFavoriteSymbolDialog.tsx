@@ -130,7 +130,7 @@ function renderCell(
         <td
           className={cn(
             'px-2 py-3 text-end',
-            item.percentChange > 0 ? 'text-green700' : 'text-red700'
+            item.percentChange > 0 ? 'text-rise-500' : 'text-drop-500'
           )}
         >
           {item.percentChange.toFixed(2)}%
@@ -408,7 +408,7 @@ function StockTable({
         {TABS?.map((item) => (
           <button
             key={`${item.value}-${item.label}`}
-            className={`px-4 py-3 font-semibold text-base transition-all
+            className={`px-4 py-3 font-semibold text-base cursor-pointer transition-all
               border-b-2
               ${
                 activeTab === item.value
@@ -594,7 +594,7 @@ export default function MyFavoriteSymbolDialog({
               >
                 <div className="flex items-center gap-[24px] w-[400px] mx-auto">
                   <Images size={40} />
-                  <div>
+                  <div className="cursor-pointer">
                     <Typography size="body-sm" className="text-mono400">
                       이미지를 드래그하거나 업로드하면,
                     </Typography>
