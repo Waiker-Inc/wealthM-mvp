@@ -1,6 +1,6 @@
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
-import { useModalStore } from "@/store/modalStore";
-import { ChevronLeft, X } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog';
+import { useModalStore } from '@/stores/modalStore';
+import { ChevronLeft, X } from 'lucide-react';
 
 export default function Modal() {
   const { open, stack, closeModal, back } = useModalStore();

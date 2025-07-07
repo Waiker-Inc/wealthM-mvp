@@ -5,21 +5,11 @@ import { Check } from 'lucide-react';
 import { useFavoriteSymbols } from '@/hooks/useFavoriteSymbols';
 import { useQuery } from '@tanstack/react-query';
 import { getPriceChangeRate } from '@/api/price';
+import keywordData from '@/constants/keyword.json';
 
 const tabList = [
   { value: 'my', label: '내 관심 심볼' },
   { value: 'popular', label: '질문이 많은 심볼' },
-];
-
-const keywords = [
-  { id: 'k1', label: '실적 발표' },
-  { id: 'k2', label: '매출' },
-  { id: 'k3', label: '주당 순이익' },
-  { id: 'k4', label: '성장 가능성' },
-  { id: 'k5', label: '내부자 거래' },
-  { id: 'k6', label: '주주 거래' },
-  { id: 'k7', label: '주가 변동' },
-  { id: 'k8', label: '최근 소식' },
 ];
 
 export default function QuestionCreator() {
@@ -78,13 +68,11 @@ function MySymbolTable() {
   // 심볼 클릭
   const handleSymbolClick = (id: string) => {
     setActiveSymbol(id === activeSymbol ? null : id);
-    setActiveKeyword(null);
   };
 
   // 키워드 클릭
   const handleKeywordClick = (id: string) => {
     setActiveKeyword(id === activeKeyword ? null : id);
-    setActiveSymbol(null);
   };
 
   // 필터링
@@ -145,8 +133,8 @@ function MySymbolTable() {
       <div className="flex-1">
         <Typography size="body-sm">키워드</Typography>
         <div className="mt-[16px] flex gap-[10px] flex-wrap">
-          {keywords.map((keyword) => {
-            const isActive = activeKeyword === keyword.id;
+          {keywordData.map((keyword) => {
+            const isActive = activeKeyword === keyword.keyword;
             // const isDimmed =
             //   activeSymbol &&
             //   !data
@@ -154,15 +142,15 @@ function MySymbolTable() {
             //     ?.keywords.includes(keyword.id);
             return (
               <button
-                key={keyword.id}
+                key={keyword.keyword}
                 tabIndex={0}
-                aria-label={keyword.label}
-                onClick={() => handleKeywordClick(keyword.id)}
-                className={`rounded-[4px] p-[6px_12px] max-w-fit min-w-fit text-mono450 text-sm transition
+                aria-label={keyword.keyword}
+                onClick={() => handleKeywordClick(keyword.keyword)}
+                className={`rounded-[4px] p-[6px_12px] max-w-fit min-w-fit text-mono450 text-sm transition cursor-pointer
                   ${isActive ? 'bg-green700 text-white' : 'bg-mono50'}
                 `}
               >
-                #{keyword.label}
+                #{keyword.keyword}
               </button>
             );
           })}

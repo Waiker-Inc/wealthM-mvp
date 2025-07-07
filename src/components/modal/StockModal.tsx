@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useModalStore } from "@/store/modalStore";
-import CalendarModal from "./CalendarModal";
+import { useModalStore } from '@/stores/modalStore';
+import CalendarModal from './CalendarModal';
 
 // interface StockModalProps {
 //   ric: string;
@@ -14,8 +14,8 @@ export default function StockModal() {
 
       <button
         onClick={() => {
-          console.log("111");
-          openModal(CalendarModal, { ric: "2222" });
+          console.log('111');
+          openModal(CalendarModal, { ric: '2222' });
         }}
       >
         111

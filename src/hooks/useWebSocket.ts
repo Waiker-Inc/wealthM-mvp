@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface WebSocketMessage {
   type: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   data: any;
   timestamp: number;
 }
@@ -20,16 +21,52 @@ interface UseWebSocketOptions {
 interface UseWebSocketReturn {
   isConnected: boolean;
   messages: WebSocketMessage[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   sendMessage: (message: any, id?: string) => void;
   connect: () => void;
   disconnect: () => void;
   lastMessage: WebSocketMessage | null;
   error: string | null;
+  userId: string;
 }
 
-const randomId = Math.floor(Math.random() * 999) + 1;
-const USER_ID = `u${String(randomId).padStart(3, '0')}`;
+// USER_ID 관리 함수들
+const generateUserId = (): string => {
+  const randomId = Math.floor(Math.random() * 999) + 1;
+  return `u${String(randomId).padStart(3, '0')}`;
+};
+
+const getUserIdFromStorage = (): string | null => {
+  try {
+    return localStorage.getItem('USER_ID');
+  } catch (error) {
+    console.error('로컬스토리지에서 USER_ID를 가져오는 중 오류:', error);
+    return null;
+  }
+};
+
+const setUserIdToStorage = (userId: string): void => {
+  try {
+    localStorage.setItem('USER_ID', userId);
+  } catch (error) {
+    console.error('로컬스토리지에 USER_ID를 저장하는 중 오류:', error);
+  }
+};
+
+// USER_ID 초기화
+const initializeUserId = (): string => {
+  const storedUserId = getUserIdFromStorage();
+
+  if (storedUserId) {
+    return storedUserId;
+  } else {
+    const newUserId = generateUserId();
+    setUserIdToStorage(newUserId);
+    return newUserId;
+  }
+};
+
+const USER_ID = initializeUserId();
 
 const useWebSocket = ({
   onOpen,
@@ -65,14 +102,13 @@ const useWebSocket = ({
   }, [onOpen, onClose, onError, onMessage]);
 
   const constructWsUrl = useCallback(() => {
-    const path = window.location.pathname.split('/');
-    const sessionIdFromUrl = path.length > 1 && path[1] ? path[1] : null;
+    // const path = window.location.pathname.split('/');
+    // const sessionIdFromUrl = path.length > 1 && path[1] ? path[1] : null;
 
-    let url = `ws://192.168.20.101:8100/ws/${USER_ID}`;
-    if (sessionIdFromUrl) {
-      url += `/${sessionIdFromUrl}`;
-    }
-    return url;
+    return `ws://192.168.20.101:8100/ws/${USER_ID}`;
+    // if (sessionIdFromUrl) {
+    //   url += `/${sessionIdFromUrl}`;
+    // }
   }, []);
 
   const connect = useCallback(() => {
@@ -144,10 +180,9 @@ const useWebSocket = ({
     setIsConnected(false);
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const sendMessage = useCallback((message: any, id?: string) => {
+  const sendMessage = useCallback((sendObject: any) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ question: message, id }));
+      wsRef.current.send(JSON.stringify(sendObject));
     } else {
       setError('웹소켓이 연결되지 않았습니다.');
     }
@@ -169,6 +204,7 @@ const useWebSocket = ({
     disconnect,
     lastMessage,
     error,
+    userId: USER_ID,
   };
 };
 

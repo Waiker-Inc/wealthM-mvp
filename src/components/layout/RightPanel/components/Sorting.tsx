@@ -1,22 +1,22 @@
-import { useInView } from "react-intersection-observer";
-import { ChevronRight, ChevronLeft } from "lucide-react";
-import { useRef, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInView } from 'react-intersection-observer';
+import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   getChartStock,
   type ChartTabEnum,
   type ResGetChartStock,
-} from "@/api/chart";
-import StockModal from "@/components/modal/StockModal";
-import { useModalStore } from "@/store/modalStore";
-import Typography from "@/components/ui/typography";
+} from '@/api/chart';
+import StockModal from '@/components/modal/StockModal';
+import { useModalStore } from '@/stores/modalStore';
+import Typography from '@/components/ui/typography';
 
 const TABS: { value: ChartTabEnum; label: string; key: string }[] = [
-  { value: "TURN_OVER", label: "거래대금", key: "tradeVolume" },
-  { value: "TRADE_VOLUME", label: "거래량", key: "tradeVolume" },
-  { value: "RAPID_RISE", label: "급상승", key: "percentChange" },
-  { value: "RAPID_FALL", label: "급하락", key: "percentChange" },
-  { value: "ETF", label: "ETF", key: "tradeVolume" },
+  { value: 'TURN_OVER', label: '거래대금', key: 'tradeVolume' },
+  { value: 'TRADE_VOLUME', label: '거래량', key: 'tradeVolume' },
+  { value: 'RAPID_RISE', label: '급상승', key: 'percentChange' },
+  { value: 'RAPID_FALL', label: '급하락', key: 'percentChange' },
+  { value: 'ETF', label: 'ETF', key: 'tradeVolume' },
 ];
 
 export default function Sorting() {
@@ -26,16 +26,16 @@ export default function Sorting() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [activeTab, setActiveTab] = useState(TABS[0].value);
   const { data } = useQuery({
-    queryKey: ["sorting", activeTab],
+    queryKey: ['sorting', activeTab],
     queryFn: () => getChartStock({ chartTabEnum: activeTab, count: 5 }),
-    select: (data) => data.filter((item) => item.type === "STOCK"),
+    select: (data) => data.filter((item) => item.type === 'STOCK'),
   });
 
-  const startScroll = (direction: "left" | "right") => {
+  const startScroll = (direction: 'left' | 'right') => {
     if (intervalRef.current) return;
     intervalRef.current = setInterval(() => {
       if (scrollRef.current) {
-        scrollRef.current.scrollLeft += direction === "right" ? 10 : -10;
+        scrollRef.current.scrollLeft += direction === 'right' ? 10 : -10;
       }
     }, 16);
   };
@@ -62,10 +62,10 @@ export default function Sorting() {
           {!leftInView && (
             <button
               className="p-1.5 cursor-pointer absolute left-0 top-[10px] size-4 z-20"
-              onMouseDown={() => startScroll("left")}
+              onMouseDown={() => startScroll('left')}
               onMouseUp={stopScroll}
               onMouseLeave={stopScroll}
-              onTouchStart={() => startScroll("left")}
+              onTouchStart={() => startScroll('left')}
               onTouchEnd={stopScroll}
             >
               <ChevronLeft className="size-4" />
@@ -85,8 +85,8 @@ export default function Sorting() {
                 className={`px-4 py-3 font-semibold text-base transition-all border-b-2 whitespace-nowrap
                   ${
                     activeTab === tab.value
-                      ? "text-700 border-white"
-                      : "border-transparent hover:text-primary/80 text-mono400"
+                      ? 'text-700 border-white'
+                      : 'border-transparent hover:text-primary/80 text-mono400'
                   }
                 `}
                 onClick={() => setActiveTab(tab.value)}
@@ -110,10 +110,10 @@ export default function Sorting() {
           {!rightInView && (
             <button
               className="p-1.5 cursor-pointer absolute right-0 top-[10px] size-4 "
-              onMouseDown={() => startScroll("right")}
+              onMouseDown={() => startScroll('right')}
               onMouseUp={stopScroll}
               onMouseLeave={stopScroll}
-              onTouchStart={() => startScroll("right")}
+              onTouchStart={() => startScroll('right')}
               onTouchEnd={stopScroll}
             >
               <ChevronRight className="size-4" />
@@ -146,7 +146,7 @@ const StockItem = ({
     <div
       className="cursor-pointer"
       onClick={() => {
-        openModal(StockModal, { ric: "asdf" });
+        openModal(StockModal, { ric: 'asdf' });
       }}
     >
       <div className="flex flex-row gap-x-2">

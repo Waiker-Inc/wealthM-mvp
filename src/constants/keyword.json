@@ -1,0 +1,102 @@
+[
+  {
+    "type": "stock",
+    "keyword": "실적",
+    "question": "{stock}의 최근 실적은 어떤가요? 그리고 다음 실적 발표는 언제인가요?"
+  },
+  {
+    "type": "stock",
+    "keyword": "매출",
+    "question": "{stock}의 최근 매출은 어떻게 변화했나요?"
+  },
+  {
+    "type": "stock",
+    "keyword": "주당 순이익",
+    "question": "{stock}의 최근 주당 순이익(EPS)은 얼마인가요?"
+  },
+  {
+    "type": "stock",
+    "keyword": "성장 가능성",
+    "question": "{stock}의 성장 가능성은 어떻게 평가되나요?"
+  },
+  {
+    "type": "stock",
+    "keyword": "내부자 거래",
+    "question": "{stock}에서 최근 내부자 거래가 있었나요?"
+  },
+  {
+    "type": "stock",
+    "keyword": "주주 거래",
+    "question": "{stock}의 주요 주주(내부자,기관,정치인) 거래 내역이 궁금합니다."
+  },
+  {
+    "type": "stock",
+    "keyword": "주가 변동",
+    "question": "{stock}의 주가 변동 추이는 어떠한가요?"
+  },
+  {
+    "type": "stock",
+    "keyword": "최근 소식",
+    "question": "{stock}과 관련된 최근 소식이나 이슈가 있나요?"
+  },
+  {
+    "type": "etf",
+    "keyword": "구성 종목",
+    "question": "{etf}의 주요 구성 종목은 무엇인가요?"
+  },
+  {
+    "type": "etf",
+    "keyword": "수익률",
+    "question": "{etf}의 최근 수익률은 어떻게 되나요?"
+  },
+  {
+    "type": "etf",
+    "keyword": "변동성",
+    "question": "{etf}의 변동성은 어느 정도인가요?"
+  },
+  {
+    "type": "etf",
+    "keyword": "최근 동향",
+    "question": "{etf}의 최근 동향이나 이슈가 있나요?"
+  },
+  {
+    "type": "etf",
+    "keyword": "괴리율",
+    "question": "{etf}의 괴리율은 어느 정도인가요?"
+  },
+  {
+    "type": "etf",
+    "keyword": "수수료",
+    "question": "{etf}의 운용 수수료는 어떻게 되나요?"
+  },
+  {
+    "type": "etf",
+    "keyword": "벤치마크",
+    "question": "{etf}가 추종하는 벤치마크는 무엇인가요?"
+  },
+  {
+    "type": "economic_indicator",
+    "keyword": "정의",
+    "question": "{indicator}는 무엇을 의미하나요?"
+  },
+  {
+    "type": "economic_indicator",
+    "keyword": "발표 시기",
+    "question": "{indicator}는 언제 발표되나요?"
+  },
+  {
+    "type": "economic_indicator",
+    "keyword": "발표 주기",
+    "question": "{indicator}의 발표 주기는 어떻게 되나요?"
+  },
+  {
+    "type": "economic_indicator",
+    "keyword": "주가 영향도",
+    "question": "{indicator}가 주가에 미치는 영향은 어느 정도인가요?"
+  },
+  {
+    "type": "economic_indicator",
+    "keyword": "선후행 여부",
+    "question": "{indicator}는 선행지표인가요, 후행지표인가요?"
+  }
+]

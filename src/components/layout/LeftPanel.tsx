@@ -9,11 +9,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useFavoriteSymbols } from '@/hooks/useFavoriteSymbols';
 import { getPriceChangeRate } from '@/api/price';
 import { cn } from '@/lib/utils';
+import { getChatHistorySessionList } from '@/api/chart';
+import useWebSocket from '@/hooks/useWebSocket';
 
 export default function LeftPanel() {
   const { symbols } = useFavoriteSymbols();
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
   const ricList = symbols.map((symbol) => symbol.ric);
+  const { userId } = useWebSocket({});
 
   const { data } = useQuery({
     queryKey: ['left-price-change-rate', ricList],
@@ -21,7 +24,14 @@ export default function LeftPanel() {
     enabled: ricList.length > 0,
   });
 
-  console.log(data);
+  const { data: sessionList } = useQuery({
+    queryKey: ['left-session-list', userId],
+    queryFn: () => getChatHistorySessionList(userId),
+  });
+
+  console.log(sessionList);
+
+  // console.log(data);
 
   return (
     <aside className="bg-bg-low h-[100vh] p-[40px_24px] text-700 overflow-auto">

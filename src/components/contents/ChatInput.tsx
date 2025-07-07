@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
 import { CornerDownLeft } from 'lucide-react';
+import { usePanelSizeStore } from '@/stores/panelSizeStore';
 
 interface ChatInputProps {
   onSubmit: (value: string) => void;
@@ -11,6 +12,7 @@ interface ChatInputProps {
 export const ChatInput = ({ onSubmit, isSearch }: ChatInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState('');
+  const leftPanelWidth = usePanelSizeStore((state) => state.leftPanelWidth);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,20 +22,29 @@ export const ChatInput = ({ onSubmit, isSearch }: ChatInputProps) => {
     setValue('');
   };
 
+  // 중앙 패널의 시작 위치와 너비 계산
+  const centerPanelLeft = leftPanelWidth;
+  const centerPanelWidth = window.innerWidth - leftPanelWidth;
+
+  // Contents 영역 내에서의 중앙 위치 계산
+  const inputLeft = centerPanelLeft + centerPanelWidth / 2;
+  const maxWidth = Math.min(centerPanelWidth - 48, 776);
+
   return (
     <form
       className={cn(
-        `absolute left-1/2 z-20 w-[776px] max-w-full transition-all duration-700 ease-in-out
+        `fixed z-20 transition-all duration-700 ease-in-out
         rounded-[16px] p-[16px_24px] bg-ground2 border-2 border-solid border-transparent
         ${isFocused && 'border-white'}
         ${value && 'border-green700'}
-        ${
-          isSearch
-            ? 'bottom-[40px] top-auto -translate-x-1/2 shadow-2xl'
-            : 'top-[40px] bottom-auto -translate-x-1/2'
-        }
+        ${isSearch ? 'bottom-[40px] shadow-2xl' : 'top-[40px]'}
         `
       )}
+      style={{
+        left: `${inputLeft}px`,
+        width: `${maxWidth}px`,
+        transform: 'translateX(-50%)',
+      }}
       onSubmit={handleSubmit}
     >
       <div className="flex items-center justify-between">

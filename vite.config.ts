@@ -24,7 +24,8 @@ export default defineConfig({
     },
     proxy: {
       '/p1': {
-        target: 'http://10.40.12.128:15014',
+        // target: 'http://10.40.12.128:15014',
+        target: 'https://wealthm-ai-api.waiker.ai',
         changeOrigin: true,
       },
     },

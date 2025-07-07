@@ -1,19 +1,37 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import FAQList from '../contents/FAQList';
 import QuestionCreator from '../contents/QuestionCreator';
 import { ChatInput } from '../contents/ChatInput';
 // import { ChatMessage } from '../contents/ChatMessage';
-import { useChat } from '@/hooks/useChat';
+// import { useChat } from '@/hooks/useChat';
 import useWebSocket from '@/hooks/useWebSocket';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  postChatHistoryMessage,
+  getChatHistoryMessageList,
+  getChatHistorySession,
+} from '@/api/chart';
+import ChatResponseRender from '../contents/ChatResponseRender';
 
 export default function Contents() {
   const [isSearch, setIsSearch] = useState(false);
   const [hideContent, setHideContent] = useState(false);
-  const { addQuestion, updateAnswer } = useChat();
-  const pendingQuestionId = useRef<string | null>(null);
+  // const { addQuestion, updateAnswer } = useChat();
+  const [sessionId, setSessionId] = useState<string>('');
+  const [sessionQuestion, setSessionQuestion] = useState<string | null>(null);
+  // const pendingQuestionId = useRef<string | null>(null);
+  const [, setIsProcessing] = useState(false);
 
-  const { sendMessage } = useWebSocket({
+  const { mutate: getChatHistorySessionMutate } = useMutation({
+    mutationFn: getChatHistorySession,
+  });
+
+  const { mutate: postChatHistoryMessageMutate } = useMutation({
+    mutationFn: postChatHistoryMessage,
+  });
+
+  const { sendMessage, userId } = useWebSocket({
     onOpen: () => {
       console.log('웹소켓 연결됨');
     },
@@ -24,22 +42,86 @@ export default function Contents() {
       console.error('웹소켓 오류:', error);
     },
     onMessage: (message) => {
-      console.log(message);
-      console.log(message.data);
-      const { topic, message: msg, status, task_id } = message.data;
+      console.log(message.data, 333);
+      const {
+        topic,
+        session_id,
+        // user_id,
+        message: msg,
+        // status,
+        // task_id,
+      } = message.data;
       const { message: answer } = msg;
 
-      if (topic === 'final') {
-        updateAnswer(task_id, answer, false);
-      } else if (status === 'Task submitted') {
-        // 서버가 task_id를 내려주는 경우, 질문 등록
-        if (pendingQuestionId.current) {
-          addQuestion(pendingQuestionId.current, task_id);
-          pendingQuestionId.current = null;
-        }
+      setIsProcessing(true);
+
+      if (session_id) {
+        setSessionId(session_id);
       }
+
+      if (topic === 'final') {
+        console.log(answer, 444);
+        setIsProcessing(false);
+      }
+
+      // if (topic === 'final') {
+      //   updateAnswer(task_id, answer, false);
+      // } else if (status === 'Task submitted') {
+      //   // 서버가 task_id를 내려주는 경우, 질문 등록
+      //   if (pendingQuestionId.current) {
+      //     addQuestion(pendingQuestionId.current, task_id);
+      //     pendingQuestionId.current = null;
+      //   }
+      // }
     },
   });
+
+  const { data: chatHistoryMessageList } = useQuery({
+    queryKey: ['chat-history-message', sessionId, userId],
+    queryFn: () =>
+      getChatHistoryMessageList({
+        sessionId: '123',
+        userId,
+        page: 0,
+        size: 100,
+      }),
+    enabled: !!sessionId && !!userId,
+  });
+
+  console.log(chatHistoryMessageList, 666);
+
+  const { mutate: questionExtendMutate } = useMutation({
+    mutationFn: (question: string) => {
+      return fetch('/p1/ai/query/extend', {
+        method: 'POST',
+        body: JSON.stringify({ question }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    },
+    onSuccess: async (data) => {
+      const res = await data.json();
+      sendMessage({
+        question: sessionQuestion,
+        desired_tools: res,
+        id: userId,
+      });
+    },
+    onError: (error) => {
+      console.error('questionExtend error:', error);
+    },
+  });
+
+  useEffect(() => {
+    if (sessionId && userId && sessionQuestion) {
+      getChatHistorySessionMutate({
+        sessionId,
+        sessionTitle: sessionQuestion,
+        userId,
+      });
+    }
+  }, [sessionId, userId, sessionQuestion]);
 
   const handleContentTransitionEnd = () => {
     if (isSearch) setHideContent(true);
@@ -48,37 +130,20 @@ export default function Contents() {
   const handleSubmit = (question: string) => {
     setIsSearch(true);
     // 임시 ID로 바로 등록
-    const tempId = Date.now().toString();
-    addQuestion(question, tempId);
-    // 서버에 tempId도 같이 보냄
-    sendMessage({
-      question: {
-        data: [
-          {
-            question: '테슬라 정치인 거래',
-            language: 'korean',
-            intent: 'query',
-            confidence: 1,
-            widgets: [
-              'PoliticianTradingHistoryByStock',
-              'PoliticianHighReturnStocks',
-              'PoliticianTradingTrends',
-              'PoliticianCommitteeRelatedTrades',
-            ],
-            table_mapping: null,
-            has_augmentation: true,
-          },
-        ],
-        widget: [
-          'PoliticianTradingHistoryByStock',
-          'PoliticianHighReturnStocks',
-          'PoliticianTradingTrends',
-          'PoliticianCommitteeRelatedTrades',
-        ],
-      },
-      tempId,
+    // const tempId = Date.now().toString();
+    if (!sessionQuestion) {
+      setSessionQuestion(question);
+    }
+    // addQuestion(question, tempId);
+    postChatHistoryMessageMutate({
+      userId,
+      sessionId: '123',
+      senderId: 'user',
+      messageType: 'string',
+      contents: question,
     });
-    // pendingQuestionId.current = tempId; // 필요시
+
+    questionExtendMutate(question);
   };
 
   return (
@@ -97,26 +162,12 @@ export default function Contents() {
           <QuestionCreator />
         </div>
       )}
-
-      {isSearch && (
+      {isSearch && ( // isSearch
         <div
-          className="w-[776px] mx-auto flex flex-col gap-4 items-start pt-[40px] pb-[120px] min-h-screen absolute top-0 left-[calc(50%-388px)] overflow-y-auto"
+          className="w-[776px] mx-auto flex flex-col gap-4 items-start pt-[40px] pb-[120px] min-h-screen absolute top-0 left-[calc(50%-388px)] overflow-y-auto bg-black"
           style={{ minHeight: 'calc(100vh - 120px)' }}
         >
-          {/* {qaHistory.map((qa) => (
-            <ChatMessage
-              key={qa.id}
-              question={qa.question}
-              answer={getAnswer(qa.id)}
-              isWaiting={qa.isWaiting}
-            />
-          ))} */}
-          {/* <ChatMessage
-            key="test"
-            question="test"
-            answer="test"
-            isWaiting={false}
-          /> */}
+          <ChatResponseRender message={''} />
         </div>
       )}
     </div>
