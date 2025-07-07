@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 // 마크다운을 파싱하여 HTML로 변환하는 커스텀 파서
 const parseMarkdown = (markdown: string): string => {
   let html = markdown;
@@ -115,7 +116,13 @@ const parseMarkdown = (markdown: string): string => {
   return html;
 };
 
-export default function ChatResponseRender({ message }: { message: string }) {
+export default function ChatResponseRender({
+  message,
+  processMessage,
+}: {
+  message: string;
+  processMessage: string;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [renderedHtml, setRenderedHtml] = useState<string>('');
 
@@ -180,6 +187,17 @@ export default function ChatResponseRender({ message }: { message: string }) {
 
     return () => clearTimeout(timer);
   }, [renderedHtml]);
+
+  if (processMessage) {
+    return (
+      <div className="flex items-center gap-2">
+        <div className="animate-spin">
+          <Loader2 className="w-4 h-4" />
+        </div>
+        <div>{processMessage}</div>
+      </div>
+    );
+  }
 
   return (
     <div

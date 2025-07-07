@@ -21,7 +21,9 @@ export default function Contents() {
   const [sessionId, setSessionId] = useState<string>('');
   const [sessionQuestion, setSessionQuestion] = useState<string | null>(null);
   // const pendingQuestionId = useRef<string | null>(null);
-  const [, setIsProcessing] = useState(false);
+  // const [isProcessing, setIsProcessing] = useState(false);
+  const [processMessage, setProcessMessage] = useState('');
+  const [message, setMessage] = useState('');
 
   const { mutate: getChatHistorySessionMutate } = useMutation({
     mutationFn: getChatHistorySession,
@@ -53,15 +55,16 @@ export default function Contents() {
       } = message.data;
       const { message: answer } = msg;
 
-      setIsProcessing(true);
-
       if (session_id) {
         setSessionId(session_id);
       }
 
+      setProcessMessage('결과 응답 생성중..');
+
       if (topic === 'final') {
         console.log(answer, 444);
-        setIsProcessing(false);
+        setMessage(answer);
+        setProcessMessage('');
       }
 
       // if (topic === 'final') {
@@ -88,7 +91,7 @@ export default function Contents() {
     enabled: !!sessionId && !!userId,
   });
 
-  console.log(chatHistoryMessageList, 666);
+  console.log(chatHistoryMessageList, 555);
 
   const { mutate: questionExtendMutate } = useMutation({
     mutationFn: (question: string) => {
@@ -110,6 +113,9 @@ export default function Contents() {
     },
     onError: (error) => {
       console.error('questionExtend error:', error);
+    },
+    onMutate: () => {
+      setProcessMessage('확장 질문 생성중..');
     },
   });
 
@@ -164,10 +170,13 @@ export default function Contents() {
       )}
       {isSearch && ( // isSearch
         <div
-          className="w-[776px] mx-auto flex flex-col gap-4 items-start pt-[40px] pb-[120px] min-h-screen absolute top-0 left-[calc(50%-388px)] overflow-y-auto bg-black"
+          className="w-[776px] mx-auto flex flex-col gap-4 items-start pt-[40px] pb-[120px] min-h-screen absolute top-0 left-[calc(50%-388px)] overflow-y-auto bg-space1"
           style={{ minHeight: 'calc(100vh - 120px)' }}
         >
-          <ChatResponseRender message={''} />
+          <ChatResponseRender
+            message={message}
+            processMessage={processMessage}
+          />
         </div>
       )}
     </div>

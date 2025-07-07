@@ -105,7 +105,7 @@ const useWebSocket = ({
     // const path = window.location.pathname.split('/');
     // const sessionIdFromUrl = path.length > 1 && path[1] ? path[1] : null;
 
-    return `ws://192.168.20.101:8100/ws/${USER_ID}`;
+    return `${import.meta.env.VITE_SOCKET_URL}/${USER_ID}`;
     // if (sessionIdFromUrl) {
     //   url += `/${sessionIdFromUrl}`;
     // }
