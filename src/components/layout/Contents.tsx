@@ -33,6 +33,8 @@ export default function Contents() {
     mutationFn: postChatHistoryMessage,
   });
 
+  console.log(import.meta.env.VITE_IAPI_URL, 666);
+
   const { sendMessage, userId } = useWebSocket({
     onOpen: () => {
       console.log('웹소켓 연결됨');
