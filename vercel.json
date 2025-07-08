@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/p1/(.*)",
+      "destination": "https://wealthm-ai-api.waiker.ai/$1"
+    },
+    {
+      "source": "/iapi/(.*)",
+      "destination": "https://qa-iapi.waiker.ai/$1"
+    },
+    {
+      "source": "/oapi/(.*)",
+      "destination": "https://beta-oapi.waiker.ai/$1"
+    }
+  ]
+}
