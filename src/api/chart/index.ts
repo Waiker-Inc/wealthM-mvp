@@ -20,20 +20,20 @@ export interface ResGetChartStock {
 
 export interface ResGetChatHistorySession {
   userId: string;
-  sessionId: string;
-  sessionTitle: string;
+  taskId: string;
+  taskTitle: string;
 }
 
 export interface ResGetChatHistoryMessage {
   userId: string;
-  sessionId: string;
+  taskId: string;
   senderId: string;
   messageType: string;
   contents: string;
 }
 
 export interface ResGetChatHistoryMessageList {
-  sessionId: string;
+  taskId: string;
   userId: string;
   page: number;
   size: number;
@@ -78,7 +78,7 @@ export const getChatHistoryMessageList = async (
   params: ResGetChatHistoryMessageList
 ) => {
   const response = await axios.get(
-    `/v1/wealthm/chat-history/message/list?userId=${params.userId}&size=${params.size}&page=${params.page}&sessionId=${params.sessionId}`
+    `/v1/wealthm/chat-history/message/list?userId=${params.userId}&size=${params.size}&page=${params.page}&taskId=${params.taskId}`
   );
   return response.data;
 };

@@ -18,7 +18,7 @@ export default function Contents() {
   const [isSearch, setIsSearch] = useState(false);
   const [hideContent, setHideContent] = useState(false);
   // const { addQuestion, updateAnswer } = useChat();
-  const [sessionId, setSessionId] = useState<string>('');
+  const [taskId, setTaskId] = useState<string>('');
   const [sessionQuestion, setSessionQuestion] = useState<string | null>(null);
   // const pendingQuestionId = useRef<string | null>(null);
   // const [isProcessing, setIsProcessing] = useState(false);
@@ -47,16 +47,16 @@ export default function Contents() {
       console.log(message.data, 333);
       const {
         topic,
-        session_id,
+        // session_id,
         // user_id,
         message: msg,
         // status,
-        // task_id,
+        task_id,
       } = message.data;
       const { message: answer } = msg;
 
-      if (session_id) {
-        setSessionId(session_id);
+      if (task_id) {
+        setTaskId(task_id);
       }
 
       setProcessMessage('결과 응답 생성중..');
@@ -80,15 +80,15 @@ export default function Contents() {
   });
 
   const { data: chatHistoryMessageList } = useQuery({
-    queryKey: ['chat-history-message', sessionId, userId],
+    queryKey: ['chat-history-message', taskId, userId],
     queryFn: () =>
       getChatHistoryMessageList({
-        sessionId: '123',
+        taskId: '123',
         userId,
         page: 0,
         size: 100,
       }),
-    enabled: !!sessionId && !!userId,
+    enabled: !!taskId && !!userId,
   });
 
   console.log(chatHistoryMessageList, 555);
@@ -120,14 +120,14 @@ export default function Contents() {
   });
 
   useEffect(() => {
-    if (sessionId && userId && sessionQuestion) {
+    if (taskId && userId && sessionQuestion) {
       getChatHistorySessionMutate({
-        sessionId,
-        sessionTitle: sessionQuestion,
+        taskId,
+        taskTitle: sessionQuestion,
         userId,
       });
     }
-  }, [sessionId, userId, sessionQuestion]);
+  }, [taskId, userId, sessionQuestion]);
 
   const handleContentTransitionEnd = () => {
     if (isSearch) setHideContent(true);
@@ -143,7 +143,7 @@ export default function Contents() {
     // addQuestion(question, tempId);
     postChatHistoryMessageMutate({
       userId,
-      sessionId: '123',
+      taskId: '123',
       senderId: 'user',
       messageType: 'string',
       contents: question,

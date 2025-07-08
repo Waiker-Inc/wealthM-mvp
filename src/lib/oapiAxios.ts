@@ -2,7 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 export const oapi = axios.create({
-  baseURL: import.meta.env.VITE_OAPI_URL,
+  baseURL: '/oapi',
   headers: {
     'Content-Type': 'application/json',
     lang: 'en',
