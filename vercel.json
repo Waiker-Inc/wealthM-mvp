@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/p1/(.*)",
-      "destination": "/api/p1/$1"
+      "source": "/p1/:path*",
+      "destination": "https://wealthm-ai-api.waiker.ai/:path*"
     }
   ]
 }
