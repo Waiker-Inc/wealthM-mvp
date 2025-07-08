@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/p1/:path*",
-      "destination": "https://wealthm-ai-api.waiker.ai/:path*"
-    }
-  ]
-}

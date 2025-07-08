@@ -481,15 +481,20 @@ export default function MyFavoriteSymbolDialog({
   const [activeTab, setActiveTab] = useState<ChartTabEnum>('TURN_OVER');
   const [ocrResult, setOcrResult] = useState<OCRResult[] | null>(null);
 
+  const isDev = import.meta.env.DEV;
+
   const { mutate: ocr } = useMutation({
     mutationFn: (imageBase64: string) => {
-      return fetch('/p1/ai/ocr', {
-        method: 'POST',
-        body: JSON.stringify({ base64_image: imageBase64 }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      return fetch(
+        isDev ? '/p1/ai/ocr' : import.meta.env.VITE_AI_API_URL + '/p1/ai/ocr',
+        {
+          method: 'POST',
+          body: JSON.stringify({ base64_image: imageBase64 }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
     },
     onSuccess: (data) => {
       setIsProcessing(false);
