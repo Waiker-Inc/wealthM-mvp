@@ -12,5 +12,24 @@
       "source": "/oapi/(.*)",
       "destination": "https://beta-oapi.waiker.ai/$1"
     }
+  ],
+  "headers": [
+    {
+      "source": "/p1/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization, X-Requested-With"
+        }
+      ]
+    }
   ]
 }
