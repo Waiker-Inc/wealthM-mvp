@@ -6,7 +6,7 @@ const parseMarkdown = (markdown: string): string => {
   let html = markdown;
 
   // HTML 코드 블록을 실제 HTML로 변환 (언어 표시 제거)
-  html = html.replace(/```html\s*([\s\S]*?)\s*```/g, (match, htmlContent) => {
+  html = html.replace(/```html\s*([\s\S]*?)\s*```/g, (_, htmlContent) => {
     // HTML 내용에서 불필요한 이스케이프 제거
     const cleanHtml = htmlContent
       .replace(/\\n/g, '\n')
@@ -18,12 +18,9 @@ const parseMarkdown = (markdown: string): string => {
   });
 
   // 일반 코드 블록도 언어 표시 제거
-  html = html.replace(
-    /```(\w+)?\s*([\s\S]*?)\s*```/g,
-    (match, lang, codeContent) => {
-      return `<pre class="bg-muted p-4 rounded-lg overflow-x-auto my-4"><code class="text-sm">${codeContent.trim()}</code></pre>`;
-    }
-  );
+  html = html.replace(/```(\w+)?\s*([\s\S]*?)\s*```/g, (_, __, codeContent) => {
+    return `<pre class="bg-muted p-4 rounded-lg overflow-x-auto my-4"><code class="text-sm">${codeContent.trim()}</code></pre>`;
+  });
 
   // 테이블 처리 (개선된 버전)
   html = html.replace(/(\|.*\|[\s\S]*?)(?=\n\n|\n#|\n##|\n###|$)/g, (match) => {
