@@ -10,7 +10,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   postChatHistoryMessage,
   getChatHistoryMessageList,
-  getChatHistorySession,
+  getChatHistoryTask,
 } from '@/api/chart';
 import ChatResponseRender from '../contents/ChatResponseRender';
 
@@ -25,8 +25,8 @@ export default function Contents() {
   const [processMessage, setProcessMessage] = useState('');
   const [message, setMessage] = useState('');
 
-  const { mutate: getChatHistorySessionMutate } = useMutation({
-    mutationFn: getChatHistorySession,
+  const { mutate: getChatHistoryTaskMutate } = useMutation({
+    mutationFn: getChatHistoryTask,
   });
 
   const { mutate: postChatHistoryMessageMutate } = useMutation({
@@ -130,7 +130,7 @@ export default function Contents() {
 
   useEffect(() => {
     if (taskId && userId && sessionQuestion) {
-      getChatHistorySessionMutate({
+      getChatHistoryTaskMutate({
         taskId,
         taskTitle: sessionQuestion,
         userId,

@@ -18,7 +18,7 @@ export interface ResGetChartStock {
   type: 'STOCK' | 'ETF';
 }
 
-export interface ResGetChatHistorySession {
+export interface ResGetChatHistoryTask {
   userId: string;
   taskId: string;
   taskTitle: string;
@@ -58,18 +58,16 @@ export const getChartStock = async ({
   return response.data;
 };
 
-export const getChatHistorySession = async (
-  params: ResGetChatHistorySession
-) => {
-  const response = await axios.post(`/v1/wealthm/chat-history/session`, {
+export const getChatHistoryTask = async (params: ResGetChatHistoryTask) => {
+  const response = await axios.post(`/v1/wealthm/chat-history/task`, {
     ...params,
   });
   return response.data;
 };
 
-export const getChatHistorySessionList = async (userId: string) => {
+export const getChatHistoryTaskList = async (userId: string) => {
   const response = await axios.get(
-    `/v1/wealthm/chat-history/session/list?userId=${userId}`
+    `/v1/wealthm/chat-history/task/list?userId=${userId}`
   );
   return response.data;
 };

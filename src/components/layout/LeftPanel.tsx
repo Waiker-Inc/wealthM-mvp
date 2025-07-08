@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useFavoriteSymbols } from '@/hooks/useFavoriteSymbols';
 import { getPriceChangeRate } from '@/api/price';
 import { cn } from '@/lib/utils';
-import { getChatHistorySessionList } from '@/api/chart';
+import { getChatHistoryTaskList } from '@/api/chart';
 import useWebSocket from '@/hooks/useWebSocket';
 
 export default function LeftPanel() {
@@ -24,12 +24,12 @@ export default function LeftPanel() {
     enabled: ricList.length > 0,
   });
 
-  const { data: sessionList } = useQuery({
-    queryKey: ['left-session-list', userId],
-    queryFn: () => getChatHistorySessionList(userId),
+  const { data: taskList } = useQuery({
+    queryKey: ['left-task-list', userId],
+    queryFn: () => getChatHistoryTaskList(userId),
   });
 
-  console.log(sessionList);
+  console.log(taskList, 666);
 
   // console.log(data);
 
