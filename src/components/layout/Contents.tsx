@@ -95,22 +95,15 @@ export default function Contents() {
 
   console.log(chatHistoryMessageList, 777);
 
-  const isDev = import.meta.env.DEV;
-
   const { mutate: questionExtendMutate } = useMutation({
     mutationFn: (question: string) => {
-      return fetch(
-        isDev
-          ? '/p1/ai/query/extend'
-          : import.meta.env.VITE_AI_API_URL + '/p1/ai/query/extend',
-        {
-          method: 'POST',
-          body: JSON.stringify({ question }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      return fetch('/p1/ai/query/extend', {
+        method: 'POST',
+        body: JSON.stringify({ question }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     },
     onSuccess: async (data) => {
       const res = await data.json();
