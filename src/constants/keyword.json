@@ -2,42 +2,42 @@
   {
     "type": "stock",
     "keyword": "실적",
-    "question": "{stock}의 최근 실적은 어떤가요? 그리고 다음 실적 발표는 언제인가요?"
+    "question": "의 최근 실적은 어떤가요? 그리고 다음 실적 발표는 언제인가요?"
   },
   {
     "type": "stock",
     "keyword": "매출",
-    "question": "{stock}의 최근 매출은 어떻게 변화했나요?"
+    "question": "의 최근 매출은 어떻게 변화했나요?"
   },
   {
     "type": "stock",
     "keyword": "주당 순이익",
-    "question": "{stock}의 최근 주당 순이익(EPS)은 얼마인가요?"
+    "question": "의 최근 주당 순이익(EPS)은 얼마인가요?"
   },
   {
     "type": "stock",
     "keyword": "성장 가능성",
-    "question": "{stock}의 성장 가능성은 어떻게 평가되나요?"
+    "question": "의 성장 가능성은 어떻게 평가되나요?"
   },
   {
     "type": "stock",
     "keyword": "내부자 거래",
-    "question": "{stock}에서 최근 내부자 거래가 있었나요?"
+    "question": "에서 최근 내부자 거래가 있었나요?"
   },
   {
     "type": "stock",
     "keyword": "주주 거래",
-    "question": "{stock}의 주요 주주(내부자,기관,정치인) 거래 내역이 궁금합니다."
+    "question": "의 주요 주주(내부자,기관,정치인) 거래 내역이 궁금합니다."
   },
   {
     "type": "stock",
     "keyword": "주가 변동",
-    "question": "{stock}의 주가 변동 추이는 어떠한가요?"
+    "question": "의 주가 변동 추이는 어떠한가요?"
   },
   {
     "type": "stock",
     "keyword": "최근 소식",
-    "question": "{stock}과 관련된 최근 소식이나 이슈가 있나요?"
+    "question": "과 관련된 최근 소식이나 이슈가 있나요?"
   },
   {
     "type": "etf",

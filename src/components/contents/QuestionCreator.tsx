@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Typography from '../ui/typography';
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
 import { Check } from 'lucide-react';
@@ -12,7 +12,11 @@ const tabList = [
   { value: 'popular', label: '질문이 많은 심볼' },
 ];
 
-export default function QuestionCreator() {
+export default function QuestionCreator({
+  handleSubmit,
+}: {
+  handleSubmit: (question: string) => void;
+}) {
   const [active, setActive] = useState('my');
   return (
     <div className="mt-[58px]">
@@ -47,13 +51,19 @@ export default function QuestionCreator() {
         </div>
 
         {/* 탭 컨텐츠 */}
-        <div className="py-4">{active === 'my' && <MySymbolTable />}</div>
+        <div className="py-4">
+          {active === 'my' && <MySymbolTable handleSubmit={handleSubmit} />}
+        </div>
       </div>
     </div>
   );
 }
 
-function MySymbolTable() {
+function MySymbolTable({
+  handleSubmit,
+}: {
+  handleSubmit: (question: string) => void;
+}) {
   const { symbols } = useFavoriteSymbols();
   const [activeSymbol, setActiveSymbol] = useState<string | null>(null);
   const [activeKeyword, setActiveKeyword] = useState<string | null>(null);
@@ -85,6 +95,12 @@ function MySymbolTable() {
   //     )
   //   : keywords;
 
+  useEffect(() => {
+    if (activeSymbol && activeKeyword) {
+      handleSubmit(`${activeSymbol} ${activeKeyword}`);
+    }
+  }, [activeSymbol, activeKeyword]);
+
   return (
     <div className="mt-[20px] flex">
       {/* 심볼 리스트 */}
@@ -92,7 +108,7 @@ function MySymbolTable() {
         <Typography size="body-sm">심볼</Typography>
         <div className="mt-[16px]">
           {data?.map((symbol) => {
-            const isActive = activeSymbol === symbol.ric;
+            const isActive = activeSymbol === symbol.name;
             // const isDimmed =
             //   activeKeyword && !symbol.keywords.includes(activeKeyword);
             return (
@@ -101,11 +117,13 @@ function MySymbolTable() {
                 tabIndex={0}
                 role="button"
                 aria-label={symbol.name}
-                onClick={() => handleSymbolClick(symbol.ric)}
+                onClick={() => handleSymbolClick(symbol.name)}
                 onKeyDown={(e) =>
                   e.key === 'Enter' && handleSymbolClick(symbol.ric)
                 }
-                className={`flex items-center gap-[10px] py-[12px] px-2 rounded-lg cursor-pointer transition`}
+                className={`flex items-center gap-[10px] py-[12px] px-2 rounded-lg cursor-pointer transition ${
+                  activeSymbol && !isActive && 'opacity-50'
+                }`}
               >
                 {isActive ? (
                   <div className="w-[32px] h-[32px] bg-green700 rounded-full flex items-center justify-center">
@@ -145,7 +163,7 @@ function MySymbolTable() {
                 key={keyword.keyword}
                 tabIndex={0}
                 aria-label={keyword.keyword}
-                onClick={() => handleKeywordClick(keyword.keyword)}
+                onClick={() => handleKeywordClick(keyword.question)}
                 className={`rounded-[4px] p-[6px_12px] max-w-fit min-w-fit text-mono450 text-sm transition cursor-pointer
                   ${isActive ? 'bg-green700 text-white' : 'bg-mono50'}
                 `}

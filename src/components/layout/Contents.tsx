@@ -173,8 +173,8 @@ export default function Contents() {
           )}
           onTransitionEnd={handleContentTransitionEnd}
         >
-          <FAQList />
-          <QuestionCreator />
+          <FAQList handleSubmit={handleSubmit} />
+          <QuestionCreator handleSubmit={handleSubmit} />
         </div>
       )}
       {isSearch && ( // isSearch
