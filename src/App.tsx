@@ -20,9 +20,6 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  const theme = localStorage.getItem('theme') || 'dark';
-  const lang = localStorage.getItem('lang') || 'en';
-
   const updatePanelInfo = usePanelSizeStore((state) => state.updatePanelInfo);
 
   const handlePanelResize = (sizes: number[]) => {
