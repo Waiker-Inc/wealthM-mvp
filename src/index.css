@@ -56,6 +56,26 @@
   --color-slate-500: hsla(215, 18%, 47%, 1);
   --color-slate-300: hsla(215, 30%, 84%, 1);
   --color-slate-100: hsla(215, 41%, 96%, 1);
+
+  /* Rise Colors - Korean */
+  --color-rise-700: hsla(357, 87%, 55%, 1); /* #F02832 */
+  --color-rise-600: hsla(357, 88%, 58%, 1); /* #F2363F */
+  --color-rise-500: hsla(357, 91%, 64%, 1); /* #F74F57 */
+  --color-rise-400: hsla(357, 93%, 73%, 1); /* #FA787F */
+  --color-rise-300: hsla(357, 94%, 81%, 1); /* #FC9FA4 */
+  --color-rise-200: hsla(357, 89%, 89%, 1); /* #FCCCCE */
+  --color-rise-100: hsla(357, 86%, 95%, 1); /* #FDE5E6 */
+  --color-rise-50: hsla(357, 86%, 97%, 1); /* #FEF2F3 */
+
+  /* Drop Colors - Korean */
+  --color-drop-700: hsla(214, 95%, 50%, 1);
+  --color-drop-600: hsla(214, 96%, 57%, 1);
+  --color-drop-500: hsla(214, 100%, 65%, 1);
+  --color-drop-400: hsla(210, 100%, 73%, 1);
+  --color-drop-300: hsla(210, 100%, 83%, 1);
+  --color-drop-200: hsla(210, 100%, 90%, 1);
+  --color-drop-100: hsla(210, 100%, 95%, 1);
+  --color-drop-50: hsla(212, 100%, 97%, 1);
 }
 
 @theme inline {

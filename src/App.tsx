@@ -36,7 +36,7 @@ function App() {
   };
 
   return (
-    <div data-theme={theme} lang={lang}>
+    <div>
       <QueryClientProvider client={queryClient}>
         <ResizablePanelGroup
           direction="horizontal"
