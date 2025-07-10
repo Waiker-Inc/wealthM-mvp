@@ -4,7 +4,6 @@ import { Button } from '../ui/button';
 import { Avatar, AvatarImage } from '../ui/avatar';
 import { useState } from 'react';
 import MyFavoriteSymbolDialog from '@/components/contents/MyFavoriteSymbolDialog';
-import { Progress } from '../ui/progress';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useFavoriteSymbols } from '@/hooks/useFavoriteSymbols';
 import { getPriceChangeRate } from '@/api/price';
