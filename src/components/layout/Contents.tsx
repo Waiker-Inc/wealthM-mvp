@@ -14,11 +14,40 @@ import {
 } from '@/api/chart';
 import ChatResponseRender from '../contents/ChatResponseRender';
 
+// 로컬스토리지 키 상수
+const TASK_ID_STORAGE_KEY = 'wealthm_task_id';
+
+// 로컬스토리지 유틸리티 함수들
+const getTaskIdFromStorage = (): string => {
+  try {
+    return localStorage.getItem(TASK_ID_STORAGE_KEY) || '';
+  } catch (error) {
+    console.error('로컬스토리지에서 taskId 읽기 실패:', error);
+    return '';
+  }
+};
+
+const setTaskIdToStorage = (taskId: string): void => {
+  try {
+    localStorage.setItem(TASK_ID_STORAGE_KEY, taskId);
+  } catch (error) {
+    console.error('로컬스토리지에 taskId 저장 실패:', error);
+  }
+};
+
+const clearTaskIdFromStorage = (): void => {
+  try {
+    localStorage.removeItem(TASK_ID_STORAGE_KEY);
+  } catch (error) {
+    console.error('로컬스토리지에서 taskId 삭제 실패:', error);
+  }
+};
+
 export default function Contents() {
   const [isSearch, setIsSearch] = useState(false);
   const [hideContent, setHideContent] = useState(false);
   // const { addQuestion, updateAnswer } = useChat();
-  const [taskId, setTaskId] = useState<string>('');
+  const [taskId, setTaskId] = useState<string>(() => getTaskIdFromStorage());
   const [sessionQuestion, setSessionQuestion] = useState<string | null>(null);
   // const pendingQuestionId = useRef<string | null>(null);
   // const [isProcessing, setIsProcessing] = useState(false);
@@ -33,7 +62,16 @@ export default function Contents() {
     mutationFn: postChatHistoryMessage,
   });
 
-  console.log(import.meta.env.VITE_IAPI_URL, 666);
+  console.log(import.meta.env.VITE_IAPI_URL, 123123123);
+
+  // taskId 상태가 변경될 때마다 로컬스토리지에 저장
+  useEffect(() => {
+    if (taskId) {
+      setTaskIdToStorage(taskId);
+    } else {
+      clearTaskIdFromStorage();
+    }
+  }, [taskId]);
 
   const { sendMessage, userId } = useWebSocket({
     onOpen: () => {
@@ -53,9 +91,8 @@ export default function Contents() {
         // user_id,
         message: msg,
         // status,
-        task_id,
       } = message.data;
-      const { message: answer } = msg;
+      const { message: answer, task_id } = msg;
 
       if (task_id) {
         setTaskId(task_id);
@@ -64,9 +101,16 @@ export default function Contents() {
       setProcessMessage('결과 응답 생성중..');
 
       if (topic === 'final') {
-        console.log(answer, 444);
+        console.log(answer);
         setMessage(answer);
         setProcessMessage('');
+        postChatHistoryMessageMutate({
+          userId,
+          taskId: taskId || '',
+          senderId: 'ai',
+          messageType: 'string',
+          contents: answer,
+        });
       }
 
       // if (topic === 'final') {
@@ -85,7 +129,7 @@ export default function Contents() {
     queryKey: ['chat-history-message', taskId, userId],
     queryFn: () =>
       getChatHistoryMessageList({
-        taskId: '123',
+        taskId: taskId || '',
         userId,
         page: 0,
         size: 100,
@@ -93,7 +137,7 @@ export default function Contents() {
     enabled: !!taskId && !!userId,
   });
 
-  console.log(chatHistoryMessageList, 777);
+  console.log(chatHistoryMessageList);
 
   const isDev = import.meta.env.DEV;
 
@@ -118,6 +162,7 @@ export default function Contents() {
         question: sessionQuestion,
         desired_tools: res,
         id: userId,
+        taskId: taskId || '',
       });
     },
     onError: (error) => {
@@ -142,6 +187,16 @@ export default function Contents() {
     if (isSearch) setHideContent(true);
   };
 
+  // 새로운 세션 시작 시 taskId 초기화
+  const handleNewSession = () => {
+    setTaskId('');
+    setSessionQuestion(null);
+    setMessage('');
+    setProcessMessage('');
+    setIsSearch(false);
+    setHideContent(false);
+  };
+
   const handleSubmit = (question: string) => {
     setIsSearch(true);
     // 임시 ID로 바로 등록
@@ -150,20 +205,44 @@ export default function Contents() {
       setSessionQuestion(question);
     }
     // addQuestion(question, tempId);
-    postChatHistoryMessageMutate({
-      userId,
-      taskId: '123',
-      senderId: 'user',
-      messageType: 'string',
-      contents: question,
-    });
 
     questionExtendMutate(question);
   };
 
+  // 컴포넌트 마운트 시 로컬스토리지에서 taskId 복원
+  useEffect(() => {
+    const storedTaskId = getTaskIdFromStorage();
+    if (storedTaskId) {
+      setTaskId(storedTaskId);
+      console.log('로컬스토리지에서 taskId 복원:', storedTaskId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (taskId && sessionQuestion) {
+      postChatHistoryMessageMutate({
+        userId,
+        taskId: taskId || '',
+        senderId: 'user',
+        messageType: 'string',
+        contents: sessionQuestion,
+      });
+    }
+  }, [taskId, sessionQuestion]);
+
   return (
     <div className="relative min-h-screen overflow-y-scroll pb-[120px]">
       <ChatInput onSubmit={handleSubmit} isSearch={isSearch} />
+
+      {/* 새 세션 시작 버튼 (디버깅용) */}
+      {taskId && (
+        <button
+          onClick={handleNewSession}
+          className="fixed top-4 right-4 z-50 px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600"
+        >
+          새 세션
+        </button>
+      )}
 
       {!hideContent && (
         <div

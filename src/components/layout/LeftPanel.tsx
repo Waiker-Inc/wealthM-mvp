@@ -11,6 +11,8 @@ import { getPriceChangeRate } from '@/api/price';
 import { cn } from '@/lib/utils';
 import { getChatHistoryTaskList } from '@/api/chart';
 import useWebSocket from '@/hooks/useWebSocket';
+import { groupBy } from 'lodash-es';
+import dayjs from 'dayjs';
 
 export default function LeftPanel() {
   const { symbols } = useFavoriteSymbols();
@@ -29,9 +31,16 @@ export default function LeftPanel() {
     queryFn: () => getChatHistoryTaskList(userId),
   });
 
-  console.log(taskList, 666);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const result = taskList?.tasks.map((task: any) => {
+    return {
+      ...task,
+      updatedDt: dayjs(task.updatedDt).format('YYYY-MM-DD'),
+    };
+  });
 
-  // console.log(data);
+  const groupedTaskList = groupBy(result || [], 'updatedDt');
+  console.log(groupedTaskList);
 
   return (
     <aside className="bg-bg-low h-[100vh] p-[40px_24px] text-700 overflow-auto">
@@ -87,34 +96,29 @@ export default function LeftPanel() {
             </Typography>
           </div>
 
-          <div className="mt-[16px] ml-[8px]">
-            <Typography size="label-lg" className="text-text-highest">
-              오늘
-            </Typography>
-            <ul>
-              <Typography
-                as="li"
-                size="body-sm"
-                className="cursor-pointer text-text-low p-[8px] rounded-[4px] hover:bg-surface-low hover:text-700"
-              >
-                팔란티어의 1년 수익률
-              </Typography>
-            </ul>
-          </div>
-          <div className="mt-[16px] ml-[8px]">
-            <Typography size="label-lg" className="text-text-highest">
-              어제
-            </Typography>
-            <ul>
-              <Typography
-                as="li"
-                size="body-sm"
-                className="cursor-pointer text-text-low p-[8px] rounded-[4px] hover:bg-surface-low hover:text-700"
-              >
-                최근 급등주 리스트
-              </Typography>
-            </ul>
-          </div>
+          {Object.entries(groupedTaskList).map(([date, tasks]) => {
+            return (
+              <div className="mt-[16px] ml-[8px]" key={date}>
+                <Typography size="label-lg" className="text-text-highest">
+                  {date}
+                </Typography>
+                <ul>
+                  {tasks.map((task) => {
+                    return (
+                      <Typography
+                        as="li"
+                        key={task.taskId}
+                        size="body-sm"
+                        className="cursor-pointer text-text-low p-[8px] rounded-[4px] hover:bg-surface-low hover:text-700"
+                      >
+                        {task.taskTitle}
+                      </Typography>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          })}
         </li>
         <li>
           <div className="flex items-center gap-[10px]">
