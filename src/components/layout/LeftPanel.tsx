@@ -5,7 +5,7 @@ import { Avatar, AvatarImage } from '../ui/avatar';
 import { useState } from 'react';
 import MyFavoriteSymbolDialog from '@/components/contents/MyFavoriteSymbolDialog';
 import { Progress } from '../ui/progress';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useFavoriteSymbols } from '@/hooks/useFavoriteSymbols';
 import { getPriceChangeRate } from '@/api/price';
 import { cn } from '@/lib/utils';
@@ -13,12 +13,25 @@ import { getChatHistoryTaskList } from '@/api/chart';
 import useWebSocket from '@/hooks/useWebSocket';
 import { groupBy } from 'lodash-es';
 import dayjs from 'dayjs';
+import useQuestionStore from '@/stores/questionStroe';
+
+const TASK_ID_STORAGE_KEY = 'wealthm_task_id';
+
+const setTaskIdToStorage = (taskId: string): void => {
+  try {
+    localStorage.setItem(TASK_ID_STORAGE_KEY, taskId);
+  } catch (error) {
+    console.error('로컬스토리지에 taskId 저장 실패:', error);
+  }
+};
 
 export default function LeftPanel() {
+  const queryClient = useQueryClient();
   const { symbols } = useFavoriteSymbols();
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
   const ricList = symbols.map((symbol) => symbol.ric);
   const { userId } = useWebSocket({});
+  const { setSelectedTaskId, selectedTaskId, setIsSearch } = useQuestionStore();
 
   const { data } = useQuery({
     queryKey: ['left-price-change-rate', ricList],
@@ -40,7 +53,14 @@ export default function LeftPanel() {
   });
 
   const groupedTaskList = groupBy(result || [], 'updatedDt');
-  console.log(groupedTaskList);
+
+  const handleClickNewQuestion = () => {
+    localStorage.removeItem(TASK_ID_STORAGE_KEY);
+    setIsSearch(false);
+    setSelectedTaskId('');
+    setTaskIdToStorage('');
+    queryClient.resetQueries();
+  };
 
   return (
     <aside className="bg-bg-low h-[100vh] p-[40px_24px] text-700 overflow-auto">
@@ -72,7 +92,10 @@ export default function LeftPanel() {
       </h1>
       <ul className="mt-[48px] flex flex-col gap-[32px]">
         <li>
-          <div className="flex items-center gap-[10px]">
+          <div
+            className="flex items-center gap-[10px]"
+            onClick={handleClickNewQuestion}
+          >
             <Pen size={20} />
             <Typography size="body-lg" weight="bold">
               새로운 질문
@@ -109,7 +132,22 @@ export default function LeftPanel() {
                         as="li"
                         key={task.taskId}
                         size="body-sm"
-                        className="cursor-pointer text-text-low p-[8px] rounded-[4px] hover:bg-surface-low hover:text-700"
+                        className={`cursor-pointer text-text-low p-[8px] rounded-[4px] hover:bg-surface-low hover:text-700 ${
+                          selectedTaskId === task.taskId
+                            ? 'bg-surface-low text-700'
+                            : ''
+                        }`}
+                        onClick={() => {
+                          setSelectedTaskId(task.taskId);
+                          setTaskIdToStorage(task.taskId);
+                          queryClient.invalidateQueries({
+                            queryKey: [
+                              'chat-history-message',
+                              task.taskId,
+                              userId,
+                            ],
+                          });
+                        }}
                       >
                         {task.taskTitle}
                       </Typography>

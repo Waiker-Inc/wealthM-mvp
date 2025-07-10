@@ -165,7 +165,6 @@ function SearchInputWithDropdown() {
   const handleSearchSubmit = useCallback(() => {
     if (!searchQuery.trim()) return;
 
-    console.log(searchQuery);
     // 임시로 더미 데이터 추가 (실제로는 API 호출)
     // addFavoriteSymbol(data[0]);
     setSearchQuery('');
@@ -184,7 +183,6 @@ function SearchInputWithDropdown() {
       } else if (e.key === 'Enter') {
         const selected = data[highlightIndex];
         if (selected) {
-          console.log(selected);
           addFavoriteSymbol({
             ric: selected.ric,
             name: selected.name,

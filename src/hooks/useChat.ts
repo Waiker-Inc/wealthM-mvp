@@ -1,5 +1,5 @@
-import type { QAMessage } from "@/types/chat";
-import { useState, useCallback } from "react";
+import type { QAMessage } from '@/types/chat';
+import { useState, useCallback } from 'react';
 
 export const useChat = () => {
   const [qaHistory, setQaHistory] = useState<QAMessage[]>([]);
@@ -13,7 +13,6 @@ export const useChat = () => {
       question,
       isWaiting: true,
     };
-    console.log("add", newQuestion);
 
     setQaHistory((prev) => [...prev, newQuestion]);
     setCurrentWaitingId(newQuestionId);
@@ -27,7 +26,7 @@ export const useChat = () => {
         setQaHistory([
           {
             id: taskId,
-            question: "",
+            question: '',
             answer,
             isWaiting,
           },
@@ -47,8 +46,8 @@ export const useChat = () => {
   const getAnswer = useCallback(
     (taskId: string) => {
       const item = qaHistory.find((q) => q.id === taskId);
-      if (!item) return "";
-      return item.answer || "증시 데이터를 분석하는 중입니다..";
+      if (!item) return '';
+      return item.answer || '증시 데이터를 분석하는 중입니다..';
     },
     [qaHistory]
   );
