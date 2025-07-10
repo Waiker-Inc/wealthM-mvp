@@ -10,28 +10,17 @@ import { useFavoriteSymbols } from '@/hooks/useFavoriteSymbols';
 import { getPriceChangeRate } from '@/api/price';
 import { cn } from '@/lib/utils';
 import { getChatHistoryTaskList } from '@/api/chart';
-import useWebSocket from '@/hooks/useWebSocket';
 import { groupBy } from 'lodash-es';
 import dayjs from 'dayjs';
-import useQuestionStore from '@/stores/questionStroe';
-
-const TASK_ID_STORAGE_KEY = 'wealthm_task_id';
-
-const setTaskIdToStorage = (taskId: string): void => {
-  try {
-    localStorage.setItem(TASK_ID_STORAGE_KEY, taskId);
-  } catch (error) {
-    console.error('로컬스토리지에 taskId 저장 실패:', error);
-  }
-};
+import { useIdStore, useQuestionStore } from '@/stores/commonStores';
 
 export default function LeftPanel() {
   const queryClient = useQueryClient();
   const { symbols } = useFavoriteSymbols();
   const [isOpenFavorite, setIsOpenFavorite] = useState(false);
   const ricList = symbols.map((symbol) => symbol.ric);
-  const { userId } = useWebSocket({});
-  const { setSelectedTaskId, selectedTaskId, setIsSearch } = useQuestionStore();
+  const { userId, setTaskId, taskId } = useIdStore();
+  const { setIsSearch, setIsHideContent } = useQuestionStore();
 
   const { data } = useQuery({
     queryKey: ['left-price-change-rate', ricList],
@@ -55,10 +44,9 @@ export default function LeftPanel() {
   const groupedTaskList = groupBy(result || [], 'updatedDt');
 
   const handleClickNewQuestion = () => {
-    localStorage.removeItem(TASK_ID_STORAGE_KEY);
+    setTaskId('');
     setIsSearch(false);
-    setSelectedTaskId('');
-    setTaskIdToStorage('');
+    setIsHideContent(false);
     queryClient.resetQueries();
   };
 
@@ -93,7 +81,7 @@ export default function LeftPanel() {
       <ul className="mt-[48px] flex flex-col gap-[32px]">
         <li>
           <div
-            className="flex items-center gap-[10px]"
+            className="flex items-center gap-[10px] cursor-pointer"
             onClick={handleClickNewQuestion}
           >
             <Pen size={20} />
@@ -101,7 +89,7 @@ export default function LeftPanel() {
               새로운 질문
             </Typography>
           </div>
-          <Typography size="body-sm" className="text-mono400 mt-[12px]">
+          {/* <Typography size="body-sm" className="text-mono400 mt-[12px]">
             하루에 최대 10개의 질문이 가능합니다.
           </Typography>
           <div className="flex items-center gap-[10px] mt-[5px]">
@@ -109,7 +97,7 @@ export default function LeftPanel() {
             <Typography size="label-md" className="text-mono400">
               5/10
             </Typography>
-          </div>
+          </div> */}
         </li>
         <li>
           <div className="flex items-center gap-[10px]">
@@ -133,20 +121,13 @@ export default function LeftPanel() {
                         key={task.taskId}
                         size="body-sm"
                         className={`cursor-pointer text-text-low p-[8px] rounded-[4px] hover:bg-surface-low hover:text-700 ${
-                          selectedTaskId === task.taskId
+                          taskId === task.taskId
                             ? 'bg-surface-low text-700'
                             : ''
                         }`}
                         onClick={() => {
-                          setSelectedTaskId(task.taskId);
-                          setTaskIdToStorage(task.taskId);
-                          queryClient.invalidateQueries({
-                            queryKey: [
-                              'chat-history-message',
-                              task.taskId,
-                              userId,
-                            ],
-                          });
+                          setTaskId(task.taskId);
+                          queryClient.resetQueries();
                         }}
                       >
                         {task.taskTitle}

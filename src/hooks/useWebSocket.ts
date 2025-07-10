@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useIdStore } from '@/stores/commonStores';
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface WebSocketMessage {
@@ -27,46 +28,14 @@ interface UseWebSocketReturn {
   disconnect: () => void;
   lastMessage: WebSocketMessage | null;
   error: string | null;
-  userId: string;
 }
 
-// USER_ID 관리 함수들
 const generateUserId = (): string => {
   const randomId = Math.floor(Math.random() * 999) + 1;
   return `u${String(randomId).padStart(3, '0')}`;
 };
 
-const getUserIdFromStorage = (): string | null => {
-  try {
-    return localStorage.getItem('USER_ID');
-  } catch (error) {
-    console.error('로컬스토리지에서 USER_ID를 가져오는 중 오류:', error);
-    return null;
-  }
-};
-
-const setUserIdToStorage = (userId: string): void => {
-  try {
-    localStorage.setItem('USER_ID', userId);
-  } catch (error) {
-    console.error('로컬스토리지에 USER_ID를 저장하는 중 오류:', error);
-  }
-};
-
-// USER_ID 초기화
-const initializeUserId = (): string => {
-  const storedUserId = getUserIdFromStorage();
-
-  if (storedUserId) {
-    return storedUserId;
-  } else {
-    const newUserId = generateUserId();
-    setUserIdToStorage(newUserId);
-    return newUserId;
-  }
-};
-
-const USER_ID = initializeUserId();
+const userIdInit = generateUserId();
 
 const useWebSocket = ({
   onOpen,
@@ -80,6 +49,7 @@ const useWebSocket = ({
   const [messages, setMessages] = useState<WebSocketMessage[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [lastMessage, setLastMessage] = useState<WebSocketMessage | null>(null);
+  const { setUserId, userId } = useIdStore();
 
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectAttemptsRef = useRef(0);
@@ -91,6 +61,12 @@ const useWebSocket = ({
     onError,
     onMessage,
   });
+
+  useEffect(() => {
+    if (!userId) {
+      setUserId(userIdInit);
+    }
+  }, [userId]);
 
   useEffect(() => {
     callbacksRef.current = {
@@ -105,7 +81,7 @@ const useWebSocket = ({
     // const path = window.location.pathname.split('/');
     // const sessionIdFromUrl = path.length > 1 && path[1] ? path[1] : null;
 
-    return `${import.meta.env.VITE_SOCKET_URL}/${USER_ID}`;
+    return `${import.meta.env.VITE_SOCKET_URL}/${userId || userIdInit}`;
     // if (sessionIdFromUrl) {
     //   url += `/${sessionIdFromUrl}`;
     // }
@@ -204,7 +180,6 @@ const useWebSocket = ({
     disconnect,
     lastMessage,
     error,
-    userId: USER_ID,
   };
 };
 
