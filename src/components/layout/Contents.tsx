@@ -57,7 +57,9 @@ export default function Contents() {
       if (task_id) {
         setTaskId(task_id);
       }
-      setProcessMessage('결과 응답 생성중..');
+      if (topic !== 'final') {
+        setProcessMessage(answer);
+      }
       if (topic === 'final') {
         console.log(answer);
         setProcessMessage('');
@@ -215,7 +217,9 @@ export default function Contents() {
                           <div className="animate-spin">
                             <Loader2 className="w-4 h-4" />
                           </div>
-                          <div>{processMessage}</div>
+                          <Typography className="text-mono300 px-[20px] py-[8px] truncate w-[776px]">
+                            {processMessage}
+                          </Typography>
                         </div>
                       )}
                     </Fragment>
