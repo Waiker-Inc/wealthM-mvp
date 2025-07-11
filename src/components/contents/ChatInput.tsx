@@ -49,7 +49,7 @@ export const ChatInput = ({ onSubmit, isSearch }: ChatInputProps) => {
     >
       <div className="flex items-center justify-between">
         <Input
-          placeholder="막연한 투자 고민, 웰스엠에 질문하여 명쾌하게 풀어보세요"
+          placeholder="Have any investment concerns? Ask WealthM for clear answers"
           autoFocus
           className={`!border-none !outline-none !ring-0 !focus:outline-none !focus:border-none !focus:ring-0 !focus:ring-transparent !focus:shadow-none placeholder:text-mono500 !bg-transparent p-0 h-[29px] !text-[18px] ${
             value ? 'text-green700' : ''
