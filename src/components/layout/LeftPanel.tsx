@@ -85,7 +85,7 @@ export default function LeftPanel() {
           >
             <Pen size={20} />
             <Typography size="body-lg" weight="bold">
-              새로운 질문
+              New Question
             </Typography>
           </div>
           {/* <Typography size="body-sm" className="text-mono400 mt-[12px]">
@@ -102,7 +102,7 @@ export default function LeftPanel() {
           <div className="flex items-center gap-[10px]">
             <AlignLeft size={20} />
             <Typography size="body-lg" weight="bold">
-              지난 질문들
+              Previous Questions
             </Typography>
           </div>
 
@@ -142,7 +142,7 @@ export default function LeftPanel() {
           <div className="flex items-center gap-[10px]">
             <Bolt size={20} />
             <Typography size="body-lg" weight="bold">
-              내 관심 심볼
+              My Favorite Symbols
             </Typography>
             <Button
               className="ml-auto h-[27px] bg-mono50 text-mono600 cursor-pointer"
@@ -150,12 +150,12 @@ export default function LeftPanel() {
                 setIsOpenFavorite(!isOpenFavorite);
               }}
             >
-              편집
+              Edit
             </Button>
           </div>
           <div className="flex items-center gap-[4px] mt-[16px]">
             <Typography size="label-md" className="text-mono400">
-              상승률 순
+              Price Change Rate
             </Typography>
             <ArrowUpDown size={16} className="text-mono400" />
           </div>

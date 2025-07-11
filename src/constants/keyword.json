@@ -1,102 +1,102 @@
 [
   {
     "type": "stock",
-    "keyword": "실적",
-    "question": "의 최근 실적은 어떤가요? 그리고 다음 실적 발표는 언제인가요?"
+    "keyword": "Performance",
+    "question": "'s recent performance and when is the next earnings announcement?"
   },
   {
     "type": "stock",
-    "keyword": "매출",
-    "question": "의 최근 매출은 어떻게 변화했나요?"
+    "keyword": "Revenue",
+    "question": "'s recent revenue changes?"
   },
   {
     "type": "stock",
-    "keyword": "주당 순이익",
-    "question": "의 최근 주당 순이익(EPS)은 얼마인가요?"
+    "keyword": "EPS",
+    "question": "'s recent earnings per share (EPS)?"
   },
   {
     "type": "stock",
-    "keyword": "성장 가능성",
-    "question": "의 성장 가능성은 어떻게 평가되나요?"
+    "keyword": "Growth Potential",
+    "question": "'s growth potential evaluation?"
   },
   {
     "type": "stock",
-    "keyword": "내부자 거래",
-    "question": "에서 최근 내부자 거래가 있었나요?"
+    "keyword": "Insider Trading",
+    "question": "'s recent insider trading activities?"
   },
   {
     "type": "stock",
-    "keyword": "주주 거래",
-    "question": "의 주요 주주(내부자,기관,정치인) 거래 내역이 궁금합니다."
+    "keyword": "Shareholder Trading",
+    "question": "'s major shareholder (insider, institutional, political) trading history?"
   },
   {
     "type": "stock",
-    "keyword": "주가 변동",
-    "question": "의 주가 변동 추이는 어떠한가요?"
+    "keyword": "Price Movement",
+    "question": "'s stock price movement trend?"
   },
   {
     "type": "stock",
-    "keyword": "최근 소식",
-    "question": "과 관련된 최근 소식이나 이슈가 있나요?"
+    "keyword": "Recent News",
+    "question": "'s recent news or issues?"
   },
   {
     "type": "etf",
-    "keyword": "구성 종목",
-    "question": "{etf}의 주요 구성 종목은 무엇인가요?"
+    "keyword": "Holdings",
+    "question": "What are the main holdings of {etf}?"
   },
   {
     "type": "etf",
-    "keyword": "수익률",
-    "question": "{etf}의 최근 수익률은 어떻게 되나요?"
+    "keyword": "Returns",
+    "question": "What are the recent returns of {etf}?"
   },
   {
     "type": "etf",
-    "keyword": "변동성",
-    "question": "{etf}의 변동성은 어느 정도인가요?"
+    "keyword": "Volatility",
+    "question": "What is the volatility level of {etf}?"
   },
   {
     "type": "etf",
-    "keyword": "최근 동향",
-    "question": "{etf}의 최근 동향이나 이슈가 있나요?"
+    "keyword": "Recent Trends",
+    "question": "Are there any recent trends or issues with {etf}?"
   },
   {
     "type": "etf",
-    "keyword": "괴리율",
-    "question": "{etf}의 괴리율은 어느 정도인가요?"
+    "keyword": "Tracking Error",
+    "question": "What is the tracking error of {etf}?"
   },
   {
     "type": "etf",
-    "keyword": "수수료",
-    "question": "{etf}의 운용 수수료는 어떻게 되나요?"
+    "keyword": "Fees",
+    "question": "What are the management fees for {etf}?"
   },
   {
     "type": "etf",
-    "keyword": "벤치마크",
-    "question": "{etf}가 추종하는 벤치마크는 무엇인가요?"
+    "keyword": "Benchmark",
+    "question": "What benchmark does {etf} track?"
   },
   {
     "type": "economic_indicator",
-    "keyword": "정의",
-    "question": "{indicator}는 무엇을 의미하나요?"
+    "keyword": "Definition",
+    "question": "What does {indicator} mean?"
   },
   {
     "type": "economic_indicator",
-    "keyword": "발표 시기",
-    "question": "{indicator}는 언제 발표되나요?"
+    "keyword": "Release Date",
+    "question": "When is {indicator} released?"
   },
   {
     "type": "economic_indicator",
-    "keyword": "발표 주기",
-    "question": "{indicator}의 발표 주기는 어떻게 되나요?"
+    "keyword": "Release Frequency",
+    "question": "What is the release frequency of {indicator}?"
   },
   {
     "type": "economic_indicator",
-    "keyword": "주가 영향도",
-    "question": "{indicator}가 주가에 미치는 영향은 어느 정도인가요?"
+    "keyword": "Market Impact",
+    "question": "How much does {indicator} affect stock prices?"
   },
   {
     "type": "economic_indicator",
-    "keyword": "선후행 여부",
-    "question": "{indicator}는 선행지표인가요, 후행지표인가요?"
+    "keyword": "Indicator Type",
+    "question": "Is {indicator} a leading or lagging indicator?"
   }
 ]

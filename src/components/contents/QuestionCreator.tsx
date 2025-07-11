@@ -8,8 +8,8 @@ import { getPriceChangeRate } from '@/api/price';
 import keywordData from '@/constants/keyword.json';
 
 const tabList = [
-  { value: 'my', label: '내 관심 심볼' },
-  { value: 'popular', label: '질문이 많은 심볼' },
+  { value: 'my', label: 'My Favorite Symbols' },
+  { value: 'popular', label: 'Popular Symbols' },
 ];
 
 export default function QuestionCreator({
@@ -21,13 +21,14 @@ export default function QuestionCreator({
   return (
     <div className="mt-[58px]">
       <Typography size="body-lg" weight="bold">
-        클릭으로 질문 생성
+        Create Questions with Clicks
       </Typography>
       <Typography size="body-sm" className="text-mono400 mt-[4px]">
-        관심 종목과 키워드를 클릭하여 나만의 질문 프롬프트를 생성해보세요
+        Create your own question prompts by clicking on favorite stocks and
+        keywords
       </Typography>
       <div className="w-full mt-[16px]">
-        {/* 탭 헤더 */}
+        {/* Tab Header */}
         <div className="flex border-b border-border">
           {tabList.map((tab) => (
             <button
@@ -50,7 +51,7 @@ export default function QuestionCreator({
           ))}
         </div>
 
-        {/* 탭 컨텐츠 */}
+        {/* Tab Content */}
         <div className="py-4">
           {active === 'my' && <MySymbolTable handleSubmit={handleSubmit} />}
         </div>
@@ -75,25 +76,15 @@ function MySymbolTable({
     enabled: ricList.length > 0,
   });
 
-  // 심볼 클릭
+  // Symbol click
   const handleSymbolClick = (id: string) => {
     setActiveSymbol(id === activeSymbol ? null : id);
   };
 
-  // 키워드 클릭
+  // Keyword click
   const handleKeywordClick = (id: string) => {
     setActiveKeyword(id === activeKeyword ? null : id);
   };
-
-  // 필터링
-  // const filteredSymbols = activeKeyword
-  //   ? symbols.filter((s) => s.keywords.includes(activeKeyword))
-  //   : symbols;
-  // const filteredKeywords = activeSymbol
-  //   ? keywords.filter((k) =>
-  //       symbols.find((s) => s.id === activeSymbol)?.keywords.includes(k.id)
-  //     )
-  //   : keywords;
 
   useEffect(() => {
     if (activeSymbol && activeKeyword) {
@@ -103,14 +94,12 @@ function MySymbolTable({
 
   return (
     <div className="mt-[20px] flex">
-      {/* 심볼 리스트 */}
+      {/* Symbol List */}
       <div className="flex-1">
-        <Typography size="body-sm">심볼</Typography>
+        <Typography size="body-sm">Symbol</Typography>
         <div className="mt-[16px]">
           {data?.map((symbol) => {
             const isActive = activeSymbol === symbol.name;
-            // const isDimmed =
-            //   activeKeyword && !symbol.keywords.includes(activeKeyword);
             return (
               <div
                 key={symbol.ric}
@@ -147,17 +136,12 @@ function MySymbolTable({
           })}
         </div>
       </div>
-      {/* 키워드 리스트 */}
+      {/* Keyword List */}
       <div className="flex-1">
-        <Typography size="body-sm">키워드</Typography>
+        <Typography size="body-sm">Keyword</Typography>
         <div className="mt-[16px] flex gap-[10px] flex-wrap">
           {keywordData.map((keyword) => {
             const isActive = activeKeyword === keyword.keyword;
-            // const isDimmed =
-            //   activeSymbol &&
-            //   !data
-            //     ?.find((s) => s.ric === activeSymbol)
-            //     ?.keywords.includes(keyword.id);
             return (
               <button
                 key={keyword.keyword}

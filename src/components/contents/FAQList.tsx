@@ -14,64 +14,64 @@ const faqList = [
   {
     symbol: 'AAPL.O',
     type: 'stock',
-    keyword: '실적 전망',
-    question: '다음 분기 실적 전망은 어떻게 되나요?',
-    koreanName: '애플',
+    keyword: 'Performance Outlook',
+    question: 'What is the performance outlook for next quarter?',
+    koreanName: 'Apple',
   },
   {
     symbol: 'TSLA.O',
     type: 'stock',
-    keyword: '어닝 서프라이즈',
-    question: '최근 어닝 서프라이즈 현황은 어떤가요?',
-    koreanName: '테슬라',
+    keyword: 'Earnings Surprise',
+    question: 'How are the recent earnings surprises?',
+    koreanName: 'Tesla',
   },
   {
     symbol: 'NVDA.O',
     type: 'stock',
-    keyword: '기관 거래',
-    question: '기관투자자들이 최근 거래했나요?',
-    koreanName: '엔비디아',
+    keyword: 'Institutional Trading',
+    question: 'Have institutional investors traded recently?',
+    koreanName: 'NVIDIA',
   },
   {
     symbol: 'GOOGL.O',
     type: 'stock',
-    keyword: '주가',
-    question: '현재 주가는 어떻게 되나요?',
-    koreanName: '알파벳',
+    keyword: 'Stock Price',
+    question: 'What is the current stock price?',
+    koreanName: 'Alphabet',
   },
   {
     symbol: 'MSFT.O',
     type: 'stock',
-    keyword: '매출',
-    question: '최근 매출 성장률은 어떻게 되나요?',
-    koreanName: '마이크로소프트',
+    keyword: 'Revenue',
+    question: 'What is the recent revenue growth rate?',
+    koreanName: 'Microsoft',
   },
   {
     symbol: 'AMZN.O',
     type: 'stock',
-    keyword: '최근 소식',
-    question: '관련 최근 뉴스는 무엇인가요?',
-    koreanName: '아마존',
+    keyword: 'Recent News',
+    question: 'What are the recent news related to the company?',
+    koreanName: 'Amazon',
   },
   {
     symbol: 'META.O',
     type: 'stock',
-    keyword: '이익',
-    question: '분기별 순이익 변화는 어떤가요?',
-    koreanName: '메타',
+    keyword: 'Profit',
+    question: 'How has quarterly net income changed?',
+    koreanName: 'Meta',
   },
   {
     symbol: 'NFLX.O',
     type: 'stock',
-    keyword: '이슈',
-    question: '현재 주요 이슈는 무엇인가요?',
-    koreanName: '넷플릭스',
+    keyword: 'Issues',
+    question: 'What are the current major issues?',
+    koreanName: 'Netflix',
   },
   {
     symbol: 'AMD.O',
     type: 'stock',
-    keyword: '실적 발표일',
-    question: '다음 실적 발표일은 언제인가요?',
+    keyword: 'Earnings Date',
+    question: 'When is the next earnings announcement date?',
     koreanName: 'AMD',
   },
 ];
@@ -84,7 +84,7 @@ export default function FAQList({
   return (
     <div className="mt-[56px]">
       <Typography size="body-lg" weight="bold">
-        많이하는 질문
+        Frequently Asked Questions
       </Typography>
       <Carousel
         opts={{

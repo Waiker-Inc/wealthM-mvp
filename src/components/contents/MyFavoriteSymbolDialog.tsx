@@ -32,45 +32,45 @@ import { Star } from 'lucide-react';
 import OCRSymbols, { type OCRResult } from './OCRSymbols';
 
 const TABS: { value: ChartTabEnum; label: string; key: string }[] = [
-  { value: 'TURN_OVER', label: '거래대금', key: 'tradeVolume' },
-  { value: 'TRADE_VOLUME', label: '거래량', key: 'tradeVolume' },
-  { value: 'RAPID_RISE', label: '급상승', key: 'percentChange' },
-  { value: 'RAPID_FALL', label: '급하락', key: 'percentChange' },
+  { value: 'TURN_OVER', label: 'Trading Value', key: 'tradeVolume' },
+  { value: 'TRADE_VOLUME', label: 'Trading Volume', key: 'tradeVolume' },
+  { value: 'RAPID_RISE', label: 'Rapid Rise', key: 'percentChange' },
+  { value: 'RAPID_FALL', label: 'Rapid Fall', key: 'percentChange' },
   { value: 'ETF', label: 'ETF', key: 'tradeVolume' },
 ];
 
-// 1. 탭별 컬럼 정의
+// 1. Define columns by tab
 const TAB_COLUMNS: Record<string, { key: string; label: string }[]> = {
   TURN_OVER: [
-    { key: 'stock', label: '종목' },
-    { key: 'price', label: '현재가' },
-    { key: 'percentChange', label: '등락률' },
-    { key: 'tradeVolume', label: '거래대금' },
+    { key: 'stock', label: 'Stock' },
+    { key: 'price', label: 'Current Price' },
+    { key: 'percentChange', label: 'Change Rate' },
+    { key: 'tradeVolume', label: 'Trading Value' },
   ],
   TRADE_VOLUME: [
-    { key: 'stock', label: '종목' },
-    { key: 'price', label: '현재가' },
-    { key: 'percentChange', label: '등락률' },
-    { key: 'tradeVolume', label: '거래량' },
+    { key: 'stock', label: 'Stock' },
+    { key: 'price', label: 'Current Price' },
+    { key: 'percentChange', label: 'Change Rate' },
+    { key: 'tradeVolume', label: 'Trading Volume' },
   ],
   RAPID_RISE: [
-    { key: 'stock', label: '종목' },
-    { key: 'price', label: '현재가' },
-    { key: 'percentChange', label: '등락률' },
+    { key: 'stock', label: 'Stock' },
+    { key: 'price', label: 'Current Price' },
+    { key: 'percentChange', label: 'Change Rate' },
   ],
   RAPID_FALL: [
-    { key: 'stock', label: '종목' },
-    { key: 'price', label: '현재가' },
-    { key: 'percentChange', label: '등락률' },
+    { key: 'stock', label: 'Stock' },
+    { key: 'price', label: 'Current Price' },
+    { key: 'percentChange', label: 'Change Rate' },
   ],
   ETF: [
-    { key: 'stock', label: '종목' },
-    { key: 'tradeVolume', label: '시가총액' },
-    { key: 'percentChange', label: '등락률' },
+    { key: 'stock', label: 'Stock' },
+    { key: 'tradeVolume', label: 'Market Cap' },
+    { key: 'percentChange', label: 'Change Rate' },
   ],
 };
 
-// 2. 컬럼별 셀 렌더 함수
+// 2. Column cell render function
 interface StockItem {
   stockName: string;
   stockImageUrl: string;
@@ -122,7 +122,7 @@ function renderCell(
     case 'price':
       return (
         <td className="px-2 py-3 text-end">
-          {item.price?.toLocaleString()}달러
+          {item.price?.toLocaleString()}USD
         </td>
       );
     case 'percentChange':
@@ -147,7 +147,7 @@ function renderCell(
   }
 }
 
-// 검색 input + 드롭다운 컴포넌트
+// Search input + dropdown component
 function SearchInputWithDropdown() {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -165,7 +165,7 @@ function SearchInputWithDropdown() {
   const handleSearchSubmit = useCallback(() => {
     if (!searchQuery.trim()) return;
 
-    // 임시로 더미 데이터 추가 (실제로는 API 호출)
+    // Temporarily add dummy data (actually API call)
     // addFavoriteSymbol(data[0]);
     setSearchQuery('');
   }, [searchQuery, addFavoriteSymbol]);
@@ -233,7 +233,7 @@ function SearchInputWithDropdown() {
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
         onFocus={handleInputFocus}
-        placeholder="종목, ETF, 경제지표를 검색해보세요"
+        placeholder="Search for stocks, ETFs, or economic indicators"
         autoFocus
         className="p-[12px_24px] h-[48px] w-[400px] rounded-full"
       />
@@ -311,7 +311,7 @@ function SortableFavoriteItem({
   );
 }
 
-// 관심 심볼 사이드바 컴포넌트
+// Favorite symbol sidebar component
 function FavoriteSidebar({ onClose }: { onClose: () => void }) {
   const {
     symbols,
@@ -333,9 +333,9 @@ function FavoriteSidebar({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="bg-ground2 p-[40px_24px] w-[320px] h-full relative">
-      <Typography size="body-lg">내 관심 심볼</Typography>
+      <Typography size="body-lg">My Favorite Symbols</Typography>
       <Typography size="body-sm" className="text-mono400 mt-[12px]">
-        최대 {maxCount}개까지만 등록할 수 있습니다.
+        You can register up to {maxCount} symbols.
       </Typography>
       <div className="flex items-center gap-[10px] mt-[5px]">
         <Progress value={(totalCount * 100) / 20} />
@@ -370,14 +370,14 @@ function FavoriteSidebar({ onClose }: { onClose: () => void }) {
             onClose();
           }}
         >
-          <Typography>닫기</Typography>
+          <Typography>Close</Typography>
         </Button>
       </div>
     </div>
   );
 }
 
-// 탭 및 테이블 컴포넌트
+// Tab and table component
 function StockTable({
   TABS,
   TAB_COLUMNS,
@@ -401,7 +401,7 @@ function StockTable({
 }) {
   return (
     <div className="w-full mt-[40px]">
-      {/* 탭 헤더 */}
+      {/* Tab header */}
       <div className="flex border-b border-border">
         {TABS?.map((item) => (
           <button
@@ -494,12 +494,15 @@ export default function MyFavoriteSymbolDialog({
         }
       );
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setIsProcessing(false);
-      data.json().then((res) => {
-        const result = res.data.ocr_output.workflow_result.result;
-        setOcrResult(result);
-      });
+      const res = await data.json();
+      setOcrResult(res.data);
+      // data.json().then((res) => {
+      //   const result = res.data.ocr_output.workflow_result.result;
+      //   console.log(res, 333);
+      //   setOcrResult(result);
+      // });
     },
     onError: (error) => {
       setIsProcessing(false);
@@ -576,7 +579,7 @@ export default function MyFavoriteSymbolDialog({
         <div className="flex items-start w-full">
           <div className="max-w-[776px] flex-1 h-full mx-auto py-[40px] ">
             <Typography size="title-lg" weight="bold">
-              내 관심 심볼 관리
+              Manage My Favorite Symbols
             </Typography>
             {isProcessing ? (
               <div
@@ -584,7 +587,7 @@ export default function MyFavoriteSymbolDialog({
               >
                 <LoaderCircle className="animate-spin" size={24} />
                 <Typography size="body-sm" className="text-center">
-                  등록하신 이미지를 분석해 심볼을 가져오는 중입니다.
+                  Analyzing the uploaded image to retrieve symbols.
                 </Typography>
               </div>
             ) : (
@@ -593,20 +596,21 @@ export default function MyFavoriteSymbolDialog({
                 className={`mt-[16px] rounded-[8px] p-[16px] h-[274px] flex flex-col justify-center ${
                   isDragActive ? 'bg-mono50 opacity-50' : 'bg-ground2'
                 }`}
-                aria-label="이미지 드래그 앤 드롭 영역"
+                aria-label="Image drag and drop area"
               >
                 <div className="flex items-center gap-[24px] w-[400px] mx-auto">
                   <Images size={40} />
                   <div className="cursor-pointer">
                     <Typography size="body-sm" className="text-mono400">
-                      이미지를 드래그하거나 업로드하면,
+                      Drag or upload an image,
                     </Typography>
                     <Typography size="body-sm">
-                      심볼을 자동으로 인식해 내 관심 심볼을 만들어 드립니다.
+                      We'll automatically recognize symbols and create your
+                      favorite symbols.
                     </Typography>
                     {imageName && (
                       <Typography size="body-sm" className="text-green700">
-                        첨부된 파일: {imageName}
+                        Attached file: {imageName}
                       </Typography>
                     )}
                     {/* {(error || storeError) && (
@@ -620,7 +624,7 @@ export default function MyFavoriteSymbolDialog({
                 <div className="flex items-center gap-[10px] w-[400px] mx-auto my-[32px]">
                   <div className="h-[1px] flex-1 bg-mono200" />
                   <Typography size="label-md" className="text-mono400">
-                    또는
+                    or
                   </Typography>
                   <div className="h-[1px] flex-1 bg-mono200" />
                 </div>

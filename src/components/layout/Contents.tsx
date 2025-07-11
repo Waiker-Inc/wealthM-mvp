@@ -125,7 +125,7 @@ export default function Contents() {
       console.error('questionExtend error:', error);
     },
     onMutate: () => {
-      setProcessMessage('확장 질문 생성중..');
+      setProcessMessage('Generating extended question...');
     },
   });
 
