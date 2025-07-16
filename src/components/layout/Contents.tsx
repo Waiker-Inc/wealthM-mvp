@@ -21,7 +21,7 @@ export default function Contents() {
   const [sessionQuestion, setSessionQuestion] = useState<string | null>(null);
   const [processMessage, setProcessMessage] = useState('');
 
-  const { userId, taskId, setTaskId } = useIdStore();
+  const { userId, taskId, setTaskId, setVersion, version } = useIdStore();
   const { isSearch, setIsSearch, isHideContent, setIsHideContent } =
     useQuestionStore();
 
@@ -52,10 +52,13 @@ export default function Contents() {
       console.error('웹소켓 오류:', error);
     },
     onMessage: (message) => {
-      const { topic, message: msg } = message.data;
+      const { topic, message: msg, version: msgVersion } = message.data;
       const { message: answer, task_id } = msg;
       if (task_id) {
         setTaskId(task_id);
+      }
+      if (msgVersion) {
+        setVersion(msgVersion);
       }
       if (topic !== 'final') {
         setProcessMessage(answer);
@@ -69,6 +72,7 @@ export default function Contents() {
           senderId: 'ai',
           messageType: 'string',
           contents: answer,
+          version: msgVersion,
         });
       }
       // if (topic === 'final') {
@@ -163,6 +167,7 @@ export default function Contents() {
         senderId: 'user',
         messageType: 'string',
         contents: sessionQuestion,
+        version: version || '',
       });
     }
   }, [taskId, sessionQuestion]);
@@ -177,7 +182,6 @@ export default function Contents() {
   return (
     <div className="relative min-h-screen overflow-y-scroll pb-[120px]">
       <ChatInput onSubmit={handleSubmit} isSearch={isSearch || !!taskId} />
-
       {!isHideContent && (
         <div
           className={cn(
@@ -217,9 +221,16 @@ export default function Contents() {
                           <div className="animate-spin">
                             <Loader2 className="w-4 h-4" />
                           </div>
-                          <Typography className="text-mono300 px-[20px] py-[8px] truncate w-[776px]">
+                          {/* <Typography className="text-mono300 px-[20px] py-[8px] w-[776px]">
                             {processMessage}
                           </Typography>
+                           */}
+                          <div className="opacity-50">
+                            <ChatResponseRender
+                              message={processMessage}
+                              // processMessage={processMessage}
+                            />
+                          </div>
                         </div>
                       )}
                     </Fragment>

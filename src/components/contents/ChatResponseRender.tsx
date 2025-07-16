@@ -118,7 +118,7 @@ export default function ChatResponseRender({
   processMessage,
 }: {
   message: string;
-  processMessage: string;
+  processMessage?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [renderedHtml, setRenderedHtml] = useState<string>('');

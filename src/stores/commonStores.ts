@@ -4,8 +4,10 @@ import { persist } from 'zustand/middleware';
 interface IdStore {
   userId: string;
   taskId: string;
+  version: string;
   setUserId: (userId: string) => void;
   setTaskId: (taskId: string) => void;
+  setVersion: (version: string) => void;
 }
 
 interface QuestionStore {
@@ -20,8 +22,10 @@ export const useIdStore = create(
     (set) => ({
       userId: '',
       taskId: '',
+      version: '',
       setUserId: (userId) => set({ userId }),
       setTaskId: (taskId) => set({ taskId }),
+      setVersion: (version) => set({ version }),
     }),
     {
       name: 'ID_STORE',

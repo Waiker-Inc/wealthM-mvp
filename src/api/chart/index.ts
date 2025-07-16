@@ -30,6 +30,7 @@ export interface ResGetChatHistoryMessage {
   senderId: string;
   messageType: string;
   contents: string;
+  version: string;
 }
 
 export interface ResGetChatHistoryMessageList {
