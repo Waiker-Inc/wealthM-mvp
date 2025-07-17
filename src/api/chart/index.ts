@@ -31,6 +31,7 @@ export interface ResGetChatHistoryMessage {
   messageType: string;
   contents: string;
   version: string;
+  promptContents?: string;
 }
 
 export interface ResGetChatHistoryMessageList {
@@ -59,7 +60,7 @@ export const getChartStock = async ({
   return response.data;
 };
 
-export const getChatHistoryTask = async (params: ResGetChatHistoryTask) => {
+export const postChatHistoryTask = async (params: ResGetChatHistoryTask) => {
   const response = await axios.post(`/v1/wealthm/chat-history/task`, {
     ...params,
   });

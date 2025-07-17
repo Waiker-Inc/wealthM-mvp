@@ -8,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   postChatHistoryMessage,
   getChatHistoryMessageList,
-  getChatHistoryTask,
+  postChatHistoryTask,
 } from '@/api/chart';
 import ChatResponseRender from '../contents/ChatResponseRender';
 import dayjs from 'dayjs';
@@ -20,13 +20,14 @@ export default function Contents() {
   const queryClient = useQueryClient();
   const [sessionQuestion, setSessionQuestion] = useState<string | null>(null);
   const [processMessage, setProcessMessage] = useState('');
+  const [promptExtend, setPromptExtend] = useState('');
 
   const { userId, taskId, setTaskId, setVersion, version } = useIdStore();
   const { isSearch, setIsSearch, isHideContent, setIsHideContent } =
     useQuestionStore();
 
-  const { mutate: getChatHistoryTaskMutate } = useMutation({
-    mutationFn: getChatHistoryTask,
+  const { mutate: postChatHistoryTaskMutate } = useMutation({
+    mutationFn: postChatHistoryTask,
   });
 
   const { mutate: postChatHistoryMessageMutate } = useMutation({
@@ -54,8 +55,13 @@ export default function Contents() {
     onMessage: (message) => {
       const { topic, message: msg, version: msgVersion } = message.data;
       const { message: answer, task_id } = msg;
-      if (task_id) {
+      if (task_id !== taskId) {
         setTaskId(task_id);
+        postChatHistoryTaskMutate({
+          taskId: task_id,
+          taskTitle: sessionQuestion || '',
+          userId,
+        });
       }
       if (msgVersion) {
         setVersion(msgVersion);
@@ -118,6 +124,7 @@ export default function Contents() {
     },
     onSuccess: async (data) => {
       const res = await data.json();
+      setPromptExtend(JSON.stringify(res));
       sendMessage({
         question: sessionQuestion,
         desired_tools: res,
@@ -133,16 +140,6 @@ export default function Contents() {
     },
   });
 
-  useEffect(() => {
-    if (taskId && userId && sessionQuestion) {
-      getChatHistoryTaskMutate({
-        taskId,
-        taskTitle: sessionQuestion,
-        userId,
-      });
-    }
-  }, [taskId, userId, sessionQuestion]);
-
   const handleContentTransitionEnd = () => {
     if (isSearch) setIsHideContent(true);
   };
@@ -151,16 +148,14 @@ export default function Contents() {
     setIsSearch(true);
     // 임시 ID로 바로 등록
     // const tempId = Date.now().toString();
-    if (!sessionQuestion) {
-      setSessionQuestion(question);
-    }
+    setSessionQuestion(question);
     // addQuestion(question, tempId);
 
     questionExtendMutate(question);
   };
 
   useEffect(() => {
-    if (taskId && sessionQuestion) {
+    if (taskId && sessionQuestion && promptExtend) {
       postChatHistoryMessageMutate({
         userId,
         taskId: taskId || '',
@@ -168,9 +163,10 @@ export default function Contents() {
         messageType: 'string',
         contents: sessionQuestion,
         version: version || '',
+        promptContents: promptExtend,
       });
     }
-  }, [taskId, sessionQuestion]);
+  }, [taskId, sessionQuestion, promptExtend]);
 
   chatHistoryMessageList?.sort(
     (
@@ -200,6 +196,7 @@ export default function Contents() {
           className="w-[776px] mx-auto flex flex-col gap-4 items-start pt-[40px] pb-[120px] min-h-screen absolute top-0 left-[calc(50%-388px)] overflow-y-auto bg-space1"
           style={{ minHeight: 'calc(100vh - 120px)' }}
         >
+          {console.log(chatHistoryMessageList)}
           {chatHistoryMessageList
             ?.reverse()
             .map(

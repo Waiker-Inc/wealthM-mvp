@@ -30,7 +30,7 @@ export default function OCRSymbols({
       </div>
     );
   }
-  console.log(ocrResult, 1234);
+
   return (
     <div className="mt-[40px]">
       <Typography size="body-md" weight="bold">
