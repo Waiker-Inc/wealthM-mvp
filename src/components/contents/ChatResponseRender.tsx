@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Loader2 } from 'lucide-react';
 // 마크다운을 파싱하여 HTML로 변환하는 커스텀 파서
 const parseMarkdown = (markdown: string): string => {
   let html = markdown;
