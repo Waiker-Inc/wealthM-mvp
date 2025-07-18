@@ -19,7 +19,10 @@ import { useIdStore, useQuestionStore } from '@/stores/commonStores';
 export default function Contents() {
   const queryClient = useQueryClient();
   const [sessionQuestion, setSessionQuestion] = useState<string | null>(null);
-  const [processMessage, setProcessMessage] = useState('');
+  // 개별 메시지별 로딩 상태를 관리하는 Map
+  const [processingMessages, setProcessingMessages] = useState<
+    Map<string, string>
+  >(new Map());
   const [promptExtend, setPromptExtend] = useState('');
 
   const { userId, taskId, setTaskId, setVersion, version } = useIdStore();
@@ -55,6 +58,7 @@ export default function Contents() {
     onMessage: (message) => {
       const { topic, message: msg, version: msgVersion } = message.data;
       const { message: answer, task_id } = msg;
+
       if (task_id !== taskId) {
         setTaskId(task_id);
         postChatHistoryTaskMutate({
@@ -63,15 +67,25 @@ export default function Contents() {
           userId,
         });
       }
+
       if (msgVersion) {
         setVersion(msgVersion);
       }
+
+      // 현재 처리 중인 메시지 업데이트
       if (topic !== 'final') {
-        setProcessMessage(answer);
+        setProcessingMessages((prev) => new Map(prev).set(task_id, answer));
       }
+
       if (topic === 'final') {
         console.log(answer);
-        setProcessMessage('');
+        // 최종 응답이 완료되면 해당 task_id의 로딩 상태 제거
+        setProcessingMessages((prev) => {
+          const newMap = new Map(prev);
+          newMap.delete(task_id);
+          return newMap;
+        });
+
         postChatHistoryMessageMutate({
           userId,
           taskId: taskId || '',
@@ -81,15 +95,6 @@ export default function Contents() {
           version: msgVersion,
         });
       }
-      // if (topic === 'final') {
-      //   updateAnswer(task_id, answer, false);
-      // } else if (status === 'Task submitted') {
-      //   // 서버가 task_id를 내려주는 경우, 질문 등록
-      //   if (pendingQuestionId.current) {
-      //     addQuestion(pendingQuestionId.current, task_id);
-      //     pendingQuestionId.current = null;
-      //   }
-      // }
     },
   });
 
@@ -136,7 +141,12 @@ export default function Contents() {
       console.error('questionExtend error:', error);
     },
     onMutate: () => {
-      setProcessMessage('Generating extended question...');
+      // 새로운 질문이 시작될 때 로딩 상태 추가
+      if (taskId) {
+        setProcessingMessages((prev) =>
+          new Map(prev).set(taskId, 'Generating extended question...')
+        );
+      }
     },
   });
 
@@ -155,18 +165,18 @@ export default function Contents() {
   };
 
   useEffect(() => {
-    if (taskId && sessionQuestion && promptExtend) {
+    if (promptExtend) {
       postChatHistoryMessageMutate({
         userId,
         taskId: taskId || '',
         senderId: 'user',
         messageType: 'string',
-        contents: sessionQuestion,
+        contents: sessionQuestion || '',
         version: version || '',
         promptContents: promptExtend,
       });
     }
-  }, [taskId, sessionQuestion, promptExtend]);
+  }, [promptExtend]);
 
   chatHistoryMessageList?.sort(
     (
@@ -191,58 +201,52 @@ export default function Contents() {
         </div>
       )}
 
-      {(isSearch || !!taskId) && ( // isSearch
+      {(isSearch || !!taskId) && (
         <div
           className="w-[776px] mx-auto flex flex-col gap-4 items-start pt-[40px] pb-[120px] min-h-screen absolute top-0 left-[calc(50%-388px)] overflow-y-auto bg-space1"
           style={{ minHeight: 'calc(100vh - 120px)' }}
         >
-          {console.log(chatHistoryMessageList)}
-          {chatHistoryMessageList
-            ?.reverse()
-            .map(
-              (item: {
-                messageId: Key | null | undefined;
-                contents: string;
-                senderId: string;
-              }) => {
-                if (item.senderId === 'user') {
-                  return (
-                    <Fragment key={item.messageId}>
-                      <div className="flex items-center justify-end w-full">
-                        <Typography className="bg-mono300 rounded-[8px] px-[20px] py-[8px]">
-                          {item.contents}
-                        </Typography>
-                      </div>
-                      {processMessage && (
-                        <div className="flex items-center gap-2">
-                          <div className="animate-spin">
-                            <Loader2 className="w-4 h-4" />
-                          </div>
-                          {/* <Typography className="text-mono300 px-[20px] py-[8px] w-[776px]">
-                            {processMessage}
-                          </Typography>
-                           */}
-                          <div className="opacity-50">
-                            <ChatResponseRender
-                              message={processMessage}
-                              // processMessage={processMessage}
-                            />
-                          </div>
-                        </div>
-                      )}
-                    </Fragment>
-                  );
-                }
+          {chatHistoryMessageList?.reverse().map(
+            (item: {
+              messageId: Key | null | undefined;
+              contents: string;
+              senderId: string;
+              taskId?: string; // taskId가 있다고 가정
+            }) => {
+              if (item.senderId === 'user') {
                 return (
-                  <div key={item.messageId}>
-                    <ChatResponseRender
-                      message={item.contents}
-                      processMessage={processMessage}
-                    />
-                  </div>
+                  <Fragment key={item.messageId}>
+                    <div className="flex items-center justify-end w-full">
+                      <Typography className="bg-mono300 rounded-[8px] px-[20px] py-[8px]">
+                        {item.contents}
+                      </Typography>
+                    </div>
+                    {/* 해당 taskId의 로딩 상태만 표시 */}
+                    {item.taskId && processingMessages.has(item.taskId) && (
+                      <div className="flex items-center gap-2">
+                        <div className="animate-spin">
+                          <Loader2 className="w-4 h-4" />
+                        </div>
+                        <div className="opacity-50">
+                          <ChatResponseRender
+                            message={processingMessages.get(item.taskId) || ''}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </Fragment>
                 );
               }
-            )}
+              return (
+                <div key={item.messageId}>
+                  <ChatResponseRender
+                    message={item.contents}
+                    // processMessage prop 제거 - 개별 로딩 상태로 대체
+                  />
+                </div>
+              );
+            }
+          )}
         </div>
       )}
     </div>

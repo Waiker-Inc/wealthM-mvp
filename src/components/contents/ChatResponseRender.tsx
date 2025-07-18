@@ -115,10 +115,10 @@ const parseMarkdown = (markdown: string): string => {
 
 export default function ChatResponseRender({
   message,
-  processMessage,
+  // processMessage prop 제거
 }: {
   message: string;
-  processMessage?: string;
+  // processMessage?: string; // 제거
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [renderedHtml, setRenderedHtml] = useState<string>('');
@@ -185,16 +185,17 @@ export default function ChatResponseRender({
     return () => clearTimeout(timer);
   }, [renderedHtml]);
 
-  if (processMessage) {
-    return (
-      <div className="flex items-center gap-2">
-        <div className="animate-spin">
-          <Loader2 className="w-4 h-4" />
-        </div>
-        <div>{processMessage}</div>
-      </div>
-    );
-  }
+  // processMessage 관련 로직 제거
+  // if (processMessage) {
+  //   return (
+  //     <div className="flex items-center gap-2">
+  //       <div className="animate-spin">
+  //         <Loader2 className="w-4 h-4" />
+  //       </div>
+  //       <div>{processMessage}</div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div
