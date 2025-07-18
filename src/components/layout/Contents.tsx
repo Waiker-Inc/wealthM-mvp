@@ -165,7 +165,7 @@ export default function Contents() {
   };
 
   useEffect(() => {
-    if (promptExtend) {
+    if (promptExtend && taskId) {
       postChatHistoryMessageMutate({
         userId,
         taskId: taskId || '',
@@ -176,7 +176,7 @@ export default function Contents() {
         promptContents: promptExtend,
       });
     }
-  }, [promptExtend]);
+  }, [promptExtend && taskId]);
 
   chatHistoryMessageList?.sort(
     (
